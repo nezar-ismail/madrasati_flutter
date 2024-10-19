@@ -5,9 +5,11 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 
+import 'base_url.dart';
+
 class API {
   final dio = Dio();
-  String get baseUrl => baseUrl.toString();
+  String get baseUrl => BaseUrl.baseUrl;
 
   // Options for the Dio instance.
   Options jsonOptions = Options(
@@ -20,38 +22,14 @@ class API {
     responseType: ResponseType.json,
   );
 
-  /// Checks if the server is running.
-  ///
-  /// Returns a [Future<Response>] containing the server response.
-
-//   Future<bool> checkServer() async {
-//     // Construct the URL for the checkServer request.
-//     BaseOptions baseOptions = BaseOptions(
-//         connectTimeout: const Duration(seconds: 3),
-//         receiveTimeout: const Duration(seconds: 3),
-//         sendTimeout: const Duration(seconds: 3));
-//     Dio dio1 = Dio(baseOptions);
-//     // Send a GET request to the server and await the response.
-//     try {
-//       final Response response = await dio1.get(LocalDataBase.getIPAddress());
-//       if (response.statusCode == 200) {
-//         return true;
-//       } else {
-//         return false;
-//       }
-//     } on DioException catch (_) {
-//       return false;
-// }
-// }
-
   /// get request
   ///
   /// Returns a [Future<Response>] containing the server response.
   Future<Response> get(String url, {Map<String, dynamic>? headers}) async {
-    // Send a GET request to the server and await the response.
+    String urlRequest = '$baseUrl/$url';
     try {
       final Response response = await dio.get(
-        url,
+        urlRequest,
         options: jsonOptions.copyWith(headers: headers),
       );
 
@@ -70,13 +48,14 @@ class API {
     Map<String, dynamic>? headers,
     Object? body,
   }) async {
+    String urlRequest = '$baseUrl/$url';
     try {
       final Response response;
       // Check if the body is a dio FormData.
       if (body is FormData) {
         // Send a POST request to the server and await the response.
         response = await dio.post(
-          url,
+          urlRequest,
           options: formOptions.copyWith(headers: headers),
           data: body,
         );
@@ -103,10 +82,10 @@ class API {
   Future<Response> put(String url,
       {Map<String, dynamic>? headers, Map<String, dynamic>? body}) async {
     // Send a PUT request to the server and await the response.
-
+    String urlRequest = '$baseUrl/$url';
     try {
       final Response response = await dio.put(
-        url,
+        urlRequest,
         options: jsonOptions.copyWith(headers: headers),
         data: body != null ? jsonEncode(body) : null,
       );
@@ -124,10 +103,10 @@ class API {
   Future<Response> putImage(String url,
       {Map<String, dynamic>? headers, Object? body}) async {
     // Send a PUT request to the server and await the response.
-
+    String urlRequest = '$baseUrl/$url';
     try {
       final Response response = await dio.put(
-        url,
+        urlRequest,
         options: formOptions.copyWith(headers: headers),
         data: body,
       );
@@ -144,9 +123,10 @@ class API {
   /// Returns a [Future<Response>] containing the server response.
   Future<Response> delete(String url, {Map<String, dynamic>? headers}) async {
     // Send a DELETE request to the server and await the response.
+    String urlRequest = '$baseUrl/$url';
     try {
       final Response response = await dio.delete(
-        url,
+        urlRequest,
         options: jsonOptions.copyWith(headers: headers),
       );
 
