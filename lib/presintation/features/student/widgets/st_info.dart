@@ -12,7 +12,7 @@ class ContainerStudentInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: MediaQuery.of(context).size.height * 0.30,
+      height: MediaQuery.of(context).size.height * 0.25,
       padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.lerp(
@@ -30,14 +30,17 @@ class ContainerStudentInfo extends StatelessWidget {
               const Color.fromARGB(255, 151, 196, 248)
             ],
           )),
+
+      // User Info
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           CircleAvatar(
             radius: 50,
             backgroundColor: Colors.grey.shade300,
             child: const Icon(Icons.person, size: 60, color: Colors.grey),
           ),
-          SizedBox(width: MediaQuery.of(context).size.width * 0.05),
           const Padding(
             padding: EdgeInsets.only(top: 80.0, bottom: 10.0, left: 1.0),
             child: Column(
@@ -62,45 +65,26 @@ class ContainerStudentInfo extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 80.0, left: 20.0),
+
+          //Notification
+          //TODO: Add Notification
+
+          FittedBox(
+            fit: BoxFit.contain,
             child: IconButton(
-              icon: const Icon(
-                Icons.notifications_none,
-              ),
-              iconSize: 50,
-              color: Colors.white,
-              hoverColor: Colors.orange,
-              splashColor: Colors.green,
+              icon: const Icon(Icons.logout),
+              iconSize: 40,
+              color: Colors.orange,
               onPressed: () {
-                log('Notification Clicked');
-                // Handle notification click
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RoleDesesion(),
+                  ),
+                );
+                log('Logout Clicked');
+                // Handle Logout click
               },
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(
-              left: 25.0,
-              bottom: 160.0,
-            ),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width * 0.05,
-              height: MediaQuery.of(context).size.height,
-              child: IconButton(
-                icon: const Icon(Icons.logout),
-                iconSize: 30,
-                color: const Color.fromARGB(255, 218, 157, 66),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => RoleDesesion(),
-                    ),
-                  );
-                  log('Logout Clicked');
-                  // Handle Logout click
-                },
-              ),
             ),
           ),
         ],
