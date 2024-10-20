@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:madrasati/presintation/features/student/view/student_home.dart';
 
 class StudentSignIn extends StatelessWidget {
   const StudentSignIn({super.key});
@@ -14,8 +15,7 @@ class StudentSignIn extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Expanded(
-                flex: 1, child: Container()),
+            Expanded(flex: 1, child: Container()),
             Expanded(
               flex: 2,
               child: Container(
@@ -77,6 +77,12 @@ class StudentSignIn extends StatelessWidget {
                 backgroundColor: Colors.blue,
               ),
               onPressed: () {
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const StudentHomePage(),
+                  ),
+                );
                 // Perform login functionality here
               },
               child: const Text(
@@ -84,8 +90,7 @@ class StudentSignIn extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
             ),
-            Expanded(
-                flex: 2, child: Container()),
+            Expanded(flex: 2, child: Container()),
           ],
         ),
       ),
