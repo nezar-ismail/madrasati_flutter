@@ -1,27 +1,68 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:madrasati/data/errors/internal_exception.dart';
+import 'package:madrasati/data/utils/custom_logs.dart';
 
-abstract class SecureStorageApi {
-  static const FlutterSecureStorage _box = FlutterSecureStorage();
+class SecureStorageApi {
+  final FlutterSecureStorage _secureStorage;
 
-  static Future<void> setAccessToken(String? value) async {
-    await _box.write(key: 'access_token', value: value);
+  SecureStorageApi({FlutterSecureStorage? secureStorage})
+      : _secureStorage = secureStorage ?? const FlutterSecureStorage();
+
+  static const String _accessTokenKey = 'accessToken';
+  static const String _refreshTokenKey = 'refreshToken';
+
+  Future<void> setAccessToken(String? value) async {
+    try {
+      await _secureStorage.write(key: _accessTokenKey, value: value);
+    } catch (e) {
+      logError('Error storing access token: $e');
+      throw InternalException('Error storing access token in secure storage');
+    }
   }
 
-  static Future<String?> getAccessToken() async {
-    return await _box.read(key: 'access_token');
+  Future<String?> getAccessToken() async {
+    try {
+      return await _secureStorage.read(key: _accessTokenKey);
+    } catch (e) {
+      logError('Error reading access token: $e');
+      throw InternalException('Error reading access token in secure storage');
+    }
   }
 
-  static Future<void> setRefreshToken(String? value) async {
-    await _box.write(key: 'refresh_token', value: value);
+  Future<void> setRefreshToken(String? value) async {
+    try {
+      await _secureStorage.write(key: _refreshTokenKey, value: value);
+    } catch (e) {
+      logError('Error storing refresh token: $e');
+      throw InternalException('Error storing refresh token in secure storage');
+    }
   }
 
-  static Future<String?> getRefresherToken() async {
-    return await _box.read(key: 'refresh_token');
+  Future<String?> getRefreshToken() async {
+    try {
+      return await _secureStorage.read(key: _refreshTokenKey);
+    } catch (e) {
+      logError('Error reading refresh token: $e');
+      throw InternalException('Error reading refresh token in secure storage');
+    }
   }
 
-  static Future<bool> isUserLoggedIn() async {
-    final uid = await getRefresherToken();
+  Future<bool> isUserLoggedIn() async {
+    try {
+      final refreshToken = await getRefreshToken();
+      return refreshToken != null;
+    } catch (e) {
+      logError('Error checking login status: $e');
+      throw InternalException('Error checking login status in secure storage');
+    }
+  }
 
-    return uid != null;
+  Future<void> logout() async {
+    try {
+      await _secureStorage.deleteAll();
+    } catch (e) {
+      logError('Error during logout: $e');
+      throw InternalException('Error during logout in secure storage');
+    }
   }
 }
