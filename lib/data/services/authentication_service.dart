@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
-import 'package:madrasati/data/models/auth_models/user.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
 
 import '../errors/global_exception.dart';
@@ -25,7 +24,6 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
-          User user = User.fromMap(data['user']);
           return EmptyResponse();
         default:
           if (response.data is Map<String, dynamic>) {
@@ -51,7 +49,6 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
-          User user = User.fromMap(data['user']);
           return EmptyResponse();
         default:
           if (response.data is Map<String, dynamic>) {
@@ -77,7 +74,7 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
-          User user = User.fromMap(data['user']);
+        
           return EmptyResponse();
         default:
           if (response.data is Map<String, dynamic>) {

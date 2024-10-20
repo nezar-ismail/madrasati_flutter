@@ -1,13 +1,13 @@
 import 'dart:convert';
 
-class User {
+class Student {
   String? userEmail;
   String? firstName;
   String? lastName;
   String? imagePath;
   DateTime? birthDate;
   String? gender;
-  User({
+  Student({
     this.userEmail,
     this.firstName,
     this.lastName,
@@ -16,7 +16,7 @@ class User {
     this.gender,
   });
 
-  User copyWith({
+  Student copyWith({
     String? userEmail,
     String? firstName,
     String? lastName,
@@ -24,7 +24,7 @@ class User {
     DateTime? birthDate,
     String? gender,
   }) {
-    return User(
+    return Student(
       userEmail: userEmail ?? this.userEmail,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
@@ -45,8 +45,8 @@ class User {
     };
   }
 
-  factory User.fromMap(Map<String, dynamic> map) {
-    return User(
+  factory Student.fromMap(Map<String, dynamic> map) {
+    return Student(
       userEmail: map['userEmail'] != null ? map['userEmail'] as String : null,
       firstName: map['firstName'] != null ? map['firstName'] as String : null,
       lastName: map['lastName'] != null ? map['lastName'] as String : null,
@@ -60,8 +60,8 @@ class User {
 
   String toJson() => json.encode(toMap());
 
-  factory User.fromJson(String source) =>
-      User.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Student.fromJson(String source) =>
+      Student.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -69,7 +69,7 @@ class User {
   }
 
   @override
-  bool operator ==(covariant User other) {
+  bool operator ==(covariant Student other) {
     if (identical(this, other)) return true;
 
     return other.userEmail == userEmail &&
