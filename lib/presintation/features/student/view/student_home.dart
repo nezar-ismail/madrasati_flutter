@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:madrasati/presintation/core/utils/button_service.dart';
+import 'package:madrasati/presintation/features/school_group/school_group.dart';
 import 'package:madrasati/presintation/features/student/widgets/st_info.dart';
 
 class StudentHomePage extends StatelessWidget {
@@ -36,6 +37,7 @@ class StudentHomePage extends StatelessWidget {
                   ButtonService(
                     onPressed: () {
                       log('Pressed School Group');
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SchoolGroup()));
                     },
                     text: 'School Group',
                     color: Colors.blue,
