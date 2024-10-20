@@ -8,7 +8,8 @@ import 'package:dio/dio.dart';
 import 'base_url.dart';
 
 class API {
-  final dio = Dio();
+  final Dio dio;
+  API(this.dio);
   String get baseUrl => BaseUrl.baseUrl;
 
   // Options for the Dio instance.

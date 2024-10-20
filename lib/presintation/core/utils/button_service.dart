@@ -15,20 +15,23 @@ class ButtonService extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        backgroundColor: color,
-        minimumSize: Size(MediaQuery.of(context).size.width * 0.8,
-            MediaQuery.of(context).size.height * 0.1), // Full width button
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(8),
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(
+          backgroundColor: color,
+          minimumSize: Size(MediaQuery.of(context).size.width * 0.8,
+              MediaQuery.of(context).size.height * 0.1), // Full width button
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8),
+          ),
         ),
-      ),
-      onPressed: onPressed,
-      child: Text(
-        text,
-        style: const TextStyle(
-            fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+        onPressed: onPressed,
+        child: Text(
+          text,
+          style: const TextStyle(
+              fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white),
+        ),
       ),
     );
   }

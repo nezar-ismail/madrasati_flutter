@@ -12,37 +12,37 @@ class SchoolInfo extends StatelessWidget {
       children: [
         Row(
           children: [
-            Icon(Icons.phone, color: Colors.grey),
+            const Icon(Icons.phone, color: Colors.grey),
             SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-            Text('0780840895'),
+            const Text('0780840895'),
           ],
         ),
         Row(
           children: [
-            Icon(Icons.location_on, color: Colors.grey),
+            const Icon(Icons.location_on, color: Colors.grey),
             SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-            Text('Amman, Jabal-altaj'),
+            const Text('Amman, Jabal-altaj'),
           ],
         ),
         Row(
           children: [
-            Icon(Icons.star, color: Colors.grey),
+            const Icon(Icons.star, color: Colors.grey),
             SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-            Text('4.3 from 4 raters'),
+            const Text('4.3 from 4 raters'),
           ],
         ),
         Row(
           children: [
-            Icon(Icons.people, color: Colors.grey),
+            const Icon(Icons.people, color: Colors.grey),
             SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-            Text('268 students'),
+            const Text('268 students'),
           ],
         ),
         Row(
           children: [
-            Icon(Icons.email, color: Colors.grey),
+            const Icon(Icons.email, color: Colors.grey),
             SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-            Text('schoolname@gmail.com'),
+            const Text('schoolname@gmail.com'),
           ],
         ),
       ],

@@ -9,12 +9,12 @@ class SchoolDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('School Name'),
+        title: const Text('School Name'),
         backgroundColor: Colors.orange,
       ),
       body: Expanded(
         child: SingleChildScrollView(
-          padding: MediaQuery.of(context).viewInsets + EdgeInsets.all(16),
+          padding: MediaQuery.of(context).viewInsets + const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

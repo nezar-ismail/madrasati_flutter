@@ -78,9 +78,9 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         // detail page
                         log('index: $index');
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  SchoolDetailPage()));
+                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  const SchoolDetailPage()));
                       },
-                      child: SchoolCard(),
+                      child: const SchoolCard(),
                     ),
                   );
                 },
