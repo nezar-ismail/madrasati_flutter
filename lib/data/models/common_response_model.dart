@@ -6,4 +6,8 @@ class UnAuthorizedResponse implements ResponsModel {}
 
 class ServerErrorResponse implements ResponsModel {}
 
-class BadRequestResponse implements ResponsModel {}
+class BadRequestResponse implements ResponsModel {
+  final List<String> listErrors;
+
+  BadRequestResponse({required this.listErrors});
+}
