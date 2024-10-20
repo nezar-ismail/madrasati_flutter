@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:madrasati/presintation/features/sign_in/role_desesion.dart';
 
 class ContainerStudentInfo extends StatelessWidget {
   const ContainerStudentInfo({
@@ -78,16 +79,24 @@ class ContainerStudentInfo extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 300.0, left: 14.0),
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.1,
-              width: MediaQuery.of(context).size.width * 0.1,
-              alignment: Alignment.topRight,
+            padding: const EdgeInsets.only(
+              left: 25.0,
+              bottom: 160.0,
+            ),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.05,
+              height: MediaQuery.of(context).size.height,
               child: IconButton(
                 icon: const Icon(Icons.logout),
                 iconSize: 30,
                 color: const Color.fromARGB(255, 218, 157, 66),
                 onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RoleDesesion(),
+                    ),
+                  );
                   log('Logout Clicked');
                   // Handle Logout click
                 },
