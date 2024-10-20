@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:madrasati/presintation/core/utils/button_service.dart';
-import 'package:madrasati/presintation/core/utils/progress_bar.dart';
 import 'package:madrasati/presintation/features/student/widgets/st_info.dart';
 
 class StudentHomePage extends StatelessWidget {
@@ -11,15 +10,21 @@ class StudentHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
+      body: Column(
+        children: [
+          // User Profile Section
+          const ContainerStudentInfo(),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * 0.2,
+          ),
+          Column(
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // User Profile Section
-              const ContainerStudentInfo(),
               // Daily Progress Section
-              const ProgressBar(),
+
+              //TODO: Add Progress Bar
+
               // Service Section (Buttons)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -28,7 +33,6 @@ class StudentHomePage extends StatelessWidget {
                     'Services',
                     style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   ButtonService(
                     onPressed: () {
                       log('Pressed School Group');
@@ -36,7 +40,6 @@ class StudentHomePage extends StatelessWidget {
                     text: 'School Group',
                     color: Colors.blue,
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
                   ButtonService(
                     onPressed: () {
                       log('Pressed Manaheg');
@@ -45,29 +48,46 @@ class StudentHomePage extends StatelessWidget {
                     color: Colors.orange,
                   ),
                 ],
-              ),
+              )
             ],
           ),
-        ),
+        ],
       ),
 
       // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
+        elevation: 0,
+        selectedLabelStyle: const TextStyle(color: Colors.blue, fontSize: 15),
+        unselectedLabelStyle: const TextStyle(color: Colors.blue, fontSize: 15),
+        type: BottomNavigationBarType.fixed,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.blue,
+        showUnselectedLabels: false,
+        showSelectedLabels: true,
+        selectedFontSize: 15,
+        unselectedFontSize: 15,
+        iconSize: 35,
+
+
         backgroundColor: Colors.white,
         currentIndex: 0,
         onTap: (index) {
           log(index.toString());
           if (index == 0) {
-            Colors.green;
+            // Home
+            // TODO: Navigate to Home
+          } else if (index == 1) {
+            // Profile
+            // TODO: Navigate to Profile
           }
         },
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled, color: Colors.blueAccent, size: 35),
+              icon: Icon(Icons.home_filled,),
               label: 'Home',
               backgroundColor: Colors.blue),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person, color: Colors.blueAccent, size: 35),
+            icon: Icon(Icons.person, ),
             label: 'Profile',
           ),
         ],
