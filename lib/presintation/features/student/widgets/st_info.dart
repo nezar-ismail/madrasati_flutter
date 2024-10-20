@@ -20,7 +20,7 @@ class ContainerStudentInfo extends StatelessWidget {
                 bottomRight: Radius.circular(20),
                 bottomLeft: Radius.circular(2),
               ),
-              BorderRadius.vertical(bottom: Radius.circular(20)),
+              const BorderRadius.vertical(bottom: Radius.circular(20)),
               6.0),
           gradient: LinearGradient(
             begin: Alignment.topLeft,
