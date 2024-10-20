@@ -6,7 +6,7 @@ class LoginResponse {
   String? accessToken;
   String? token;
   DateTime? expiryDate;
-  User? user;
+  Student? user;
   LoginResponse({
     this.accessToken,
     this.token,
@@ -18,7 +18,7 @@ class LoginResponse {
     String? accessToken,
     String? token,
     DateTime? expiryDate,
-    User? user,
+    Student? user,
   }) {
     return LoginResponse(
       accessToken: accessToken ?? this.accessToken,
@@ -46,7 +46,7 @@ class LoginResponse {
           ? DateTime.fromMillisecondsSinceEpoch(map['expiryDate'] as int)
           : null,
       user: map['user'] != null
-          ? User.fromMap(map['user'] as Map<String, dynamic>)
+          ? Student.fromMap(map['user'] as Map<String, dynamic>)
           : null,
     );
   }
