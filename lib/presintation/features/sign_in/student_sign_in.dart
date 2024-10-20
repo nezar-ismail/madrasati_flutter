@@ -8,7 +8,8 @@ class StudentSignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Student Sign In'),
+        title: const Text('Student Sign In',
+            style: TextStyle(fontFamily: 'Roboto')),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -40,8 +41,8 @@ class StudentSignIn extends StatelessWidget {
                   border: OutlineInputBorder(),
                   suffixIcon: Icon(Icons.email),
                   hintText: 'Enter your email',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  labelStyle: TextStyle(color: Colors.blue),
+                  hintStyle: TextStyle(color: Colors.grey,fontFamily: 'Roboto'),
+                  labelStyle: TextStyle(color: Colors.blue,fontFamily: 'Roboto'),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue, width: 2.0),
                   ),
@@ -61,8 +62,8 @@ class StudentSignIn extends StatelessWidget {
                   border: OutlineInputBorder(),
                   suffixIcon: Icon(Icons.password),
                   hintText: 'Enter your password',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  labelStyle: TextStyle(color: Colors.blue),
+                  hintStyle: TextStyle(color: Colors.grey,fontFamily: 'Roboto'),
+                  labelStyle: TextStyle(color: Colors.blue,fontFamily: 'Roboto'),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.blue, width: 2.0),
                   ),
@@ -87,7 +88,7 @@ class StudentSignIn extends StatelessWidget {
               },
               child: const Text(
                 'Login as Student',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
               ),
             ),
             Expanded(flex: 2, child: Container()),

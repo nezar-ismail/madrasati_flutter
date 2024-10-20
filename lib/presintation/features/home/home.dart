@@ -13,7 +13,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Welcome in Madrasati', style: TextStyle(color: Colors.white),),
+        title: const Text('Welcome in Madrasati', style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),),
         centerTitle: true,
         backgroundColor: Colors.orange,
         actions: [
@@ -24,17 +24,17 @@ class HomePage extends StatelessWidget {
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
-                    title: const Text('Logout'),
-                    content: const Text('Are you sure you want to logout?'),
+                    title: const Text('Logout', style: TextStyle(color: Colors.grey, fontFamily: 'Roboto'),),
+                    content: const Text('Are you sure you want to logout?', style: TextStyle(color: Colors.black, fontFamily: 'Roboto'),),
                     actions: [
                       TextButton(
-                        child: const Text('Cancel'),
+                        child: const Text('Cancel', style: TextStyle(color: Colors.grey, fontFamily: 'Roboto'),),
                         onPressed: () {
                           Navigator.of(context).pop();
                         },
                       ),
                       TextButton(
-                        child: const Text('Logout'),
+                        child: const Text('Logout', style: TextStyle(color: Colors.orange, fontFamily: 'Roboto'),),
                         onPressed: () {
                           // Perform logout functionality here
                         Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) =>  RoleDesesion()), (route) => false);
@@ -46,7 +46,7 @@ class HomePage extends StatelessWidget {
               );
 
               
-            }, child: const Text('Logout', style: TextStyle(color: Colors.white),),
+            }, child: const Text('Logout', style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),),
           ),
         ],
       ),
@@ -65,7 +65,9 @@ class HomePage extends StatelessWidget {
                 ),
                 filled: true,
                 fillColor: Colors.white,
+                
               ),
+              style: const TextStyle( fontFamily: 'Roboto')
             ),
             // School List
             Expanded(

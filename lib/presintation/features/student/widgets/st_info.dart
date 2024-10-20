@@ -49,6 +49,7 @@ class ContainerStudentInfo extends StatelessWidget {
                 Text(
                   'User Name',
                   style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
@@ -56,11 +57,15 @@ class ContainerStudentInfo extends StatelessWidget {
                 ),
                 Text(
                   'School Name',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Colors.white),
                 ),
                 Text(
                   'Class Level',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Colors.white),
                 ),
               ],
             ),
