@@ -43,6 +43,7 @@ class RoleCard extends StatelessWidget {
           Text(role,
               style: const TextStyle(
                 fontSize: 25,
+                fontFamily: 'Roboto'
               )),
           const Spacer(
             flex: 5,

@@ -19,12 +19,14 @@ class SchoolCardInfo extends StatelessWidget {
               'School Name',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
+                fontFamily: 'Roboto',
                 fontSize: MediaQuery.of(context).size.height * 0.02,
               ),
             ),
             Text(
               'Middle School',
               style: TextStyle(
+                fontFamily: 'Roboto',
                 color: Colors.grey,
                 fontSize: MediaQuery.of(context).size.height * 0.015,
               ),
@@ -33,7 +35,12 @@ class SchoolCardInfo extends StatelessWidget {
         ),
         const Row(
           children: [
-            Text('4.3'),
+            Text('4.3',
+                style: TextStyle(
+              
+              fontFamily: 'Roboto',
+              
+            )),
             Icon(Icons.star, color: Colors.amber),
           ],
         ),

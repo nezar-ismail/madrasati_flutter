@@ -17,7 +17,7 @@ class ProgressBar extends StatelessWidget {
           children: [
             const Text(
               'Daily Progress',
-              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(fontSize: 18, fontFamily: 'Roboto'),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
             LinearProgressIndicator(
@@ -31,7 +31,7 @@ class ProgressBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(50),
             ),
             SizedBox(height: MediaQuery.of(context).size.height * 0.01),
-            const Text('60%', style: TextStyle(color: Colors.orange)),
+            const Text('60%', style: TextStyle(color: Colors.orange,fontFamily: 'Roboto')),
           ],
         ),
       ),

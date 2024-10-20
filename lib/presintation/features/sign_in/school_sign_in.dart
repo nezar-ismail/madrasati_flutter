@@ -7,7 +7,8 @@ class SchoolSignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('School Sign In'),
+        title: const Text('School Sign In',
+            style: TextStyle(fontFamily: 'Roboto',)),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -34,14 +35,19 @@ class SchoolSignIn extends StatelessWidget {
               padding: EdgeInsets.all(8.0),
               child: TextField(
                 decoration: InputDecoration(
+                  
                   labelText: 'Email',
                   filled: true,
                   fillColor: Colors.white,
                   border: OutlineInputBorder(),
                   suffixIcon: Icon(Icons.email),
                   hintText: 'Enter your email',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  labelStyle: TextStyle(color: Colors.green),
+                  hintStyle: TextStyle(color: Colors.grey,
+                  fontFamily: 'Roboto'
+                  ),
+                  labelStyle: TextStyle(color: Colors.green,
+                  fontFamily: 'Roboto'
+                  ),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.green, width: 2.0),
                   ),
@@ -61,8 +67,10 @@ class SchoolSignIn extends StatelessWidget {
                   border: OutlineInputBorder(),
                   suffixIcon: Icon(Icons.password),
                   hintText: 'Enter your password',
-                  hintStyle: TextStyle(color: Colors.grey),
-                  labelStyle: TextStyle(color: Colors.green),
+                  hintStyle: TextStyle(color: Colors.grey,
+                  fontFamily: 'Roboto'),
+                  labelStyle: TextStyle(color: Colors.green,
+                  fontFamily: 'Roboto'),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.green, width: 2.0),
                   ),
@@ -81,7 +89,7 @@ class SchoolSignIn extends StatelessWidget {
               },
               child: const Text(
                 'Login as School',
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),
               ),
             ),
             Expanded(

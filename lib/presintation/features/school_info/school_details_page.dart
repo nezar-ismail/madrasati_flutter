@@ -9,7 +9,8 @@ class SchoolDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('School Name'),
+        title: const Text('School Name',
+            style: TextStyle(fontFamily: 'Roboto',)),
         backgroundColor: Colors.orange,
       ),
       body: Expanded(
@@ -24,6 +25,7 @@ class SchoolDetailPage extends StatelessWidget {
                 child: Text(
                   'School Name',
                   style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: MediaQuery.of(context).size.height * 0.03,
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
@@ -52,6 +54,7 @@ class SchoolDetailPage extends StatelessWidget {
                       child: Text(
                         'See All Pictures',
                         style: TextStyle(
+                          fontFamily: 'Roboto',
                           fontSize: MediaQuery.of(context).size.height * 0.02,
                           fontWeight: FontWeight.bold,
                           color: Colors.grey.shade300,
@@ -68,6 +71,7 @@ class SchoolDetailPage extends StatelessWidget {
                 child: Text(
                   'School Bio',
                   style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: MediaQuery.of(context).size.height * 0.03,
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
@@ -79,6 +83,8 @@ class SchoolDetailPage extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: 8.0),
                 child: Text(
                   'This is a short paragraph describing the school bio. It can be expanded to contain more information about the school\'s history, mission, etc.',
+                style: TextStyle(
+                  fontFamily: 'Roboto',),
                 ),
               ),
 
@@ -88,6 +94,7 @@ class SchoolDetailPage extends StatelessWidget {
                 child: Text(
                   'School Info',
                   style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: MediaQuery.of(context).size.height * 0.03,
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
@@ -106,6 +113,7 @@ class SchoolDetailPage extends StatelessWidget {
                 child: Text(
                   'Teacher Staff',
                   style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: MediaQuery.of(context).size.height * 0.03,
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
@@ -122,8 +130,10 @@ class SchoolDetailPage extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 8.0),
                 child: Text(
+
                   'Feedback',
                   style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: MediaQuery.of(context).size.height * 0.03,
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,

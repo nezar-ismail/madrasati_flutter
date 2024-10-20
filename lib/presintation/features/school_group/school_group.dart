@@ -8,7 +8,10 @@ class SchoolGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('School Group'),
+        title: const Text(
+          'School Group',
+          style: TextStyle(fontFamily: 'Roboto'),
+        ),
       ),
       body: Center(
         child: Container(
@@ -33,19 +36,13 @@ class SchoolGroup extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               //Post Header
-              Expanded(
-                flex: 1,
-                child: PostHeader()),
+              Expanded(flex: 1, child: PostHeader()),
 
               //Post Body
-              Expanded(
-                flex: 3,
-                child: PostBody()),
+              Expanded(flex: 3, child: PostBody()),
 
               //Post Footer
-              Expanded(
-                flex: 1,
-                child: PostFooter()),
+              Expanded(flex: 1, child: PostFooter()),
             ],
           ),
         ),
@@ -74,8 +71,7 @@ class PostFooter extends StatelessWidget {
               color: Colors.grey.shade300,
             ),
             child: IconButton(
-                onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.comment)),
+                onPressed: () {}, icon: const Icon(FontAwesomeIcons.comment)),
           ),
         ),
         Expanded(
@@ -89,8 +85,7 @@ class PostFooter extends StatelessWidget {
               color: Colors.grey.shade300,
             ),
             child: IconButton(
-                onPressed: () {},
-                icon: const Icon(FontAwesomeIcons.thumbsUp)),
+                onPressed: () {}, icon: const Icon(FontAwesomeIcons.thumbsUp)),
           ),
         ),
       ],
@@ -111,7 +106,7 @@ class PostBody extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Amman, Jabal-altaj'),
+          Text('Amman, Jabal-altaj', style: TextStyle(fontFamily: 'Roboto')),
         ],
       ),
     );
@@ -130,19 +125,19 @@ class PostHeader extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 35,
-          backgroundImage:
-              AssetImage('asset/static/image/school.png'),
+          backgroundImage: AssetImage('asset/static/image/school.png'),
         ),
         Text(
           'User Name',
           style: TextStyle(
             fontSize: 24.0,
             fontWeight: FontWeight.bold,
+            fontFamily: 'Roboto',
           ),
         ),
         Text(
           '11:30 AM',
-          style: TextStyle(fontSize: 16.0),
+          style: TextStyle(fontSize: 16.0, fontFamily: 'Roboto'),
         ),
       ],
     );

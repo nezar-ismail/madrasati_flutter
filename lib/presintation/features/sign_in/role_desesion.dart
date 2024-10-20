@@ -57,6 +57,7 @@ class RoleDesesion extends StatelessWidget {
                       return Text(
                         'Welcome',
                         style: TextStyle(
+                          fontFamily: 'Roboto',
                           fontSize: scaleText(30), // Responsive font size
                           color: index == -1
                               ? Colors.red
@@ -71,6 +72,7 @@ class RoleDesesion extends StatelessWidget {
                 Text(
                   'In Madrasati Application',
                   style: TextStyle(
+                    fontFamily: 'Roboto',
                     fontSize: scaleText(20), // Responsive font size
                   ),
                 ),
@@ -122,7 +124,8 @@ class RoleDesesion extends StatelessWidget {
                       if (index == -1) {
                         return const Text(
                           'Please select a role',
-                          style: TextStyle(color: Colors.red),
+                          style: TextStyle(
+                              color: Colors.red, fontFamily: 'Roboto'),
                         );
                       } else {
                         return GestureDetector(
@@ -172,6 +175,7 @@ class RoleDesesion extends StatelessWidget {
                               child: Text(
                                 'Continue',
                                 style: TextStyle(
+                                  fontFamily: 'Roboto',
                                   fontSize:
                                       scaleText(20), // Responsive font size
                                   color: Colors.white,

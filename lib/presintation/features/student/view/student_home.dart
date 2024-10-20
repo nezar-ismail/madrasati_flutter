@@ -32,7 +32,9 @@ class StudentHomePage extends StatelessWidget {
                 children: [
                   const Text(
                     'Services',
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontFamily: 'Roboto',
+                      fontSize: 20, fontWeight: FontWeight.bold),
                   ),
                   ButtonService(
                     onPressed: () {
