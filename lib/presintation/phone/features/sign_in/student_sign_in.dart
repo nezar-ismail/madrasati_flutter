@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:madrasati/presintation/features/student/view/student_home.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:madrasati/presintation/phone/features/student/view/student_home.dart';
+import 'package:top_snackbar_flutter/custom_snack_bar.dart';
+import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
 class StudentSignIn extends StatelessWidget {
   const StudentSignIn({super.key});
@@ -78,12 +81,26 @@ class StudentSignIn extends StatelessWidget {
                 backgroundColor: Colors.blue,
               ),
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const StudentHomePage(),
-                  ),
-                );
+            final overlayState = Overlay.of(context);
+            showTopSnackBar(
+              overlayState,
+              CustomSnackBar.success(
+                message: "Success! This is a success snackbar!",
+                backgroundColor: Colors.blue,
+                icon: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 40),
+                  child:  Icon(FontAwesomeIcons.book, color: Colors.grey.shade200.withOpacity(0.8), size: 50,),
+                ),
+                textStyle: const TextStyle(color: Colors.white, fontFamily: 'Roboto'),
+              ),
+            );
+          
+                // Navigator.pushReplacement(
+                //   context,
+                //   MaterialPageRoute(
+                //     builder: (context) => const StudentHomePage(),
+                //   ),
+                // );
                 // Perform login functionality here
               },
               child: const Text(

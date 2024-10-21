@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:madrasati/presintation/features/home/widgets/school_card_info.dart';
+import 'package:madrasati/presintation/phone/features/home/widgets/school_card_info.dart';
 
 class SchoolCard extends StatelessWidget {
   const SchoolCard({

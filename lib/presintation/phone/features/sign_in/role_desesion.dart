@@ -1,10 +1,10 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:madrasati/presintation/core/utils/role_card.dart';
-import 'package:madrasati/presintation/features/home/home.dart';
-import 'package:madrasati/presintation/features/sign_in/model/role_card.dart';
-import 'package:madrasati/presintation/features/sign_in/school_sign_in.dart';
-import 'package:madrasati/presintation/features/sign_in/student_sign_in.dart';
+import 'package:madrasati/presintation/phone/features/home/home.dart';
+import 'package:madrasati/presintation/phone/features/sign_in/model/role_card.dart';
+import 'package:madrasati/presintation/phone/features/sign_in/school_sign_in.dart';
+import 'package:madrasati/presintation/phone/features/sign_in/student_sign_in.dart';
 
 class RoleDesesion extends StatelessWidget {
   RoleDesesion({super.key});
