@@ -1,9 +1,9 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:madrasati/presintation/features/home/widgets/school_card.dart';
-import 'package:madrasati/presintation/features/school_info/school_details_page.dart';
-import 'package:madrasati/presintation/features/sign_in/role_desesion.dart';
+import 'package:madrasati/presintation/phone/features/home/widgets/school_card.dart';
+import 'package:madrasati/presintation/phone/features/school_info/school_details_page.dart';
+import 'package:madrasati/presintation/phone/features/sign_in/role_desesion.dart';
 
 
 class HomePage extends StatelessWidget {
