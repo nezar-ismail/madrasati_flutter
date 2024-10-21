@@ -62,6 +62,20 @@ class AuthService {
     }
   }
 
+  Future<ResponsModel> logout({required String refreshToken}) async {
+    final Response response = await _authApi.logout(refreshToken: refreshToken);
+    switch (response.statusCode) {
+      case 204:
+        await _secureStorage.logout();
+        return EmptyResponse();
+      default:
+        if (response.data is Map<String, dynamic>) {
+          throw GlobalException.fromResponse(response);
+        }
+        throw InternalException("there is an error in logout");
+    }
+  }
+
   Future<ResponsModel> guestSignIn({required String deviceId}) async {
     try {
       final Response response = await _authApi.guestSignIn(deviceId: deviceId);
@@ -100,20 +114,6 @@ class AuthService {
     } catch (e) {
       logError(e.toString());
       rethrow;
-    }
-  }
-
-  Future<ResponsModel> logout({required String refreshToken}) async {
-    final Response response = await _authApi.logout(refreshToken: refreshToken);
-    switch (response.statusCode) {
-      case 204:
-        await _secureStorage.logout();
-        return EmptyResponse();
-      default:
-        if (response.data is Map<String, dynamic>) {
-          throw GlobalException.fromResponse(response);
-        }
-        throw InternalException("there is an error in logout");
     }
   }
 
