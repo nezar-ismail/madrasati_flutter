@@ -11,19 +11,19 @@ class ApiConstants {
 
   // API versions
   static const String authVersion = '/v1';
-  static const String studentVersion = '/v1';
-  static const String schoolVersion = '/v1';
   static const String groupVersion = '/v1';
+  static const String schoolVersion = '/v1';
 }
 
 class AuthEndpoints {
-  static String baseUrl = '${ApiConstants.baseUrl}${ApiConstants.authVersion}/auth';
+  static String baseUrl =
+      '${ApiConstants.baseUrl}${ApiConstants.authVersion}/auth';
 
-  static String studentLogin = '$baseUrl/student/login';
-  static String schoolLogin = '$baseUrl/school/login';
-  static String guestLogin = '$baseUrl/guest/login';
+  static String userLogin = '$baseUrl/login';
   static String userLogout = '$baseUrl/logout';
   static String refreshToken = '$baseUrl/refreshToken';
+  static String guestLogin = '$baseUrl/guestLogout';
+  static String guestLogout = '$baseUrl/register';
 }
 
 class GroupeEndpoints {
@@ -59,14 +59,9 @@ class GroupeEndpoints {
   }
 }
 
-class StudentEndpoints {
-  static String baseUrl =
-      '${ApiConstants.baseUrl}${ApiConstants.studentVersion}';
-}
-
 class SchoolEndpoints {
   static String baseUrl =
-      '${ApiConstants.baseUrl}${ApiConstants.schoolVersion}';
+      '${ApiConstants.baseUrl}${ApiConstants.schoolVersion}/school';
 
   static String getAllSchools(int page, int size) {
     return '$baseUrl/getAllSchools?page=$page&size=$size';
@@ -84,6 +79,4 @@ class SchoolEndpoints {
   static String uploadSchoolImages(String schoolId) {
     return '$baseUrl/$schoolId/uploadSchoolImages';
   }
-
-  
 }
