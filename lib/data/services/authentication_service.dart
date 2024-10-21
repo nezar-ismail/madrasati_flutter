@@ -25,6 +25,8 @@ class AuthService {
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
           return EmptyResponse();
+        case 401:
+          return UnAuthorizedResponse();
         default:
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);
