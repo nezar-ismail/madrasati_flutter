@@ -2,8 +2,8 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:madrasati/presintation/core/utils/button_service.dart';
-import 'package:madrasati/presintation/features/school_group/school_group.dart';
-import 'package:madrasati/presintation/features/student/widgets/st_info.dart';
+import 'package:madrasati/presintation/phone/features/school_group/school_group.dart';
+import 'package:madrasati/presintation/phone/features/student/widgets/st_info.dart';
 
 class StudentHomePage extends StatelessWidget {
   const StudentHomePage({super.key});

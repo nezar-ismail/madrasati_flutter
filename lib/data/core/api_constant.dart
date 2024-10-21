@@ -9,7 +9,6 @@ class BaseUrl {
 class ApiConstants {
   static String baseUrl = BaseUrl.baseUrl;
 
-  // API versions
   static const String authVersion = '/v1';
   static const String groupVersion = '/v1';
   static const String schoolVersion = '/v1';
@@ -75,7 +74,6 @@ class SchoolEndpoints {
     return '$baseUrl/$schoolId/uploadCoverImage';
   }
 
-  //$schoolId/uploadSchoolImages
   static String uploadSchoolImages(String schoolId) {
     return '$baseUrl/$schoolId/uploadSchoolImages';
   }
