@@ -51,7 +51,7 @@ class SignInCubit extends Cubit<SignInState> {
     }
   }
 
-      Future<void> guestSignIn({required String email, required String password}) async {
+      Future<void> guestSignIn() async {
     emit(SignInLoading());
     try {
       ResponsModel responsModel = await _authService.guestSignIn(deviceId: await getDeviceId()??"" );

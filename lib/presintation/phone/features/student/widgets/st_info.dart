@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/role_desesion.dart';
 
 class ContainerStudentInfo extends StatelessWidget {
@@ -41,8 +42,8 @@ class ContainerStudentInfo extends StatelessWidget {
             backgroundColor: Colors.grey.shade300,
             child: const Icon(Icons.person, size: 60, color: Colors.grey),
           ),
-          const Padding(
-            padding: EdgeInsets.only(top: 80.0, bottom: 10.0, left: 1.0),
+          Padding(
+            padding: const EdgeInsets.only(top: 80.0, bottom: 10.0, left: 1.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -50,18 +51,18 @@ class ContainerStudentInfo extends StatelessWidget {
                   'User Name',
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: 20,
+                    fontSize: scaleText(20, context),
                     fontWeight: FontWeight.bold,
                     color: Colors.white,
                   ),
                 ),
-                Text(
+                const Text(
                   'School Name',
                   style: TextStyle(
                     fontFamily: 'Roboto',
                     color: Colors.white),
                 ),
-                Text(
+                const Text(
                   'Class Level',
                   style: TextStyle(
                     fontFamily: 'Roboto',

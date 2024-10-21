@@ -1,13 +1,11 @@
 class BaseUrl {
   static const String ipAddress = "http://10.0.2.2";
-
-  static const String port = "7651";
-
-  static String get baseUrl => '$ipAddress:$port';
+  static const String port = "8080";
+  static final String baseUrl = '$ipAddress:$port';  // Use final instead of const
 }
 
 class ApiConstants {
-  static String baseUrl = BaseUrl.baseUrl;
+  static final String baseUrl = BaseUrl.baseUrl;  // Use final instead of const
 
   // API versions
   static const String authVersion = '/v1';
@@ -16,18 +14,20 @@ class ApiConstants {
 }
 
 class AuthEndpoints {
-  static String baseUrl =
+  static final String baseUrl =
       '${ApiConstants.baseUrl}${ApiConstants.authVersion}/auth';
 
-  static String userLogin = '$baseUrl/login';
-  static String userLogout = '$baseUrl/logout';
-  static String refreshToken = '$baseUrl/refreshToken';
-  static String guestLogin = '$baseUrl/guestLogout';
-  static String guestLogout = '$baseUrl/register';
+  static final String schoolLogin = '$baseUrl/login';
+  static final String studentLogin = '$baseUrl/login';
+
+  static final String userLogout = '$baseUrl/logout';
+  static final String refreshToken = '$baseUrl/refreshToken';
+  static final String guestLogin = '$baseUrl/guestLogin';
+  static final String guestLogout = '$baseUrl/guestLogout';
 }
 
 class GroupeEndpoints {
-  static String baseUrl =
+  static final String baseUrl =
       '${ApiConstants.baseUrl}${ApiConstants.groupVersion}/group';
 
   static String getAllPosts(int page, int size, String groupId) {
@@ -60,7 +60,7 @@ class GroupeEndpoints {
 }
 
 class SchoolEndpoints {
-  static String baseUrl =
+  static final String baseUrl =
       '${ApiConstants.baseUrl}${ApiConstants.schoolVersion}/school';
 
   static String getAllSchools(int page, int size) {
@@ -75,7 +75,6 @@ class SchoolEndpoints {
     return '$baseUrl/$schoolId/uploadCoverImage';
   }
 
-  //$schoolId/uploadSchoolImages
   static String uploadSchoolImages(String schoolId) {
     return '$baseUrl/$schoolId/uploadSchoolImages';
   }

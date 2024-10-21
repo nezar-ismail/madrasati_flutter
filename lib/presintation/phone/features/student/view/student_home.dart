@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:madrasati/presintation/core/utils/button_service.dart';
+import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/school_group/school_group.dart';
 import 'package:madrasati/presintation/phone/features/student/widgets/st_info.dart';
 
@@ -30,16 +31,20 @@ class StudentHomePage extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
+                  Text(
                     'Services',
                     style: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontSize: 20, fontWeight: FontWeight.bold),
+                        fontFamily: 'Roboto',
+                        fontSize: scaleText(20, context),
+                        fontWeight: FontWeight.bold),
                   ),
                   ButtonService(
                     onPressed: () {
                       log('Pressed School Group');
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => const SchoolGroup()));
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SchoolGroup()));
                     },
                     text: 'School Group',
                     color: Colors.blue,
@@ -61,18 +66,18 @@ class StudentHomePage extends StatelessWidget {
       // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
         elevation: 0,
-        selectedLabelStyle: const TextStyle(color: Colors.blue, fontSize: 15),
-        unselectedLabelStyle: const TextStyle(color: Colors.blue, fontSize: 15),
+        selectedLabelStyle:
+            TextStyle(color: Colors.blue, fontSize: scaleText(15, context)),
+        unselectedLabelStyle:
+            TextStyle(color: Colors.blue, fontSize: scaleText(15, context)),
         type: BottomNavigationBarType.fixed,
         selectedItemColor: Colors.blue,
         unselectedItemColor: Colors.blue,
         showUnselectedLabels: false,
         showSelectedLabels: true,
-        selectedFontSize: 15,
-        unselectedFontSize: 15,
+        selectedFontSize: scaleText(15, context),
+        unselectedFontSize: scaleText(15, context),
         iconSize: 35,
-
-
         backgroundColor: Colors.white,
         currentIndex: 0,
         onTap: (index) {
@@ -87,11 +92,15 @@ class StudentHomePage extends StatelessWidget {
         },
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.home_filled,),
+              icon: Icon(
+                Icons.home_filled,
+              ),
               label: 'Home',
               backgroundColor: Colors.blue),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person, ),
+            icon: Icon(
+              Icons.person,
+            ),
             label: 'Profile',
           ),
         ],

@@ -41,9 +41,11 @@ class GlobalException implements Exception {
       return BadRequestResponse(listErrors: listErrors);
     } else if (response.statusCode == 500) {
       return ServerErrorResponse();
-    } else if (response.statusCode == 204) {
-      return EmptyResponse();
-    } else {
+    } else if (response.statusCode == 403) {
+      return ForbiddenResponse();
+    }else if (response.statusCode == 409) {
+      return ConflictResponse();
+    }else {
       return ServerErrorResponse();
     }
   }

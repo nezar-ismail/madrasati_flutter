@@ -1,10 +1,13 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/utils/role_card.dart';
 import 'package:madrasati/presintation/phone/features/home/home.dart';
+import 'package:madrasati/presintation/phone/features/sign_in/cubit/sign_in_cubit.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/model/role_card.dart';
-import 'package:madrasati/presintation/phone/features/sign_in/school_sign_in.dart';
-import 'package:madrasati/presintation/phone/features/sign_in/student_sign_in.dart';
+import 'package:madrasati/presintation/phone/features/sign_in/school_sign_in_builder.dart';
+import 'package:madrasati/presintation/phone/features/sign_in/student_sign_in_builder.dart';
 
 class RoleDesesion extends StatelessWidget {
   RoleDesesion({super.key});
@@ -31,13 +34,10 @@ class RoleDesesion extends StatelessWidget {
   Widget build(BuildContext context) {
     // Get screen size for responsive design
     final size = MediaQuery.of(context).size;
-    // ignore: deprecated_member_use
-    final textScaleFactor = MediaQuery.of(context).textScaleFactor;
+
 
     // Scaling factor for responsive text
-    double scaleText(double size) {
-      return size * textScaleFactor;
-    }
+
 
     // ValueNotifier to manage selected role index
     final ValueNotifier<int> selectedRoleIndex = ValueNotifier<int>(-1);
@@ -58,7 +58,7 @@ class RoleDesesion extends StatelessWidget {
                         'Welcome',
                         style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: scaleText(30), // Responsive font size
+                          fontSize: scaleText(30, context), // Responsive font size
                           color: index == -1
                               ? Colors.red
                               : index == 0
@@ -73,7 +73,7 @@ class RoleDesesion extends StatelessWidget {
                   'In Madrasati Application',
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: scaleText(20), // Responsive font size
+                    fontSize: scaleText(20, context), // Responsive font size
                   ),
                 ),
                 SizedBox(
@@ -132,6 +132,7 @@ class RoleDesesion extends StatelessWidget {
                           onTap: () {
                             // Navigate to the next screen
                             if (selectedRoleIndex.value == 0) {
+                              getIt<SignInCubit>().guestSignIn();
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -140,14 +141,13 @@ class RoleDesesion extends StatelessWidget {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) =>
-                                          const StudentSignIn()));
+                                      builder: (context) => StudentSignInBuilder()));
                             } else {
                               Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          const SchoolSignIn()));
+                                          const SchoolSignInBuilder()));
                             }
                           },
                           child: Container(
@@ -177,7 +177,7 @@ class RoleDesesion extends StatelessWidget {
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
                                   fontSize:
-                                      scaleText(20), // Responsive font size
+                                      scaleText(20, context), // Responsive font size
                                   color: Colors.white,
                                 ),
                               ),

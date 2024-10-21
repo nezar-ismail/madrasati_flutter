@@ -18,7 +18,7 @@ class AuthService {
       required String password,
       required String deviceId}) async {
     try {
-      final Response response = await _authApi.studentSignIn(
+      final Response response = await _authApi.signIn(
           email: email, password: password, deviceId: deviceId);
       switch (response.statusCode) {
         case 200:
@@ -39,8 +39,6 @@ class AuthService {
           await UserBox.saveUser(student); 
 
           return EmptyResponse();
-        case 401:
-          return UnAuthorizedResponse();
         default:
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);
@@ -58,8 +56,8 @@ class AuthService {
       required String password,
       required String deviceId}) async {
     try {
-      final Response response = await _authApi.schoolSignIn(
-          email: email, password: password, deviceId: deviceId);
+      final Response response = await _authApi.signIn(
+          email: email, password: password, deviceId: deviceId, isSchoolSignIn: true);
       switch (response.statusCode) {
         case 200:
           final data = response.data['data'] as Map<String, dynamic>;
