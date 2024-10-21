@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/core/api.dart';
+import 'package:madrasati/data/core/api_constant.dart';
 
 class SchoolApi {
   final API api;
@@ -8,7 +9,7 @@ class SchoolApi {
 
   Future<Response> getAllSchools(
       {required int page, required int size, required String token}) async {
-    String url = makeSchoolUrl('getAllSchools?page=$page&size=$size');
+    String url = SchoolEndpoints.getAllSchools(page, size);
     Map<String, String> authHeader = makeHeaders(token);
     Response response = await api.get(url, headers: authHeader);
     return response;
@@ -16,7 +17,7 @@ class SchoolApi {
 
   Future<Response> getSchoolById(
       {required String token, required String schoolId}) async {
-    String url = makeSchoolUrl('getSchoolById/$schoolId');
+    String url = SchoolEndpoints.getSchoolById(schoolId);
     Map<String, String> authHeader = makeHeaders(token);
     Response response = await api.get(url, headers: authHeader);
     return response;
@@ -26,7 +27,7 @@ class SchoolApi {
       {required String schoolId,
       required MultipartFile file,
       required String token}) async {
-    String url = makeSchoolUrl('$schoolId/uploadCoverImage');
+    String url = SchoolEndpoints.uploadCoverImage(schoolId);
     Map<String, String> authHeader = makeHeaders(token);
     final body = FormData.fromMap({
       'file': file,
@@ -40,7 +41,7 @@ class SchoolApi {
       {required String schoolId,
       required List<MultipartFile> files,
       required String token}) async {
-    String url = makeSchoolUrl('$schoolId/uploadSchoolImages');
+    String url = SchoolEndpoints.uploadSchoolImages(schoolId);
     Map<String, String> authHeader = makeHeaders(token);
     final body = FormData.fromMap({
       'files': files,
@@ -48,10 +49,6 @@ class SchoolApi {
 
     Response response = await api.post(url, body: body, headers: authHeader);
     return response;
-  }
-
-  String makeSchoolUrl(String endPoint) {
-    return 'v1/school/$endPoint';
   }
 
   Map<String, String> makeHeaders(String token) {
