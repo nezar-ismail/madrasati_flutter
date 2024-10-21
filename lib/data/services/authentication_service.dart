@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
+import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
-
 import '../errors/global_exception.dart';
 import '../models/common_response_model.dart';
 import '../security/secure_storage_api.dart';
@@ -24,7 +25,22 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
+
+          // Create a Student object and save it in Hive
+          final student = LocalStudent(
+            userEmail: data['userEmail'],
+            firstName: data['firstName'],
+            lastName: data['lastName'],
+            imagePath: data['imagePath'],
+            birthDate: DateTime.parse(data['birthDate']),
+            gender: data['gender'],
+          );
+           // Save student data to Hive
+          await UserBox.saveUser(student); 
+
           return EmptyResponse();
+        case 401:
+          return UnAuthorizedResponse();
         default:
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);

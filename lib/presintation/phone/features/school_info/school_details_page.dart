@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:madrasati/presintation/features/school_info/school_info.dart';
-import 'package:madrasati/presintation/features/school_info/teacher_staff.dart';
+import 'package:madrasati/presintation/phone/features/school_info/school_info.dart';
+import 'package:madrasati/presintation/phone/features/school_info/teacher_staff.dart';
 
 class SchoolDetailPage extends StatelessWidget {
   const SchoolDetailPage({super.key});

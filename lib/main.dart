@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
-import 'presintation/features/sign_in/role_desesion.dart';
+import 'presintation/phone/features/sign_in/role_desesion.dart';
 
 void main() async{
   WidgetsFlutterBinding.ensureInitialized();
+
+  // setup locator for dependency injection in gitIt
+  setupLocator();
   
   // open hive, register adapters, and initialize
   await Hive.initFlutter();

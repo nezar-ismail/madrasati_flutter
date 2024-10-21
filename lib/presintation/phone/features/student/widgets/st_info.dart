@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:madrasati/presintation/features/sign_in/role_desesion.dart';
+import 'package:madrasati/presintation/phone/features/sign_in/role_desesion.dart';
 
 class ContainerStudentInfo extends StatelessWidget {
   const ContainerStudentInfo({
