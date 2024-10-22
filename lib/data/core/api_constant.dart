@@ -1,11 +1,11 @@
 class BaseUrl {
   static const String ipAddress = "http://10.0.2.2";
   static const String port = "8080";
-  static final String baseUrl = '$ipAddress:$port';  // Use final instead of const
+  static final String baseUrl = '$ipAddress:$port';  
 }
 
 class ApiConstants {
-  static final String baseUrl = BaseUrl.baseUrl;  // Use final instead of const
+  static final String baseUrl = BaseUrl.baseUrl; 
 
   // API versions
   static const String authVersion = '/v1';

@@ -18,7 +18,7 @@ class AuthService {
       required String password,
       required String deviceId}) async {
     try {
-      final Response response = await _authApi.signIn(
+      final Response response = await _authApi.studentSignIn(
           email: email, password: password, deviceId: deviceId);
       switch (response.statusCode) {
         case 200:
@@ -56,8 +56,8 @@ class AuthService {
       required String password,
       required String deviceId}) async {
     try {
-      final Response response = await _authApi.signIn(
-          email: email, password: password, deviceId: deviceId, isSchoolSignIn: true);
+      final Response response = await _authApi.schoolSignIn(
+          email: email, password: password, deviceId: deviceId);
       switch (response.statusCode) {
         case 200:
           final data = response.data['data'] as Map<String, dynamic>;
