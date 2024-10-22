@@ -53,6 +53,52 @@ class SchoolService {
       rethrow;
     }
   }
+
+  Future<ResponsModel> uploadCoverImage(
+      {required String schoolId,
+      required MultipartFile file,
+      required String token}) async {
+    try {
+      final Response response = await schoolApi.uploadCoverImage(
+          schoolId: schoolId, file: file, token: token);
+      switch (response.statusCode) {
+        case 201:
+          return EmptyResponse();
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw Exception(
+              '[${response.statusCode}]. Failed to upload cover image.');
+      }
+    } catch (e) {
+      logError(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<ResponsModel> uploadSchoolImages(
+      {required String schoolId,
+      required List<MultipartFile> files,
+      required String token}) async {
+    try {
+      final Response response = await schoolApi.uploadSchoolImages(
+          schoolId: schoolId, files: files, token: token);
+      switch (response.statusCode) {
+        case 201:
+          return EmptyResponse();
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw Exception(
+              '[${response.statusCode}]. Failed to upload school images.');
+      }
+    } catch (e) {
+      logError(e.toString());
+      rethrow;
+    }
+  }
 }
 //TODO: we need to handle the exception from server and front 
 //TODO: determine the way to handle the data from server and choose the method 
