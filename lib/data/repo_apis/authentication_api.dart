@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/core/api.dart';
 import 'package:madrasati/data/core/api_constant.dart';
@@ -17,8 +19,13 @@ class AuthApi {
 
     final Map<String, dynamic> body = makeBody(email, password);
 
-    Response response = await api.post(url, headers: header, body: body);
-    return response;
+    try {
+  Response response = await api.post(url, headers: header, body: body);
+  return response;
+} on Exception catch (e) {
+  log(e.toString());
+  rethrow;
+}
   }
 
   Future<Response> schoolSignIn(

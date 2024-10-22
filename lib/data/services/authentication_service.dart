@@ -34,7 +34,7 @@ class AuthService {
             firstName: data['firstName'],
             lastName: data['lastName'],
             imagePath: data['imagePath'],
-            birthDate: DateTime.parse(data['birthDate']),
+            birthDate: data['birthDate'],
             gender: data['gender'],
           );
           // Save student data to Hive
@@ -50,7 +50,7 @@ class AuthService {
           throw InternalException("there is an error in login");
       }
     } catch (e) {
-      logError(e.toString());
+      logError("AuthService:studentSignIn: $e");
       rethrow;
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
@@ -99,9 +100,9 @@ class StudentSignInUi extends StatelessWidget {
                       // ignore: deprecated_member_use
                       FontAwesomeIcons.frown, Colors.red);
                 } else {
-                  await getIt<SignInCubit>().studentSignIn(
-                    email: _emailController.text,
-                    password: _passwordController.text,
+                  await context.read<SignInCubit>().studentSignIn(
+                      email: _emailController.text,
+                      password: _passwordController.text
                   );
                 }
               },

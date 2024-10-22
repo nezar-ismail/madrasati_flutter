@@ -21,7 +21,7 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
       firstName: fields[1] as String?,
       lastName: fields[2] as String?,
       imagePath: fields[3] as String?,
-      birthDate: fields[4] as DateTime?,
+      birthDate: fields[4] as String?,
       gender: fields[5] as String?,
     );
   }
