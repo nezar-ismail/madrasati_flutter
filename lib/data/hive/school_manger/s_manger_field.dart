@@ -1,9 +1,7 @@
 import 'package:hive/hive.dart';
 
-part 'student_feild.g.dart';// Ensure this is present
-
-@HiveType(typeId: 0) // Use a unique typeId
-class LocalStudent {
+@HiveType(typeId: 0)
+class LocalSManger {
   @HiveField(0)
   String? userEmail;
 
@@ -22,7 +20,7 @@ class LocalStudent {
   @HiveField(5)
   String? gender;
 
-  LocalStudent({
+  LocalSManger({
     this.userEmail,
     this.firstName,
     this.lastName,

@@ -92,7 +92,6 @@ class StudentSignIn extends StatelessWidget {
                   final overlayState = Overlay.of(context);
                   customSnackbar(overlayState, 'Login Successful',
                       FontAwesomeIcons.checkCircle);
-
                   // Navigator.pushReplacement(
                   //   context,
                   //   MaterialPageRoute(

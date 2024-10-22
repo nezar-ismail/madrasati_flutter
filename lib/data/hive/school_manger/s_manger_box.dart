@@ -1,29 +1,28 @@
 import 'package:hive/hive.dart';
-import 'package:madrasati/data/hive/student/student_field.dart';
 
-class UserBox {
-  static const String boxName = 'userBox';
+import 's_manger_field.dart';
 
-  // Open the Hive box for LocalStudent data
+class SMangerBox {
+  static const String boxName = 'schoolMangerBox';
   static Future<void> init() async {
-    await Hive.openBox<LocalStudent>(boxName);
+    await Hive.openBox<LocalSManger>(boxName);
   }
 
-  // Save the entire LocalStudent object to the box
-  static Future<void> saveUser(LocalStudent user) async {
-    var box = Hive.box<LocalStudent>(boxName);
+  // Save the entire SMangerBox object to the box
+  static Future<void> saveUser(LocalSManger user) async {
+    var box = Hive.box<LocalSManger>(boxName);
     await box.put('currentUser', user);
   }
 
-  // Get the entire LocalStudent object from the box
-  static LocalStudent? getUser() {
-    var box = Hive.box<LocalStudent>(boxName);
+  // Get the entire SMangerBox object from the box
+  static LocalSManger? getUser() {
+    var box = Hive.box<LocalSManger>(boxName);
     return box.get('currentUser');
   }
 
   // Delete the current user from the box
   static Future<void> deleteUser() async {
-    var box = Hive.box<LocalStudent>(boxName);
+    var box = Hive.box<LocalSManger>(boxName);
     await box.delete('currentUser');
   }
 
@@ -36,7 +35,7 @@ class UserBox {
 
   // Save userEmail
   static Future<void> putUserEmail(String email) async {
-    var user = getUser() ?? LocalStudent();
+    var user = getUser() ?? LocalSManger();
     user.userEmail = email;
     await saveUser(user);
   }
@@ -48,7 +47,7 @@ class UserBox {
 
   // Save firstName
   static Future<void> putFirstName(String firstName) async {
-    var user = getUser() ?? LocalStudent();
+    var user = getUser() ?? LocalSManger();
     user.firstName = firstName;
     await saveUser(user);
   }
@@ -60,7 +59,7 @@ class UserBox {
 
   // Save lastName
   static Future<void> putLastName(String lastName) async {
-    var user = getUser() ?? LocalStudent();
+    var user = getUser() ?? LocalSManger();
     user.lastName = lastName;
     await saveUser(user);
   }
@@ -72,7 +71,7 @@ class UserBox {
 
   // Save imagePath
   static Future<void> putImagePath(String imagePath) async {
-    var user = getUser() ?? LocalStudent();
+    var user = getUser() ?? LocalSManger();
     user.imagePath = imagePath;
     await saveUser(user);
   }
@@ -84,7 +83,7 @@ class UserBox {
 
   // Save birthDate
   static Future<void> putBirthDate(DateTime birthDate) async {
-    var user = getUser() ?? LocalStudent();
+    var user = getUser() ?? LocalSManger();
     user.birthDate = birthDate;
     await saveUser(user);
   }
@@ -96,7 +95,7 @@ class UserBox {
 
   // Save gender
   static Future<void> putGender(String gender) async {
-    var user = getUser() ?? LocalStudent();
+    var user = getUser() ?? LocalSManger();
     user.gender = gender;
     await saveUser(user);
   }

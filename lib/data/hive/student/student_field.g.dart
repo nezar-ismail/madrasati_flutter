@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'student_feild.dart';
+part of 'student_field.dart';
 
 // **************************************************************************
 // TypeAdapterGenerator

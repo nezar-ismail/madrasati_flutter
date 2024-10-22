@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
+import 'package:madrasati/data/hive/school_manger/s_manger_box.dart';
+import 'package:madrasati/data/hive/school_manger/s_manger_field.dart';
 import 'package:madrasati/data/hive/student/student_box.dart';
-import 'package:madrasati/data/hive/student/student_feild.dart';
+import 'package:madrasati/data/hive/student/student_field.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
 import '../errors/global_exception.dart';
 import '../models/common_response_model.dart';
@@ -35,8 +37,8 @@ class AuthService {
             birthDate: DateTime.parse(data['birthDate']),
             gender: data['gender'],
           );
-           // Save student data to Hive
-          await UserBox.saveUser(student); 
+          // Save student data to Hive
+          await UserBox.saveUser(student);
 
           return EmptyResponse();
         case 401:
@@ -65,6 +67,16 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
+          final student = LocalSManger(
+            userEmail: data['userEmail'],
+            firstName: data['firstName'],
+            lastName: data['lastName'],
+            imagePath: data['imagePath'],
+            birthDate: DateTime.parse(data['birthDate']),
+            gender: data['gender'],
+          );
+          // Save student data to Hive
+          await SMangerBox.saveUser(student);
           return EmptyResponse();
         default:
           if (response.data is Map<String, dynamic>) {

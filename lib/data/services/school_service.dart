@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:madrasati/data/models/school_models/school_profile_page.dart';
 import 'package:madrasati/data/repo_apis/school_api.dart';
 import 'package:madrasati/data/utils/custom_logs.dart';
 
@@ -21,6 +22,26 @@ class SchoolService {
             return EmptyResponse();
           }
           return data;
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw Exception('[${response.statusCode}].Failed to sign in.');
+      }
+    } catch (e) {
+      logError(e.toString());
+      rethrow;
+    }
+  }
+
+  Future<ResponsModel> getSchoolById(
+      {required String schoolId, required String token}) async {
+    try {
+      final Response response =
+          await schoolApi.getSchoolById(schoolId: schoolId, token: token);
+      switch (response.statusCode) {
+        case 200:
+          return Schoolprofilepage.fromMap(response.data['data']);
         default:
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);
