@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/cubit/sign_in_cubit.dart';
@@ -99,8 +100,7 @@ class SchoolSignInUi extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.green,
               ),
-              onPressed: () {
-                
+              onPressed: () async {
                 if (_emailController.text.isEmpty ||
                     _passwordController.text.isEmpty) {
                   final overlayState = Overlay.of(context);
@@ -110,10 +110,9 @@ class SchoolSignInUi extends StatelessWidget {
                       Icons.error,
                       Colors.red);
                 } else {
-                  getIt<SignInCubit>().schoolSignIn(
-                    email: _emailController.text,
-                    password: _passwordController.text,
-                  );
+                  await context.read<SignInCubit>().studentSignIn(
+                      email: _emailController.text,
+                      password: _passwordController.text);
                 }
               },
               child: const Text(

@@ -17,7 +17,7 @@ class LocalStudent {
   String? imagePath;
 
   @HiveField(4)
-  DateTime? birthDate;
+  String? birthDate;
 
   @HiveField(5)
   String? gender;

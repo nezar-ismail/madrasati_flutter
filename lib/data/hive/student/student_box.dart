@@ -82,14 +82,14 @@ class UserBox {
   }
 
   // Save birthDate
-  static Future<void> putBirthDate(DateTime birthDate) async {
+  static Future<void> putBirthDate(String birthDate) async {
     var user = getUser() ?? LocalStudent();
     user.birthDate = birthDate;
     await saveUser(user);
   }
 
   // Get birthDate
-  static DateTime? getBirthDate() {
+  static String? getBirthDate() {
     return getUser()?.birthDate;
   }
 
