@@ -1,11 +1,3 @@
-import 'package:dio/dio.dart';
-import 'package:madrasati/data/models/group%20model/group_post_page.dart';
-import 'package:madrasati/data/utils/custom_logs.dart';
-
-import '../errors/global_exception.dart';
-import '../errors/internal_exception.dart';
-import '../models/common_response_model.dart';
-import '../repo_apis/group_post_api.dart';
 
 class GroupPostService {
   final GroupPostApi _groupPostApi;

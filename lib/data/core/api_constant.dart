@@ -7,7 +7,6 @@ class BaseUrl {
 class ApiConstants {
   static final String baseUrl = BaseUrl.baseUrl; 
 
-  // API versions
   static const String authVersion = '/v1';
   static const String groupVersion = '/v1';
   static const String schoolVersion = '/v1';
