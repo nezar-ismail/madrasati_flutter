@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
+import 'package:madrasati/data/hive/school/s_manger_box.dart';
+import 'package:madrasati/data/hive/school/s_manger_field.dart';
 import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
@@ -35,10 +37,12 @@ class AuthService {
             birthDate: DateTime.parse(data['birthDate']),
             gender: data['gender'],
           );
-           // Save student data to Hive
-          await UserBox.saveUser(student); 
+          // Save student data to Hive
+          await UserBox.saveUser(student);
 
           return EmptyResponse();
+        case 401:
+          return UnAuthorizedResponse();
         default:
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);
@@ -63,6 +67,16 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
+          final student = LocalSManger(
+            userEmail: data['userEmail'],
+            firstName: data['firstName'],
+            lastName: data['lastName'],
+            imagePath: data['imagePath'],
+            birthDate: DateTime.parse(data['birthDate']),
+            gender: data['gender'],
+          );
+          // Save student data to Hive
+          await SMangerBox.saveUser(student);
           return EmptyResponse();
         default:
           if (response.data is Map<String, dynamic>) {
@@ -73,6 +87,20 @@ class AuthService {
     } catch (e) {
       logError(e.toString());
       rethrow;
+    }
+  }
+
+  Future<ResponsModel> logout({required String refreshToken}) async {
+    final Response response = await _authApi.logout(refreshToken: refreshToken);
+    switch (response.statusCode) {
+      case 204:
+        await _secureStorage.logout();
+        return EmptyResponse();
+      default:
+        if (response.data is Map<String, dynamic>) {
+          throw GlobalException.fromResponse(response);
+        }
+        throw InternalException("there is an error in logout");
     }
   }
 
@@ -114,20 +142,6 @@ class AuthService {
     } catch (e) {
       logError(e.toString());
       rethrow;
-    }
-  }
-
-  Future<ResponsModel> logout({required String refreshToken}) async {
-    final Response response = await _authApi.logout(refreshToken: refreshToken);
-    switch (response.statusCode) {
-      case 204:
-        await _secureStorage.logout();
-        return EmptyResponse();
-      default:
-        if (response.data is Map<String, dynamic>) {
-          throw GlobalException.fromResponse(response);
-        }
-        throw InternalException("there is an error in logout");
     }
   }
 
