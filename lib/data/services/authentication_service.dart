@@ -39,8 +39,6 @@ class AuthService {
           await UserBox.saveUser(student); 
 
           return EmptyResponse();
-        case 401:
-          return UnAuthorizedResponse();
         default:
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);

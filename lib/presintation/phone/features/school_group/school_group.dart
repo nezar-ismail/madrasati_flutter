@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:madrasati/presintation/core/utils/common_func.dart';
 
 class SchoolGroup extends StatelessWidget {
   const SchoolGroup({super.key});
@@ -120,7 +121,7 @@ class PostHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    return  Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         CircleAvatar(
@@ -130,14 +131,14 @@ class PostHeader extends StatelessWidget {
         Text(
           'User Name',
           style: TextStyle(
-            fontSize: 24.0,
+            fontSize: scaleText(24, context),
             fontWeight: FontWeight.bold,
             fontFamily: 'Roboto',
           ),
         ),
         Text(
           '11:30 AM',
-          style: TextStyle(fontSize: 16.0, fontFamily: 'Roboto'),
+          style: TextStyle(fontSize: scaleText(16, context), fontFamily: 'Roboto'),
         ),
       ],
     );

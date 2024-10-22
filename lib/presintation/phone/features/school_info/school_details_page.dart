@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/school_info/school_info.dart';
 import 'package:madrasati/presintation/phone/features/school_info/teacher_staff.dart';
 
@@ -26,7 +27,7 @@ class SchoolDetailPage extends StatelessWidget {
                   'School Name',
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: MediaQuery.of(context).size.height * 0.03,
+                    fontSize: scaleText(20, context),
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
                   ),
@@ -55,7 +56,7 @@ class SchoolDetailPage extends StatelessWidget {
                         'See All Pictures',
                         style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: MediaQuery.of(context).size.height * 0.02,
+                          fontSize: scaleText(20, context),
                           fontWeight: FontWeight.bold,
                           color: Colors.grey.shade300,
                         ),
@@ -72,7 +73,7 @@ class SchoolDetailPage extends StatelessWidget {
                   'School Bio',
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: MediaQuery.of(context).size.height * 0.03,
+                    fontSize: scaleText(20, context),
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
                   ),
@@ -95,7 +96,7 @@ class SchoolDetailPage extends StatelessWidget {
                   'School Info',
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: MediaQuery.of(context).size.height * 0.03,
+                    fontSize: scaleText(20, context),
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
                   ),
@@ -114,7 +115,7 @@ class SchoolDetailPage extends StatelessWidget {
                   'Teacher Staff',
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: MediaQuery.of(context).size.height * 0.03,
+                    fontSize: scaleText(20, context),
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
                   ),
@@ -134,7 +135,7 @@ class SchoolDetailPage extends StatelessWidget {
                   'Feedback',
                   style: TextStyle(
                     fontFamily: 'Roboto',
-                    fontSize: MediaQuery.of(context).size.height * 0.03,
+                    fontSize: scaleText(20, context),
                     fontWeight: FontWeight.bold,
                     color: Colors.orange,
                   ),

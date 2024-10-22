@@ -11,7 +11,7 @@ class AuthApi {
       {required String email,
       required String password,
       required String deviceId}) async {
-    String url = AuthEndpoints.userLogin;
+    String url = AuthEndpoints.studentLogin;
 
     final Map<String, dynamic> header = makeHeaders(deviceId, false);
 
@@ -25,7 +25,7 @@ class AuthApi {
       {required String email,
       required String password,
       required String deviceId}) async {
-    String url = AuthEndpoints.userLogin;
+    String url = AuthEndpoints.schoolLogin;
 
     final Map<String, dynamic> header = makeHeaders(deviceId, false);
 
