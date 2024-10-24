@@ -2,8 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:madrasati/presintation/phone/features/home/widgets/school_card_info.dart';
 
 class SchoolCard extends StatelessWidget {
+  final String schoolName;
+  final String schoolType;
+  final double rating;
+
   const SchoolCard({
     super.key,
+    required this.schoolName,
+    required this.schoolType,
+    required this.rating,
   });
 
   @override
@@ -11,9 +18,12 @@ class SchoolCard extends StatelessWidget {
     return Container(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.25,
-      margin:const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10),
       decoration: BoxDecoration(
-        image: const DecorationImage(image: AssetImage('asset/static/image/school.png'), fit: BoxFit.contain),
+        image: const DecorationImage(
+          image: AssetImage('asset/static/image/school.png'), 
+          fit: BoxFit.contain,
+        ),
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
@@ -24,8 +34,7 @@ class SchoolCard extends StatelessWidget {
             offset: const Offset(0, 3),
           ),
         ],
-      )
-      ,
+      ),
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -37,13 +46,17 @@ class SchoolCard extends StatelessWidget {
             ],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-          )),
+          ),
+        ),
         child: Padding(
           padding: MediaQuery.of(context).viewInsets + const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-          child: const SchoolCardInfo(),
+          child: SchoolCardInfo(
+            schoolName: schoolName,
+            schoolType: schoolType,
+            rating: rating,
+          ),
         ),
       ),
     );
   }
 }
-

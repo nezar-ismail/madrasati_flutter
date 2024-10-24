@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/cubit/sign_in_cubit.dart';
 

@@ -9,8 +9,11 @@ import '../models/school_models/school_home_page_response.dart';
 class SchoolService {
   final SchoolApi schoolApi;
   SchoolService(this.schoolApi);
-  Future<ResponsModel> getAllSchools(
-      {required int page, required int size, required String token}) async {
+  Future<ResponsModel> getAllSchools({
+    required int page,
+    required int size,
+    required String token,
+  }) async {
     try {
       final Response response =
           await schoolApi.getAllSchools(page: page, size: size, token: token);
@@ -25,7 +28,7 @@ class SchoolService {
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);
           }
-          throw Exception('[${response.statusCode}].Failed to sign in.');
+          throw Exception('[${response.statusCode}]. Failed to fetch schools.');
       }
     } catch (e) {
       logError(e.toString());

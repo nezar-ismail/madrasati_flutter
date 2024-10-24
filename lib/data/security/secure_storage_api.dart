@@ -4,6 +4,8 @@ import 'package:madrasati/data/utils/custom_logs.dart';
 
 class SecureStorageApi {
   final FlutterSecureStorage _secureStorage;
+  static final SecureStorageApi _instance = SecureStorageApi();
+  static final  SecureStorageApi secureStorageApi = _instance;
 
   SecureStorageApi({FlutterSecureStorage? secureStorage})
       : _secureStorage = secureStorage ?? const FlutterSecureStorage();

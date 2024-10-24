@@ -1,94 +1,58 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:madrasati/presintation/phone/features/home/widgets/school_card.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:madrasati/presintation/phone/features/home/cubit/home_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/school_details_page.dart';
-import 'package:madrasati/presintation/phone/features/sign_in/role_desesion.dart';
-
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Welcome in Madrasati', style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),),
-        centerTitle: true,
-        backgroundColor: Colors.orange,
-        actions: [
-          TextButton(
-            onPressed: () {
-              //show List of options wich have logout option
-              showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return AlertDialog(
-                    title: const Text('Logout', style: TextStyle(color: Colors.grey, fontFamily: 'Roboto'),),
-                    content: const Text('Are you sure you want to logout?', style: TextStyle(color: Colors.black, fontFamily: 'Roboto'),),
-                    actions: [
-                      TextButton(
-                        child: const Text('Cancel', style: TextStyle(color: Colors.grey, fontFamily: 'Roboto'),),
-                        onPressed: () {
-                          Navigator.of(context).pop();
-                        },
-                      ),
-                      TextButton(
-                        child: const Text('Logout', style: TextStyle(color: Colors.orange, fontFamily: 'Roboto'),),
-                        onPressed: () {
-                          // Perform logout functionality here
-                        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) =>  RoleDesesion()), (route) => false);
-                        },
-                      ),  
-                    ],
-                  );
-                },
-              );
+    final schoolCubit = GetIt.I<SchoolCubit>();
 
-              
-            }, child: const Text('Logout', style: TextStyle(color: Colors.white, fontFamily: 'Roboto'),),
-          ),
-        ],
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            // Search Bar
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search for Schools...',
-                prefixIcon: const Icon(Icons.search),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(width: 0, style: BorderStyle.none),
-                ),
-                filled: true,
-                fillColor: Colors.white,
-                
-              ),
-              style: const TextStyle( fontFamily: 'Roboto')
-            ),
-            // School List
-            Expanded(
-              child: ListView.builder(
-                itemCount: 4,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                    child: GestureDetector(
-                      onTap: () {
-                        // detail page
-                        log('index: $index');
-                      Navigator.push(context, MaterialPageRoute(builder: (context) =>  const SchoolDetailPage()));
-                      },
-                      child: const SchoolCard(),
-                    ),
-                  );
+    return BlocProvider(
+      create: (context) => schoolCubit..fetchSchools(), // Pass your token here
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('Welcome to Madrasati'),
+          centerTitle: true,
+        ),
+        body: BlocBuilder<SchoolCubit, SchoolState>(
+          builder: (context, state) {
+            if (state is SchoolLoading) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (state is SchoolError) {
+              return Center(child: Text(state.message));
+            } else if (state is SchoolLoaded) {
+              return NotificationListener<ScrollNotification>(
+                onNotification: (ScrollNotification scrollInfo) {
+                  if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && state.hasMore) {
+                    context.read<SchoolCubit>().fetchSchools();
+                  }
+                  return true;
                 },
-              ),
-            ),
-          ],
+                child: ListView.builder(
+                  itemCount: state.schools.length + (state.hasMore ? 1 : 0), // Show loading indicator if more schools are available
+                  itemBuilder: (context, index) {
+                    if (index == state.schools.length) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => const SchoolDetailPage()),
+                        );
+                      },
+                     child: state.schools[index], // This is now a widget
+                    );
+                  },
+                ),
+              );
+            }
+            return const Center(child: Text('No schools available.'));
+          },
         ),
       ),
     );
