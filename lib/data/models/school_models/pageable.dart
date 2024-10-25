@@ -1,13 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
 
 import 'package:madrasati/data/models/school_models/sort.dart';
 
 class Pageable {
   final int offset;
-  final List<Sort> sort;
+  final Sort sort;
   final bool paged;
   final int pageNumber;
   final int pageSize;
@@ -23,7 +22,7 @@ class Pageable {
 
   Pageable copyWith({
     int? offset,
-    List<Sort>? sort,
+    Sort? sort,
     bool? paged,
     int? pageNumber,
     int? pageSize,
@@ -42,7 +41,7 @@ class Pageable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'offset': offset,
-      'sort': sort.map((x) => x.toMap()).toList(),
+      'sort': sort.toMap(),
       'paged': paged,
       'pageNumber': pageNumber,
       'pageSize': pageSize,
@@ -53,11 +52,7 @@ class Pageable {
   factory Pageable.fromMap(Map<String, dynamic> map) {
     return Pageable(
       offset: map['offset'] as int,
-      sort: List<Sort>.from(
-        (map['sort'] as List<int>).map<Sort>(
-          (x) => Sort.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      sort: Sort.fromMap(map['sort'] as Map<String,dynamic>),
       paged: map['paged'] as bool,
       pageNumber: map['pageNumber'] as int,
       pageSize: map['pageSize'] as int,
@@ -67,8 +62,7 @@ class Pageable {
 
   String toJson() => json.encode(toMap());
 
-  factory Pageable.fromJson(String source) =>
-      Pageable.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Pageable.fromJson(String source) => Pageable.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -78,22 +72,23 @@ class Pageable {
   @override
   bool operator ==(covariant Pageable other) {
     if (identical(this, other)) return true;
-
-    return other.offset == offset &&
-        listEquals(other.sort, sort) &&
-        other.paged == paged &&
-        other.pageNumber == pageNumber &&
-        other.pageSize == pageSize &&
-        other.unpaged == unpaged;
+  
+    return 
+      other.offset == offset &&
+      other.sort == sort &&
+      other.paged == paged &&
+      other.pageNumber == pageNumber &&
+      other.pageSize == pageSize &&
+      other.unpaged == unpaged;
   }
 
   @override
   int get hashCode {
     return offset.hashCode ^
-        sort.hashCode ^
-        paged.hashCode ^
-        pageNumber.hashCode ^
-        pageSize.hashCode ^
-        unpaged.hashCode;
+      sort.hashCode ^
+      paged.hashCode ^
+      pageNumber.hashCode ^
+      pageSize.hashCode ^
+      unpaged.hashCode;
   }
 }

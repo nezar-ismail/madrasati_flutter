@@ -1,8 +1,15 @@
 import 'package:flutter/material.dart';
 
 class SchoolCardInfo extends StatelessWidget {
+  final String schoolName;
+  final String schoolType;
+  final double rating;
+
   const SchoolCardInfo({
     super.key,
+    required this.schoolName,
+    required this.schoolType,
+    required this.rating,
   });
 
   @override
@@ -16,7 +23,7 @@ class SchoolCardInfo extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'School Name',
+              schoolName,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontFamily: 'Roboto',
@@ -24,7 +31,7 @@ class SchoolCardInfo extends StatelessWidget {
               ),
             ),
             Text(
-              'Middle School',
+              schoolType,
               style: TextStyle(
                 fontFamily: 'Roboto',
                 color: Colors.grey,
@@ -33,15 +40,15 @@ class SchoolCardInfo extends StatelessWidget {
             ),
           ],
         ),
-        const Row(
+        Row(
           children: [
-            Text('4.3',
-                style: TextStyle(
-              
-              fontFamily: 'Roboto',
-              
-            )),
-            Icon(Icons.star, color: Colors.amber),
+            Text(
+              rating.toString(),
+              style: const TextStyle(
+                fontFamily: 'Roboto',
+              ),
+            ),
+            const Icon(Icons.star, color: Colors.amber),
           ],
         ),
       ],

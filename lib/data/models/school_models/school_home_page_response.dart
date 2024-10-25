@@ -85,7 +85,7 @@ class SchoolHomePage implements ResponsModel {
       totalPages: map['totalPages'] as int,
       size: map['size'] as int,
       content: List<SchoolCard>.from(
-        (map['content'] as List<int>).map<SchoolCard>(
+        (map['content'] as List<dynamic>).map<SchoolCard>(
           (x) => SchoolCard.fromMap(x as Map<String, dynamic>),
         ),
       ),

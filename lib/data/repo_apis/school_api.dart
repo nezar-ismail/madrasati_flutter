@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/core/api.dart';
 import 'package:madrasati/data/core/api_constant.dart';
@@ -10,8 +12,10 @@ class SchoolApi {
   Future<Response> getAllSchools(
       {required int page, required int size, required String token}) async {
     String url = SchoolEndpoints.getAllSchools(page, size);
+    log('url: $url');
     Map<String, String> authHeader = makeHeaders(token);
     Response response = await api.get(url, headers: authHeader);
+    log('school api response:${response.data}');
     return response;
   }
 

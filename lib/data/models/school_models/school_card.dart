@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:madrasati/data/models/common_response_model.dart';
@@ -7,13 +8,13 @@ class SchoolCard implements ResponsModel {
   final String schoolName;
   final String schoolCoverImage;
   final String schoolType;
-  final double averageRating;
+  final double? averageRating;
   SchoolCard({
     required this.id,
     required this.schoolName,
     required this.schoolCoverImage,
     required this.schoolType,
-    required this.averageRating,
+    this.averageRating,
   });
 
   SchoolCard copyWith({
@@ -48,14 +49,13 @@ class SchoolCard implements ResponsModel {
       schoolName: map['schoolName'] as String,
       schoolCoverImage: map['schoolCoverImage'] as String,
       schoolType: map['schoolType'] as String,
-      averageRating: map['averageRating'] as double,
+      averageRating: map['averageRating'] != null ? map['averageRating'] as double : null,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory SchoolCard.fromJson(String source) =>
-      SchoolCard.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SchoolCard.fromJson(String source) => SchoolCard.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -65,20 +65,21 @@ class SchoolCard implements ResponsModel {
   @override
   bool operator ==(covariant SchoolCard other) {
     if (identical(this, other)) return true;
-
-    return other.id == id &&
-        other.schoolName == schoolName &&
-        other.schoolCoverImage == schoolCoverImage &&
-        other.schoolType == schoolType &&
-        other.averageRating == averageRating;
+  
+    return 
+      other.id == id &&
+      other.schoolName == schoolName &&
+      other.schoolCoverImage == schoolCoverImage &&
+      other.schoolType == schoolType &&
+      other.averageRating == averageRating;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-        schoolName.hashCode ^
-        schoolCoverImage.hashCode ^
-        schoolType.hashCode ^
-        averageRating.hashCode;
+      schoolName.hashCode ^
+      schoolCoverImage.hashCode ^
+      schoolType.hashCode ^
+      averageRating.hashCode;
   }
 }
