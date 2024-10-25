@@ -23,10 +23,6 @@ class StudentHomePage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              // Daily Progress Section
-
-              //TODO: Add Progress Bar
-
               // Service Section (Buttons)
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

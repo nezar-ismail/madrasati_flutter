@@ -129,7 +129,7 @@ class RoleDesesion extends StatelessWidget {
                         );
                       } else {
                         return GestureDetector(
-                          onTap: ()async {
+                          onTap: () async {
                             // Navigate to the next screen
                             if (selectedRoleIndex.value == 0) {
                               await getIt<SignInCubit>().guestSignIn();

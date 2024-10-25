@@ -5,6 +5,7 @@ import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
+import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 import 'presintation/phone/features/sign_in/role_desesion.dart';
 
 void main() async{
@@ -16,12 +17,17 @@ void main() async{
   // open hive, register adapters, and initialize
   await Hive.initFlutter();
   Hive.registerAdapter(LocalStudentAdapter());
-  await UserBox.init(); 
+  await Hive.openBox<LocalStudent>('userBox');
 
-    runApp(BlocProvider(
-    create: (context) => getIt<NetworkImageCubit>(),
-    child: const MadrasatiApp(),
-  ));
+    runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt<NetworkImageCubit>()),
+        BlocProvider(create: (context) => UserProfileCubit()),
+      ],
+      child: const MadrasatiApp(),
+    ),
+  );
   
 }
 
