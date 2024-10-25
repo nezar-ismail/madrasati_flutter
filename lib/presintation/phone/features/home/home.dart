@@ -1,6 +1,3 @@
-import 'dart:developer';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -12,7 +9,7 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final schoolCubit = GetIt.I<SchoolCubit>();
+    final schoolCubit = GetIt.I<SchoolPagingCubit>();
 
     return BlocProvider(
       create: (context) => schoolCubit,
@@ -21,7 +18,7 @@ class HomePage extends StatelessWidget {
           title: const Text('Welcome to Madrasati'),
           centerTitle: true,
         ),
-        body: BlocBuilder<SchoolCubit, SchoolState>(
+        body: BlocBuilder<SchoolPagingCubit, SchoolPagingState>(
           builder: (context, state) {
             if (state is SchoolInitial) {
               // Fetch schools on initial load
@@ -50,18 +47,8 @@ class HomePage extends StatelessWidget {
                     if (index == state.schools.length) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const SchoolDetailPage(),
-                          ),
-                        );
-                      },
-                      child: state.schools[
-                          index], // Accessing schools only when SchoolLoaded
-                    );
+                    return state.schools[
+                        index];
                   },
                 ),
               );

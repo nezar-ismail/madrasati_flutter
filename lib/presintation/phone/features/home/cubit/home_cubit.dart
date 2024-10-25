@@ -8,7 +8,7 @@ import 'package:madrasati/presintation/phone/features/home/widgets/school_card.d
 
 part 'home_state.dart';
 
-class SchoolCubit extends Cubit<SchoolState> {
+class SchoolPagingCubit extends Cubit<SchoolPagingState> {
   final SchoolService schoolService;
   int currentPage = 0;
   bool hasMore = true;
@@ -17,7 +17,7 @@ class SchoolCubit extends Cubit<SchoolState> {
   List<Widget> schools = []; // Store widgets for displaying
   ScrollController scrollController = ScrollController();
 
-  SchoolCubit(this.schoolService) : super(SchoolInitial());
+  SchoolPagingCubit(this.schoolService) : super(SchoolInitial());
 
   Future<void> fetchSchools() async {
     if (!hasMore || isFetching) return; // Stop fetching if no more pages or already fetching
@@ -40,6 +40,7 @@ class SchoolCubit extends Cubit<SchoolState> {
                   schoolName: school.schoolName,
                   schoolType: school.schoolType,
                   rating: school.averageRating ?? 0.0,
+                  id: school.id,
                 ))
             .toList());
             

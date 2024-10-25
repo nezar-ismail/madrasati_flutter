@@ -11,20 +11,17 @@ class TeacherStaff extends StatelessWidget {
       children: [
         const CircleAvatar(
           radius: 25,
-          backgroundImage: NetworkImage(
-              'https://via.placeholder.com/100'), // Replace with actual image
+          backgroundColor: Colors.white, // Replace with actual image
         ),
         SizedBox(width: MediaQuery.of(context).size.width * 0.02),
         const CircleAvatar(
           radius: 25,
-          backgroundImage: NetworkImage(
-              'https://via.placeholder.com/100'), // Replace with actual image
+         backgroundColor: Colors.white, // Replace with actual image
         ),
         const SizedBox(width: 10),
         const CircleAvatar(
           radius: 25,
-          backgroundImage: NetworkImage(
-              'https://via.placeholder.com/100'), // Replace with actual image
+           backgroundColor: Colors.white,  // Replace with actual image
         ),
       ],
     );

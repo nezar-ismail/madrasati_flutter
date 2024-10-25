@@ -1,11 +1,13 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+
 import 'package:madrasati/data/models/common_response_model.dart';
 
 import 'school_teacher.dart';
 
-class Schoolprofilepage implements ResponsModel {
+class SchoolProfilepage implements ResponsModel {
   String schoolId;
   String schoolName;
   String schoolCoverImage;
@@ -18,7 +20,7 @@ class Schoolprofilepage implements ResponsModel {
   List<String> schoolFeedBacks;
   List<String> schoolImages;
   Set<Teacher> teachers;
-  Schoolprofilepage({
+  SchoolProfilepage({
     required this.schoolId,
     required this.schoolName,
     required this.schoolCoverImage,
@@ -33,7 +35,7 @@ class Schoolprofilepage implements ResponsModel {
     required this.teachers,
   });
 
-  Schoolprofilepage copyWith({
+  SchoolProfilepage copyWith({
     String? schoolId,
     String? schoolName,
     String? schoolCoverImage,
@@ -47,7 +49,7 @@ class Schoolprofilepage implements ResponsModel {
     List<String>? schoolImages,
     Set<Teacher>? teachers,
   }) {
-    return Schoolprofilepage(
+    return SchoolProfilepage(
       schoolId: schoolId ?? this.schoolId,
       schoolName: schoolName ?? this.schoolName,
       schoolCoverImage: schoolCoverImage ?? this.schoolCoverImage,
@@ -80,8 +82,8 @@ class Schoolprofilepage implements ResponsModel {
     };
   }
 
-  factory Schoolprofilepage.fromMap(Map<String, dynamic> map) {
-    return Schoolprofilepage(
+  factory SchoolProfilepage.fromMap(Map<String, dynamic> map) {
+    return SchoolProfilepage(
       schoolId: map['schoolId'] as String,
       schoolName: map['schoolName'] as String,
       schoolCoverImage: map['schoolCoverImage'] as String,
@@ -91,11 +93,10 @@ class Schoolprofilepage implements ResponsModel {
       schoolLocation: map['schoolLocation'] as String,
       averageRating: map['averageRating'] as double,
       schoolEmail: map['schoolEmail'] as String,
-      schoolFeedBacks:
-          List<String>.from(map['schoolFeedBacks'] as List<String>),
-      schoolImages: List<String>.from((map['schoolImages'] as List<String>)),
+      schoolFeedBacks: List<String>.from((map['schoolFeedBacks'] as List<dynamic>)),
+      schoolImages: List<String>.from((map['schoolImages'] as List<dynamic>)),
       teachers: Set<Teacher>.from(
-        (map['teachers'] as List<int>).map<Teacher>(
+        (map['teachers'] as List<dynamic>).map<Teacher>(
           (x) => Teacher.fromMap(x as Map<String, dynamic>),
         ),
       ),
@@ -104,16 +105,16 @@ class Schoolprofilepage implements ResponsModel {
 
   String toJson() => json.encode(toMap());
 
-  factory Schoolprofilepage.fromJson(String source) =>
-      Schoolprofilepage.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory SchoolProfilepage.fromJson(String source) =>
+      SchoolProfilepage.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Schoolprofilepage(schoolId: $schoolId, schoolName: $schoolName, schoolCoverImage: $schoolCoverImage, schoolDescription: $schoolDescription, schoolPhoneNumber: $schoolPhoneNumber, schoolStudentCount: $schoolStudentCount, schoolLocation: $schoolLocation, averageRating: $averageRating, schoolEmail: $schoolEmail, schoolFeedBacks: $schoolFeedBacks, schoolImages: $schoolImages, teachers: $teachers)';
+    return 'SchoolProfilepage(schoolId: $schoolId, schoolName: $schoolName, schoolCoverImage: $schoolCoverImage, schoolDescription: $schoolDescription, schoolPhoneNumber: $schoolPhoneNumber, schoolStudentCount: $schoolStudentCount, schoolLocation: $schoolLocation, averageRating: $averageRating, schoolEmail: $schoolEmail, schoolFeedBacks: $schoolFeedBacks, schoolImages: $schoolImages, teachers: $teachers)';
   }
 
   @override
-  bool operator ==(covariant Schoolprofilepage other) {
+  bool operator ==(covariant SchoolProfilepage other) {
     if (identical(this, other)) return true;
 
     return other.schoolId == schoolId &&

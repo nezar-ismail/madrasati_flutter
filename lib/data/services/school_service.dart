@@ -43,7 +43,7 @@ class SchoolService {
           await schoolApi.getSchoolById(schoolId: schoolId, token: token);
       switch (response.statusCode) {
         case 200:
-          return Schoolprofilepage.fromMap(response.data['data']);
+          return SchoolProfilepage.fromMap(response.data['data']);
         default:
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);

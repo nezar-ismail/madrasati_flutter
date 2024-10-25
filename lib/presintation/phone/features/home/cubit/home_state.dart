@@ -1,17 +1,17 @@
 part of 'home_cubit.dart';
 
-abstract class SchoolState extends Equatable {
-  const SchoolState();
+abstract class SchoolPagingState extends Equatable {
+  const SchoolPagingState();
 
   @override
   List<Object> get props => [];
 }
 
-class SchoolInitial extends SchoolState {}
+class SchoolInitial extends SchoolPagingState {}
 
-class SchoolLoading extends SchoolState {}
+class SchoolLoading extends SchoolPagingState {}
 
-class SchoolLoaded extends SchoolState {
+class SchoolLoaded extends SchoolPagingState {
   final List<Widget> schools; // Store widgets for displaying
   final bool hasMore;
 
@@ -21,7 +21,7 @@ class SchoolLoaded extends SchoolState {
   List<Object> get props => [schools, hasMore];
 }
 
-class SchoolError extends SchoolState {
+class SchoolError extends SchoolPagingState {
   final String message;
 
   const SchoolError(this.message);
