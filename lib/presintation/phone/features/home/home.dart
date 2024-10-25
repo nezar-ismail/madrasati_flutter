@@ -45,7 +45,10 @@ class HomePage extends StatelessWidget {
                     if (index == state.schools.length) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    return state.schools[index];
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      child: state.schools[index],
+                    );
                   },
                 ),
               );

@@ -1,6 +1,9 @@
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/home/widgets/school_card_info.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/school_details_page.dart';
@@ -10,6 +13,7 @@ class SchoolCard extends StatelessWidget {
   final String schoolType;
   final double rating;
   final String id;
+  final String imagePath;
 
   const SchoolCard({
     super.key,
@@ -17,14 +21,22 @@ class SchoolCard extends StatelessWidget {
     required this.schoolType,
     required this.rating,
     required this.id,
+    required this.imagePath,
   });
 
   @override
   Widget build(BuildContext context) {
+    final imageCubit = context.read<NetworkImageCubit>();
+    final imageFullPath = ApiConstants.baseUrl + imagePath;
+
+    // Check if image has already been loaded to avoid redundant fetches
+    if (imageCubit.state is! ImageLoaded) {
+      imageCubit.fetchImage(imageFullPath);
+    }
+
     return GestureDetector(
       onTap: () {
-        // getIt<SchoolInfoCubit>().getSchoolInfo(schoolId: id);
-        Navigator.push(
+      Navigator.push(
           context,
           MaterialPageRoute(
               builder: (context) => BlocProvider(
@@ -39,10 +51,6 @@ class SchoolCard extends StatelessWidget {
         height: MediaQuery.of(context).size.height * 0.25,
         margin: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          image: const DecorationImage(
-            image: AssetImage('asset/static/image/school.png'),
-            fit: BoxFit.contain,
-          ),
           color: Colors.white,
           borderRadius: BorderRadius.circular(10),
           boxShadow: [
@@ -54,28 +62,40 @@ class SchoolCard extends StatelessWidget {
             ),
           ],
         ),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            gradient: const LinearGradient(
-              colors: [
-                Colors.transparent,
-                Colors.white12,
-                Colors.white,
-              ],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          child: Padding(
-            padding: MediaQuery.of(context).viewInsets +
-                const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-            child: SchoolCardInfo(
-              schoolName: schoolName,
-              schoolType: schoolType,
-              rating: rating,
-            ),
-          ),
+        child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
+          builder: (context, state) {
+            if (state is ImageLoading) {
+              return Center(child: CircularProgressIndicator());
+            } else if (state is ImageLoaded) {
+              return _buildImageContent(state.imageData, context);
+            } else if (state is ImageError) {
+              return Center(child: Icon(Icons.error));
+            }
+            return SizedBox.shrink(); // Placeholder for initial state
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildImageContent(Uint8List imageData, BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: MemoryImage(imageData),
+          fit: BoxFit.cover,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: MediaQuery.of(context).size.height * 0.18,
+          
+        ),
+        child: SchoolCardInfo(
+          schoolName: schoolName,
+          schoolType: schoolType,
+          rating: rating,
         ),
       ),
     );

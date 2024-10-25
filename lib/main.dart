@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
+import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'presintation/phone/features/sign_in/role_desesion.dart';
 
 void main() async{
@@ -16,8 +18,11 @@ void main() async{
   Hive.registerAdapter(LocalStudentAdapter());
   await UserBox.init(); 
 
-
-  runApp(const MadrasatiApp());
+    runApp(BlocProvider(
+    create: (context) => getIt<NetworkImageCubit>(),
+    child: const MadrasatiApp(),
+  ));
+  
 }
 
 class MadrasatiApp extends StatelessWidget {

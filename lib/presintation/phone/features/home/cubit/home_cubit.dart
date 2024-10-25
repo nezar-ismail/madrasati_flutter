@@ -29,7 +29,7 @@ class SchoolPagingCubit extends Cubit<SchoolPagingState> {
       final response = await schoolService.getAllSchools(
           page: currentPage,
           size: 10, // Adjust size as needed
-          token: await SecureStorageApi().getAccessToken() ?? "");
+          token: await SecureStorageApi.instance.getAccessToken() ?? "");
       if (response is SchoolHomePage) {
         currentPage++;
         hasMore = !response.empty; // Update hasMore based on response
@@ -41,6 +41,7 @@ class SchoolPagingCubit extends Cubit<SchoolPagingState> {
                   schoolType: school.schoolType,
                   rating: school.averageRating ?? 0.0,
                   id: school.id,
+                  imagePath: school.schoolCoverImage,
                 ))
             .toList());
             

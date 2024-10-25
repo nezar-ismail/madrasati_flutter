@@ -39,6 +39,22 @@ class API {
     }
   }
 
+Future getImage(String url, {Map<String, dynamic>? headers}) async {
+    
+    try {
+      log('url request: $url');
+      final Response response = await dio.get(
+        url,
+        options: jsonOptions.copyWith(responseType: ResponseType.bytes,headers: headers),
+      );
+
+      return response;
+    } on DioException catch (e) {
+      log('API Error message: ${e.message}');
+      if (e.response == null) rethrow;
+      return e.response!;
+    }
+  }
   /// post request
   ///
   /// Returns a [Future<Response>] containing the server response.
