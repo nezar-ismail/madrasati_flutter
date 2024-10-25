@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -12,7 +15,7 @@ class HomePage extends StatelessWidget {
     final schoolCubit = GetIt.I<SchoolCubit>();
 
     return BlocProvider(
-      create: (context) => schoolCubit..fetchSchools(), // Pass your token here
+      create: (context) => schoolCubit,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Welcome to Madrasati'),
@@ -20,21 +23,30 @@ class HomePage extends StatelessWidget {
         ),
         body: BlocBuilder<SchoolCubit, SchoolState>(
           builder: (context, state) {
-            if (state is SchoolLoading) {
-              return const Center(child: CircularProgressIndicator());
+            if (state is SchoolInitial) {
+              // Fetch schools on initial load
+              schoolCubit.fetchSchools();
+              return const Center(
+                  child:
+                      CircularProgressIndicator()); // Show loading indicator on initial load
             } else if (state is SchoolError) {
               return Center(child: Text(state.message));
             } else if (state is SchoolLoaded) {
-              return NotificationListener<ScrollNotification>(
-                onNotification: (ScrollNotification scrollInfo) {
-                  if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent && state.hasMore) {
-                    context.read<SchoolCubit>().fetchSchools();
+              return ScrollNotificationWidget(
+                scrollController: schoolCubit.scrollController,
+                hasMore: state.hasMore,
+                onScrollEnd: () {
+                  // Trigger fetch only if not already fetching
+                  if (!schoolCubit.isFetching) {
+                    schoolCubit.fetchSchools();
                   }
-                  return true;
                 },
                 child: ListView.builder(
-                  itemCount: state.schools.length + (state.hasMore ? 1 : 0), // Show loading indicator if more schools are available
+                  controller: schoolCubit.scrollController,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  itemCount: state.schools.length + (state.hasMore ? 1 : 0),
                   itemBuilder: (context, index) {
+                    
                     if (index == state.schools.length) {
                       return const Center(child: CircularProgressIndicator());
                     }
@@ -42,10 +54,13 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const SchoolDetailPage()),
+                          MaterialPageRoute(
+                            builder: (context) => const SchoolDetailPage(),
+                          ),
                         );
                       },
-                     child: state.schools[index], // This is now a widget
+                      child: state.schools[
+                          index], // Accessing schools only when SchoolLoaded
                     );
                   },
                 ),
@@ -55,6 +70,36 @@ class HomePage extends StatelessWidget {
           },
         ),
       ),
+    );
+  }
+}
+
+class ScrollNotificationWidget extends StatelessWidget {
+  final bool hasMore;
+  final VoidCallback onScrollEnd;
+  final Widget child;
+  final ScrollController scrollController;
+
+  const ScrollNotificationWidget({
+    super.key,
+    required this.hasMore,
+    required this.onScrollEnd,
+    required this.child,
+    required this.scrollController,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return NotificationListener<ScrollNotification>(
+      onNotification: (scrollInfo) {
+        if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
+            hasMore) {
+          onScrollEnd();
+         
+        }
+        return true;
+      },
+      child: child,
     );
   }
 }

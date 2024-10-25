@@ -12,20 +12,25 @@ class SchoolCubit extends Cubit<SchoolState> {
   final SchoolService schoolService;
   int currentPage = 0;
   bool hasMore = true;
+  bool isFetching =
+      false; // Added flag to prevent multiple simultaneous requests
   List<Widget> schools = []; // Store widgets for displaying
+  ScrollController scrollController = ScrollController();
 
   SchoolCubit(this.schoolService) : super(SchoolInitial());
 
   Future<void> fetchSchools() async {
-    if (!hasMore) return; // Stop fetching if no more pages
+    if (!hasMore || isFetching) return; // Stop fetching if no more pages or already fetching
 
+    isFetching = true; // Set fetching flag to true to prevent multiple calls
     emit(SchoolLoading());
 
     try {
       final response = await schoolService.getAllSchools(
-          page: currentPage, size: 10, token: await SecureStorageApi().getAccessToken()?? ""); // Adjust size as needed
+          page: currentPage,
+          size: 10, // Adjust size as needed
+          token: await SecureStorageApi().getAccessToken() ?? "");
       if (response is SchoolHomePage) {
-        // Make sure to check the response type
         currentPage++;
         hasMore = !response.empty; // Update hasMore based on response
         // Convert the fetched data to SchoolCard widgets
@@ -34,15 +39,25 @@ class SchoolCubit extends Cubit<SchoolState> {
                   key: ValueKey(school.id),
                   schoolName: school.schoolName,
                   schoolType: school.schoolType,
-                  rating: school.averageRating?? 0.0,
+                  rating: school.averageRating ?? 0.0,
                 ))
             .toList());
+            
         emit(SchoolLoaded(schools: schools, hasMore: hasMore));
       } else {
         emit(SchoolError('Failed to load schools'));
       }
     } catch (e) {
       emit(SchoolError(e.toString()));
+    } finally {
+      isFetching = false; // Reset the fetching flag when done
     }
+  }
+
+  @override
+  Future<void> close() {
+    scrollController
+        .dispose(); // Dispose of ScrollController when Cubit is closed
+    return super.close();
   }
 }
