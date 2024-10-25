@@ -80,7 +80,7 @@ class PostResponse implements ResponsModel {
   factory PostResponse.fromMap(Map<String, dynamic> map) {
     return PostResponse(
       content: List<Content>.from(
-        (map['content'] as List<int>).map<Content>(
+        (map['content'] as List<dynamic>).map<Content>(
           (x) => Content.fromMap(x as Map<String, dynamic>),
         ),
       ),

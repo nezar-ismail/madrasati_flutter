@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:madrasati/presintation/phone/features/home/cubit/home_cubit.dart';
-import 'package:madrasati/presintation/phone/features/school_info/school_details_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -43,12 +42,10 @@ class HomePage extends StatelessWidget {
                   physics: const AlwaysScrollableScrollPhysics(),
                   itemCount: state.schools.length + (state.hasMore ? 1 : 0),
                   itemBuilder: (context, index) {
-                    
                     if (index == state.schools.length) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    return state.schools[
-                        index];
+                    return state.schools[index];
                   },
                 ),
               );
@@ -82,7 +79,6 @@ class ScrollNotificationWidget extends StatelessWidget {
         if (scrollInfo.metrics.pixels == scrollInfo.metrics.maxScrollExtent &&
             hasMore) {
           onScrollEnd();
-         
         }
         return true;
       },

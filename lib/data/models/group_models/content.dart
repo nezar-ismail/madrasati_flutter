@@ -50,14 +50,14 @@ class Content {
 
   factory Content.fromMap(Map<String, dynamic> map) {
     return Content(
-        authorId: map['authorId'] as String,
-        caption: map['caption'] as String,
-        groupId: map['groupId'] as String,
-        imagePost: List<String>.from(map['imagePost'] as List<String>),
-        commentPost: List<String>.from(map['commentPost'] as List<String>),
-        likePost: List<String>.from(
-          (map['likePost'] as List<String>),
-        ));
+      authorId: map['authorId'] as String,
+      caption: map['caption'] as String,
+      groupId: map['groupId'] as String,
+      imagePost: List<String>.from(map['imagePost'].map((id) => id.toString())),
+      commentPost:
+          List<String>.from(map['commentPost'].map((id) => id.toString())),
+      likePost: List<String>.from(map['likePost'].map((id) => id.toString())),
+    );
   }
 
   String toJson() => json.encode(toMap());
