@@ -26,7 +26,7 @@ class StudentSignInBuilder extends StatelessWidget {
             final overlayState = Overlay.of(context);
             customSnackbar(
                 overlayState, "Sign in successfully", Icons.done, Colors.blue);
-            Navigator.push(
+            Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
                     builder: (context) => const StudentHomePage()));
