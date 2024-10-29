@@ -32,7 +32,7 @@ class SchoolPagingCubit extends Cubit<SchoolPagingState> {
           token: await SecureStorageApi.instance.getAccessToken() ?? "");
       if (response is SchoolHomePage) {
         currentPage++;
-        hasMore = !response.empty; // Update hasMore based on response
+        hasMore = !response.last; // Update hasMore based on response
         // Convert the fetched data to SchoolCard widgets
         schools.addAll(response.content
             .map((school) => SchoolCard(
