@@ -104,4 +104,28 @@ class SMangerBox {
   static String? getGender() {
     return getUser()?.gender;
   }
+
+  // Save schoolId
+  static Future<void> putSchoolId(String schoolId) async {
+    var user = getUser() ?? LocalSManger();
+    user.schoolId = schoolId;
+    await saveUser(user);
+  }
+
+  // Get schoolId
+  static String? getSchoolId() {
+    return getUser()?.schoolId;
+  }
+
+  // Save groupId
+  static Future<void> putGroupId(String groupId) async {
+    var user = getUser() ?? LocalSManger();
+    user.groupId = groupId;
+    await saveUser(user);
+  }
+
+  // Get groupId
+  static String? getGroupId() {
+    return getUser()?.groupId;
+  }
 }

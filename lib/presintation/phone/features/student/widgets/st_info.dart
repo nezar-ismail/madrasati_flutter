@@ -17,7 +17,7 @@ class ContainerStudentInfo extends StatelessWidget {
     return BlocBuilder<UserProfileCubit, LocalStudent?>(
       builder: (context, user) {
         if (user != null) {
-          final imageFullPath = '${ApiConstants.baseUrl}/${user.imagePath!}';
+          final imageFullPath = '${ApiConstants.baseUrl}/${user.imagePath??''}';
           networkImageCubit.fetchImage(imageFullPath);
         }
 

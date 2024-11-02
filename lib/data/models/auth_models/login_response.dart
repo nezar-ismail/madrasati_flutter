@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:madrasati/data/models/auth_models/data.dart';
+
 import 'user.dart';
 
 class LoginResponse {
@@ -7,11 +9,13 @@ class LoginResponse {
   String? token;
   DateTime? expiryDate;
   Student? user;
+  Data? data;
   LoginResponse({
     this.accessToken,
     this.token,
     this.expiryDate,
     this.user,
+    this.data,
   });
 
   LoginResponse copyWith({
@@ -19,8 +23,10 @@ class LoginResponse {
     String? token,
     DateTime? expiryDate,
     Student? user,
+    Data? data,
   }) {
     return LoginResponse(
+      data: data ?? this.data,
       accessToken: accessToken ?? this.accessToken,
       token: token ?? this.token,
       expiryDate: expiryDate ?? this.expiryDate,
@@ -34,6 +40,7 @@ class LoginResponse {
       'token': token,
       'expiryDate': expiryDate?.millisecondsSinceEpoch,
       'user': user?.toMap(),
+      'data': data?.toMap(),
     };
   }
 
@@ -48,6 +55,9 @@ class LoginResponse {
       user: map['user'] != null
           ? Student.fromMap(map['user'] as Map<String, dynamic>)
           : null,
+      data: map['data'] != null
+          ? Data.fromMap(map['data'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -58,7 +68,7 @@ class LoginResponse {
 
   @override
   String toString() {
-    return 'LoginResponse(accessToken: $accessToken, token: $token, expiryDate: $expiryDate, user: $user)';
+    return 'LoginResponse(accessToken: $accessToken, token: $token, expiryDate: $expiryDate, user: $user, data: $data)';
   }
 
   @override
@@ -68,7 +78,8 @@ class LoginResponse {
     return other.accessToken == accessToken &&
         other.token == token &&
         other.expiryDate == expiryDate &&
-        other.user == user;
+        other.user == user &&
+        other.data == data;
   }
 
   @override
@@ -76,6 +87,7 @@ class LoginResponse {
     return accessToken.hashCode ^
         token.hashCode ^
         expiryDate.hashCode ^
-        user.hashCode;
+        user.hashCode ^ 
+        data.hashCode;
   }
 }

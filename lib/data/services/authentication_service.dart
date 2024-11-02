@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
 import 'package:madrasati/data/hive/school/s_manger_box.dart';
@@ -36,8 +38,12 @@ class AuthService {
             imagePath: data['user']['imagePath'],
             birthDate: data['user']['birthDate'],
             gender: data['user']['gender'],
+            schoolId: data['data']['school'],
+            groupId: data['data']['group'],
             
           );
+
+           log('Service: schoolSignIn: $student');
           // Save student data to Hive
           await UserBox.saveUser(student);
 

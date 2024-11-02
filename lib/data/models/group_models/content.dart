@@ -7,13 +7,27 @@ class Content {
   String authorId;
   String caption;
   String groupId;
-  List<String> imagePost;
-  List<String> commentPost;
-  List<String> likePost;
+  String postId;
+  String schoolImagePath;
+  String postCreatedAt;
+  int numberOfComment;
+  int numberOfLike;
+  bool isLiked;
+  bool withImage;
+  List<dynamic> imagePost;
+  List<dynamic> commentPost;
+  List<dynamic> likePost;
   Content({
     required this.authorId,
     required this.caption,
     required this.groupId,
+    required this.postId,
+    required this.schoolImagePath,
+    required this.postCreatedAt,
+    required this.numberOfComment,
+    required this.numberOfLike,
+    required this.isLiked,
+    required this.withImage,
     required this.imagePost,
     required this.commentPost,
     required this.likePost,
@@ -23,6 +37,13 @@ class Content {
     String? authorId,
     String? caption,
     String? groupId,
+    String? postId,
+    String? schoolImagePath,
+    String? postCreatedAt,
+    int? numberOfComment,
+    int? numberOfLike,
+    bool? isLiked,
+    bool? withImage,
     List<String>? imagePost,
     List<String>? commentPost,
     List<String>? likePost,
@@ -31,6 +52,13 @@ class Content {
       authorId: authorId ?? this.authorId,
       caption: caption ?? this.caption,
       groupId: groupId ?? this.groupId,
+      postId: postId ?? this.postId,
+      schoolImagePath: schoolImagePath ?? this.schoolImagePath,
+      postCreatedAt: postCreatedAt ?? this.postCreatedAt,
+      numberOfComment: numberOfComment ?? this.numberOfComment,
+      numberOfLike: numberOfLike ?? this.numberOfLike,
+      isLiked: isLiked ?? this.isLiked,
+      withImage: withImage ?? this.withImage,
       imagePost: imagePost ?? this.imagePost,
       commentPost: commentPost ?? this.commentPost,
       likePost: likePost ?? this.likePost,
@@ -42,6 +70,13 @@ class Content {
       'authorId': authorId,
       'caption': caption,
       'groupId': groupId,
+      'postId': postId,
+      'schoolImagePath': schoolImagePath,
+      'postCreatedAt': postCreatedAt,
+      'numberOfComment': numberOfComment,
+      'numberOfLike': numberOfLike,
+      'isLiked': isLiked,
+      'withImage': withImage,
       'imagePost': imagePost,
       'commentPost': commentPost,
       'likePost': likePost,
@@ -53,42 +88,63 @@ class Content {
       authorId: map['authorId'] as String,
       caption: map['caption'] as String,
       groupId: map['groupId'] as String,
-      imagePost: List<String>.from(map['imagePost'].map((id) => id.toString())),
-      commentPost:
-          List<String>.from(map['commentPost'].map((id) => id.toString())),
-      likePost: List<String>.from(map['likePost'].map((id) => id.toString())),
-    );
+      postId: map['postId'] as String,
+      schoolImagePath: map['schoolImagePath'] as String,
+      postCreatedAt: map['createdAt'] as String,
+      numberOfComment: map['commentCount'] as int,
+      numberOfLike: map['likeCount'] as int,
+      isLiked: map['userLiked'] as bool,
+      withImage: map['withImage'] as bool,
+      imagePost: List<dynamic>.from((map['imagePost'] as List<dynamic>)),
+      commentPost: List<dynamic>.from((map['commentPost'] as List<dynamic>)),
+      likePost: List<dynamic>.from((map['likePost'] as List<dynamic>),
+    ));
   }
+
 
   String toJson() => json.encode(toMap());
 
-  factory Content.fromJson(String source) =>
-      Content.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Content.fromJson(String source) => Content.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'Content(authorId: $authorId, caption: $caption, groupId: $groupId, imagePost: $imagePost, commentPost: $commentPost, likePost: $likePost)';
+    return 'Content(authorId: $authorId, caption: $caption, groupId: $groupId, postId: $postId, schoolImagePath: $schoolImagePath, postCreatedAt: $postCreatedAt, numberOfComment: $numberOfComment, numberOfLike: $numberOfLike, isLiked: $isLiked, withImage: $withImage, imagePost: $imagePost, commentPost: $commentPost, likePost: $likePost)';
   }
 
   @override
   bool operator ==(covariant Content other) {
     if (identical(this, other)) return true;
-
-    return other.authorId == authorId &&
-        other.caption == caption &&
-        other.groupId == groupId &&
-        listEquals(other.imagePost, imagePost) &&
-        listEquals(other.commentPost, commentPost) &&
-        listEquals(other.likePost, likePost);
+  
+    return 
+      other.authorId == authorId &&
+      other.caption == caption &&
+      other.groupId == groupId &&
+      other.postId == postId &&
+      other.schoolImagePath == schoolImagePath &&
+      other.postCreatedAt == postCreatedAt &&
+      other.numberOfComment == numberOfComment &&
+      other.numberOfLike == numberOfLike &&
+      other.isLiked == isLiked &&
+      other.withImage == withImage &&
+      listEquals(other.imagePost, imagePost) &&
+      listEquals(other.commentPost, commentPost) &&
+      listEquals(other.likePost, likePost);
   }
 
   @override
   int get hashCode {
     return authorId.hashCode ^
-        caption.hashCode ^
-        groupId.hashCode ^
-        imagePost.hashCode ^
-        commentPost.hashCode ^
-        likePost.hashCode;
+      caption.hashCode ^
+      groupId.hashCode ^
+      postId.hashCode ^
+      schoolImagePath.hashCode ^
+      postCreatedAt.hashCode ^
+      numberOfComment.hashCode ^
+      numberOfLike.hashCode ^
+      isLiked.hashCode ^
+      withImage.hashCode ^
+      imagePost.hashCode ^
+      commentPost.hashCode ^
+      likePost.hashCode;
   }
 }
