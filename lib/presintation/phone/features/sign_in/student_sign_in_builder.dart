@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/services/authentication_service.dart';
 import 'package:madrasati/presintation/core/utils/coustum_loading.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/cubit/sign_in_cubit.dart';
@@ -13,7 +14,7 @@ class StudentSignInBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<SignInCubit>(),
+      create: (context) => SignInCubit(getIt<AuthService>()),
       child: BlocConsumer<SignInCubit, SignInState>(
         builder: (context, state) {
           if (state is SignInLoading) {

@@ -22,6 +22,12 @@ class LocalStudent {
   @HiveField(5)
   String? gender;
 
+    @HiveField(6)
+  String? schoolId;
+
+  @HiveField(7)
+  String? groupId;
+
   LocalStudent({
     this.userEmail,
     this.firstName,
@@ -29,5 +35,7 @@ class LocalStudent {
     this.imagePath,
     this.birthDate,
     this.gender,
+    this.schoolId,
+    this.groupId,
   });
 }

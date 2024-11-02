@@ -15,7 +15,7 @@ class SchoolProfilepage implements ResponsModel {
   String schoolPhoneNumber;
   int schoolStudentCount;
   String schoolLocation;
-  double averageRating;
+  Map<String, dynamic> averageRating;
   String schoolEmail;
   List<String> schoolFeedBacks;
   List<String> schoolImages;
@@ -43,7 +43,7 @@ class SchoolProfilepage implements ResponsModel {
     String? schoolPhoneNumber,
     int? schoolStudentCount,
     String? schoolLocation,
-    double? averageRating,
+    Map<String, dynamic>? averageRating,
     String? schoolEmail,
     List<String>? schoolFeedBacks,
     List<String>? schoolImages,
@@ -91,7 +91,7 @@ class SchoolProfilepage implements ResponsModel {
       schoolPhoneNumber: map['schoolPhoneNumber'] as String,
       schoolStudentCount: map['schoolStudentCount'] as int,
       schoolLocation: map['schoolLocation'] as String,
-      averageRating: map['averageRating'] as double,
+      averageRating: map['averageRating'] as Map<String, dynamic>,
       schoolEmail: map['schoolEmail'] as String,
       schoolFeedBacks: List<String>.from((map['schoolFeedBacks'] as List<dynamic>)),
       schoolImages: List<String>.from((map['schoolImages'] as List<dynamic>)),

@@ -23,6 +23,8 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
       imagePath: fields[3] as String?,
       birthDate: fields[4] as String?,
       gender: fields[5] as String?,
+      schoolId: fields[6] as String?,
+      groupId: fields[7] as String?,
     );
   }
 
@@ -41,7 +43,11 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
       ..writeByte(4)
       ..write(obj.birthDate)
       ..writeByte(5)
-      ..write(obj.gender);
+      ..write(obj.gender)
+      ..writeByte(6)
+      ..write(obj.schoolId)
+      ..writeByte(7)
+      ..write(obj.groupId);
   }
 
   @override
@@ -52,5 +58,5 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
       identical(this, other) ||
       other is LocalStudentAdapter &&
           runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+          typeId == other.typeId ;
 }

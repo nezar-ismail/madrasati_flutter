@@ -1,59 +1,63 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/phone/features/home/cubit/home_cubit.dart';
+import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final schoolCubit = GetIt.I<SchoolPagingCubit>();
-
-    return BlocProvider(
-      create: (context) => schoolCubit,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => getIt<SchoolPagingCubit>()..fetchSchools()),
+        BlocProvider(create: (context) => getIt<SchoolInfoCubit>()),
+        
+      ],
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Welcome to Madrasati'),
           centerTitle: true,
         ),
-        body: BlocBuilder<SchoolPagingCubit, SchoolPagingState>(
+        body: BlocConsumer<SchoolPagingCubit, SchoolPagingState>(
           builder: (context, state) {
-            if (state is SchoolInitial) {
-              // Fetch schools on initial load
-              schoolCubit.fetchSchools();
-              return const Center(
-                  child:
-                      CircularProgressIndicator()); // Show loading indicator on initial load
-            } else if (state is SchoolError) {
-              return Center(child: Text(state.message));
-            } else if (state is SchoolLoaded) {
-              return ScrollNotificationWidget(
-                scrollController: schoolCubit.scrollController,
-                hasMore: state.hasMore,
-                onScrollEnd: () {
-                  // Trigger fetch only if not already fetching
-                  if (!schoolCubit.isFetching) {
-                    schoolCubit.fetchSchools();
+            final cubit = context.read<SchoolPagingCubit>();
+            return ScrollNotificationWidget(
+              scrollController: cubit.scrollController,
+              hasMore: cubit.hasMore,
+              onScrollEnd: () {
+                if (!cubit.isFetching && cubit.hasMore) {
+                  cubit.fetchSchools();
+                }
+              },
+              child: ListView.builder(
+                controller: cubit.scrollController,
+                itemCount: cubit.schools.length + (cubit.hasMore ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index == cubit.schools.length) {
+                    return const Center(child: CircularProgressIndicator());
                   }
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: cubit.schools[index],
+                  );
                 },
-                child: ListView.builder(
-                  controller: schoolCubit.scrollController,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  itemCount: state.schools.length + (state.hasMore ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index == state.schools.length) {
-                      return const Center(child: CircularProgressIndicator());
-                    }
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: state.schools[index],
-                    );
-                  },
+              ),
+            );
+          }, listener: (BuildContext context, SchoolPagingState state) {
+            if (state is SchoolError) {
+              log(state.message);
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  backgroundColor: Colors.red,
+                  content: Text("${state.message} Please check your internet connection and try again"),
                 ),
               );
+            }else if (state is SchoolLoading) {
+            log('SchoolLoading');
             }
-            return const Center(child: Text('No schools available.'));
           },
         ),
       ),

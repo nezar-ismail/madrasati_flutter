@@ -1,9 +1,12 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/presintation/core/utils/button_service.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/school_group/school_group.dart';
+import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 import 'package:madrasati/presintation/phone/features/student/widgets/st_info.dart';
 
 class StudentHomePage extends StatelessWidget {
@@ -34,16 +37,22 @@ class StudentHomePage extends StatelessWidget {
                         fontSize: scaleText(20, context),
                         fontWeight: FontWeight.bold),
                   ),
-                  ButtonService(
-                    onPressed: () {
-                      log('Pressed School Group');
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const SchoolGroup()));
+                  BlocBuilder<UserProfileCubit, LocalStudent?>(
+                    builder: (context, user) {
+                      return ButtonService(
+                        onPressed: () {
+                          log('Pressed School Group');
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SchoolGroup(
+                                        groupId: user?.groupId ?? '',
+                                      )));
+                        },
+                        text: 'School Group',
+                        color: Colors.blue,
+                      );
                     },
-                    text: 'School Group',
-                    color: Colors.blue,
                   ),
                   ButtonService(
                     onPressed: () {

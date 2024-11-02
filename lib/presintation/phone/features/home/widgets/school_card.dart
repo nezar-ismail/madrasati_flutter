@@ -1,8 +1,8 @@
 import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/home/widgets/school_card_info.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
@@ -27,6 +27,7 @@ class SchoolCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageCubit = context.read<NetworkImageCubit>();
+    final schoolInfoCubit = context.read<SchoolInfoCubit>();
     final imageFullPath = ApiConstants.baseUrl + imagePath;
 
     // Check if image has already been loaded to avoid redundant fetches
@@ -36,14 +37,17 @@ class SchoolCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-      Navigator.push(
+        // Use the existing cubit instance and fetch the info needed
+        schoolInfoCubit.getSchoolInfo(schoolId: id);
+        
+        Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => BlocProvider(
-                    create: (context) => getIt<SchoolInfoCubit>()
-                      ..getSchoolInfo(schoolId: id),
-                    child: SchoolDetailPage(),
-                  )),
+            builder: (context) => BlocProvider.value(
+              value: schoolInfoCubit,
+              child: SchoolDetailPage(),
+            ),
+          ),
         );
       },
       child: Container(
@@ -65,13 +69,13 @@ class SchoolCard extends StatelessWidget {
         child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
           builder: (context, state) {
             if (state is ImageLoading) {
-              return Center(child: CircularProgressIndicator());
+              return const Center(child: CircularProgressIndicator());
             } else if (state is ImageLoaded) {
               return _buildImageContent(state.imageData, context);
             } else if (state is ImageError) {
-              return Center(child: Icon(Icons.error));
+              return const Center(child: Icon(Icons.error));
             }
-            return SizedBox.shrink(); // Placeholder for initial state
+            return const SizedBox.shrink(); // Placeholder for initial state
           },
         ),
       ),
@@ -90,7 +94,6 @@ class SchoolCard extends StatelessWidget {
       child: Padding(
         padding: EdgeInsets.only(
           top: MediaQuery.of(context).size.height * 0.18,
-          
         ),
         child: SchoolCardInfo(
           schoolName: schoolName,

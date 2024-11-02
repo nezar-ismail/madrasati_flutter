@@ -23,7 +23,6 @@ class API {
   ///
   /// Returns a [Future<Response>] containing the server response.
   Future<Response> get(String url, {Map<String, dynamic>? headers}) async {
-    
     try {
       log('url request: $url');
       final Response response = await dio.get(
@@ -39,13 +38,13 @@ class API {
     }
   }
 
-Future getImage(String url, {Map<String, dynamic>? headers}) async {
-    
+  Future getImage(String url, {Map<String, dynamic>? headers}) async {
     try {
       log('url request: $url');
       final Response response = await dio.get(
         url,
-        options: jsonOptions.copyWith(responseType: ResponseType.bytes,headers: headers),
+        options: jsonOptions.copyWith(
+            responseType: ResponseType.bytes, headers: headers),
       );
 
       return response;
@@ -55,6 +54,7 @@ Future getImage(String url, {Map<String, dynamic>? headers}) async {
       return e.response!;
     }
   }
+
   /// post request
   ///
   /// Returns a [Future<Response>] containing the server response.
@@ -63,7 +63,6 @@ Future getImage(String url, {Map<String, dynamic>? headers}) async {
     Map<String, dynamic>? headers,
     Object? body,
   }) async {
-     
     try {
       final Response response;
       // Check if the body is a dio FormData.
@@ -97,7 +96,7 @@ Future getImage(String url, {Map<String, dynamic>? headers}) async {
   Future<Response> put(String url,
       {Map<String, dynamic>? headers, Map<String, dynamic>? body}) async {
     // Send a PUT request to the server and await the response.
-    
+
     try {
       final Response response = await dio.put(
         url,
@@ -118,7 +117,7 @@ Future getImage(String url, {Map<String, dynamic>? headers}) async {
   Future<Response> putImage(String url,
       {Map<String, dynamic>? headers, Object? body}) async {
     // Send a PUT request to the server and await the response.
-   
+
     try {
       final Response response = await dio.put(
         url,
@@ -138,7 +137,7 @@ Future getImage(String url, {Map<String, dynamic>? headers}) async {
   /// Returns a [Future<Response>] containing the server response.
   Future<Response> delete(String url, {Map<String, dynamic>? headers}) async {
     // Send a DELETE request to the server and await the response.
-   
+
     try {
       final Response response = await dio.delete(
         url,
