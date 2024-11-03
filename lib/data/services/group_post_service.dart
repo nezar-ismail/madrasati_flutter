@@ -113,20 +113,32 @@ class GroupPostService {
   //   }
   // }
 
-  // Future<ResponsModel> addLike({
-  //   required String postId,
-  //   required String token,
-  // }) async {
-  //   try {
-  //     Response response = await _groupPostApi.addLike(
-  //       postId: postId,
-  //       token: token,
-  //     );
-  //     return _handleResponse(response);
-  //   } catch (e) {
-  //     throw InternalException("Failed to add like: ${e.toString()}");
-  //   }
-  // }
+  Future<ResponsModel> addLike({
+    required String postId,
+    required String token,
+  }) async {
+    try {
+      Response response = await _groupPostApi.addLike(
+        postId: postId,
+        token: token,
+      );
+          switch (response.statusCode) {
+        case 200:
+          final data = PostResponse.fromMap(response.data['data']);
+          if (data.empty) {
+            return EmptyResponse();
+          }
+          return data;
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw InternalException("Failed to fetch posts");
+      }
+    } catch (e) {
+      throw InternalException("Failed to add like: ${e.toString()}");
+    }
+  }
 
   // Future<ResponsModel> removeLike({
   //   required String postId,
