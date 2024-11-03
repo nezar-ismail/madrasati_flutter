@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:madrasati/data/models/group_models/group_post_page.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/data/services/group_post_service.dart';
-import 'package:madrasati/presintation/phone/features/school_group/school_group.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_card/post_card.dart';
 
 part 'groupe_post_pagination_state.dart';
 
@@ -44,6 +44,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
                 likeCount: post.numberOfLike.toString(),
                 commentCount: post.numberOfComment.toString(),
                 isLiked: post.isLiked,
+                withImage: post.withImage,
                 postId: post.postId,
               ),
             )

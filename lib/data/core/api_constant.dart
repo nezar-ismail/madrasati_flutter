@@ -1,5 +1,5 @@
 class BaseUrl {
-  static const String ipAddress = "http://10.0.2.2";
+  static const String ipAddress = "http://192.168.1.26";
   static const String port = "8080";
   static final String baseUrl = '$ipAddress:$port';  
 }
