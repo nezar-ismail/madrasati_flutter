@@ -15,8 +15,6 @@ class Content {
   bool isLiked;
   bool withImage;
   List<dynamic> imagePost;
-  List<dynamic> commentPost;
-  List<dynamic> likePost;
   Content({
     required this.authorId,
     required this.caption,
@@ -29,8 +27,6 @@ class Content {
     required this.isLiked,
     required this.withImage,
     required this.imagePost,
-    required this.commentPost,
-    required this.likePost,
   });
 
   Content copyWith({
@@ -45,8 +41,6 @@ class Content {
     bool? isLiked,
     bool? withImage,
     List<String>? imagePost,
-    List<String>? commentPost,
-    List<String>? likePost,
   }) {
     return Content(
       authorId: authorId ?? this.authorId,
@@ -60,8 +54,6 @@ class Content {
       isLiked: isLiked ?? this.isLiked,
       withImage: withImage ?? this.withImage,
       imagePost: imagePost ?? this.imagePost,
-      commentPost: commentPost ?? this.commentPost,
-      likePost: likePost ?? this.likePost,
     );
   }
 
@@ -78,8 +70,6 @@ class Content {
       'isLiked': isLiked,
       'withImage': withImage,
       'imagePost': imagePost,
-      'commentPost': commentPost,
-      'likePost': likePost,
     };
   }
 
@@ -95,10 +85,7 @@ class Content {
       numberOfLike: map['likeCount'] as int,
       isLiked: map['userLiked'] as bool,
       withImage: map['withImage'] as bool,
-      imagePost: List<dynamic>.from((map['imagePost'] as List<dynamic>)),
-      commentPost: List<dynamic>.from((map['commentPost'] as List<dynamic>)),
-      likePost: List<dynamic>.from((map['likePost'] as List<dynamic>),
-    ));
+      imagePost: List<dynamic>.from((map['imagePost'] as List<dynamic>),),);
   }
 
 
@@ -108,7 +95,7 @@ class Content {
 
   @override
   String toString() {
-    return 'Content(authorId: $authorId, caption: $caption, groupId: $groupId, postId: $postId, schoolImagePath: $schoolImagePath, postCreatedAt: $postCreatedAt, numberOfComment: $numberOfComment, numberOfLike: $numberOfLike, isLiked: $isLiked, withImage: $withImage, imagePost: $imagePost, commentPost: $commentPost, likePost: $likePost)';
+    return 'Content(authorId: $authorId, caption: $caption, groupId: $groupId, postId: $postId, schoolImagePath: $schoolImagePath, postCreatedAt: $postCreatedAt, numberOfComment: $numberOfComment, numberOfLike: $numberOfLike, isLiked: $isLiked, withImage: $withImage, imagePost: $imagePost)';
   }
 
   @override
@@ -126,9 +113,7 @@ class Content {
       other.numberOfLike == numberOfLike &&
       other.isLiked == isLiked &&
       other.withImage == withImage &&
-      listEquals(other.imagePost, imagePost) &&
-      listEquals(other.commentPost, commentPost) &&
-      listEquals(other.likePost, likePost);
+      listEquals(other.imagePost, imagePost);
   }
 
   @override
@@ -143,8 +128,6 @@ class Content {
       numberOfLike.hashCode ^
       isLiked.hashCode ^
       withImage.hashCode ^
-      imagePost.hashCode ^
-      commentPost.hashCode ^
-      likePost.hashCode;
+      imagePost.hashCode;
   }
 }

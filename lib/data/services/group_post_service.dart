@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/errors/global_exception.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
@@ -122,13 +121,9 @@ class GroupPostService {
         postId: postId,
         token: token,
       );
-          switch (response.statusCode) {
-        case 200:
-          final data = PostResponse.fromMap(response.data['data']);
-          if (data.empty) {
+      switch (response.statusCode) {
+        case 204:
             return EmptyResponse();
-          }
-          return data;
         default:
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);
@@ -140,18 +135,26 @@ class GroupPostService {
     }
   }
 
-  // Future<ResponsModel> removeLike({
-  //   required String postId,
-  //   required String token,
-  // }) async {
-  //   try {
-  //     Response response = await _groupPostApi.removeLike(
-  //       postId: postId,
-  //       token: token,
-  //     );
-  //     return _handleResponse(response);
-  //   } catch (e) {
-  //     throw InternalException("Failed to remove like: ${e.toString()}");
-  //   }
-  // }
+  Future<ResponsModel> removeLike({
+    required String postId,
+    required String token,
+  }) async {
+    try {
+      Response response = await _groupPostApi.removeLike(
+        postId: postId,
+        token: token,
+      );
+      switch (response.statusCode) {
+        case 204:
+            return EmptyResponse();
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw InternalException("Failed to fetch posts");
+      }
+    } catch (e) {
+      throw InternalException("Failed to remove like: ${e.toString()}");
+    }
+  }
 }

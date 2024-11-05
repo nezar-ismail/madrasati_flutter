@@ -11,18 +11,20 @@ class PostBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      caption,
-      style: const TextStyle(fontFamily: 'Roboto'),
-      maxLines: 3,
-      overflow: TextOverflow.ellipsis,
-      softWrap: false,
-      textAlign: TextAlign.justify,
-      textDirection: TextDirection.ltr,
-      textScaleFactor: 1.0,
-      textWidthBasis: TextWidthBasis.parent,
-      textHeightBehavior: null,
-      
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        caption,
+        style: const TextStyle(fontFamily: 'Roboto'),
+        maxLines: 3,
+        overflow: TextOverflow.ellipsis,
+        softWrap: false,
+        textAlign: TextAlign.justify,
+        textDirection: TextDirection.ltr,
+        textScaleFactor: 1.0,
+        textWidthBasis: TextWidthBasis.parent,
+        textHeightBehavior: null,
+      ),
     );
   }
 }

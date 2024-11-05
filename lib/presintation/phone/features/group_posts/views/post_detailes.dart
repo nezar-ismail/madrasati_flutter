@@ -15,9 +15,10 @@ class PostDetails extends StatelessWidget {
     required this.commentCount,
     required this.isLiked,
     required this.withImage,
-    required this.postId,
+    required this.postId, this.imagePost,
   });
 
+  final List<dynamic>? imagePost;
   final String schoolImage;
   final String caption;
   final String postCreatedAt;
@@ -41,10 +42,10 @@ class PostDetails extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DetailsHeader(
-              postCreatedAt: postCreatedAt,
+              postCreatedAt: postCreatedAt, schoolImage: schoolImage, schoolName:'School Name' ,
             ),
             const SizedBox(height: 12.0),
-            DetailesBody(caption: caption, withImage: withImage),
+            DetailesBody(caption: caption, withImage: withImage, imagePost: imagePost,),
             const SizedBox(height: 12.0),
             DetailesFooter(
               likeCount: likeCount,

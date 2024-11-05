@@ -1,6 +1,10 @@
+import 'dart:developer';
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_card/post_body.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/views/post_detailes.dart';
@@ -18,6 +22,7 @@ class PostCard extends StatelessWidget {
     required this.isLiked,
     required this.withImage,
     required this.postId,
+    required this.imagePost,
   });
 
   final String schoolImage;
@@ -28,6 +33,7 @@ class PostCard extends StatelessWidget {
   final bool isLiked;
   final bool withImage;
   final String postId;
+  final List<dynamic>? imagePost;
 
   @override
   Widget build(BuildContext context) {
@@ -36,13 +42,9 @@ class PostCard extends StatelessWidget {
     final padding = screenWidth * 0.02;
     final borderRadius = screenWidth * 0.04;
 
-    if (withImage) {
-      final imageCubit = context.read<NetworkImageCubit>();
-      final imageFullPath = ApiConstants.baseUrl + schoolImage;
-      if (imageCubit.state is! ImageLoaded) {
-        imageCubit.fetchImage(imageFullPath);
-      }
-    }
+    final postMainImageCubit = getIt<NetworkImageCubit>();
+    final imageFullPath = ApiConstants.baseUrl + schoolImage;
+    postMainImageCubit.fetchImage(imageFullPath);
 
     return Container(
       margin: EdgeInsets.all(margin),
@@ -59,10 +61,25 @@ class PostCard extends StatelessWidget {
           ),
         ],
       ),
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.5,
-        ),
+      child: GestureDetector(
+        onTap: () {
+          log('Post ID: $postId');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => PostDetails(
+                schoolImage: schoolImage,
+                caption: caption,
+                postCreatedAt: postCreatedAt,
+                likeCount: likeCount,
+                commentCount: commentCount,
+                isLiked: isLiked,
+                withImage: withImage,
+                postId: postId,
+              ),
+            ),
+          );
+        },
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -73,75 +90,121 @@ class PostCard extends StatelessWidget {
             ),
 
             // Post Body
-            Expanded(
-              child: Column(
-                children: [
-                  Expanded(child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PostDetails(
-                            schoolImage: schoolImage,
-                            caption: caption,
-                            postCreatedAt: postCreatedAt,
-                            likeCount: likeCount,
-                            commentCount: commentCount,
-                            isLiked: isLiked,
-                            withImage: withImage, postId: postId,),
-                        ),
-                      );
-                    },
-                    child: PostBody(caption: '${caption}000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'))),
-                  withImage
-                      ? Expanded(
-                          flex: 2,
-                          child:
-                              _getImage(),
-                        )
-                      : Container(),
-                ],
-              ),
+            PostBody(
+              caption: caption,
             ),
 
+            // Optional Post Image
+            if (withImage && imagePost != null && imagePost!.isNotEmpty)
+              SizedBox(
+                height: 200, // Adjust height
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: imagePost!.length,
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () => _showImageSlider(context, imagePost!, index),
+                      child: BlocProvider(
+                        create: (context) => getIt<NetworkImageCubit>()
+                          ..fetchImage(
+                              ApiConstants.baseUrl + imagePost![index]),
+                        child:
+                            BlocBuilder<NetworkImageCubit, NetworkImageState>(
+                          builder: (context, state) {
+                            if (state is ImageLoading) {
+                              return Container(
+                                width: 200,
+                                color: const Color.fromARGB(255, 60, 60, 60),
+                                child: const CircularProgressIndicator(),
+                              );
+                            } else if (state is ImageLoaded) {
+                              return Container(
+                                width: screenWidth * 0.8,
+                                margin: const EdgeInsets.only(right: 8.0),
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: MemoryImage(state.imageData),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              );
+                            } else if (state is ImageError) {
+                              return Container(
+                                width: 200,
+                                color: Colors.grey[300],
+                                child: const Icon(Icons.error),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
             // Post Footer
             PostFooter(
               likeCount: likeCount,
               commentCount: commentCount,
-              isLiked: isLiked,
+              isLiked: isLiked, postId: postId,
             ),
           ],
         ),
       ),
     );
   }
+}
 
-  BlocBuilder<NetworkImageCubit, NetworkImageState> _getImage() {
-    return BlocBuilder<NetworkImageCubit, NetworkImageState>(
-                          builder: (context, state) {
-                            if (state is ImageLoading) {
-                              return Container(
-                                color: Colors.grey[300],
-                                child: const CircularProgressIndicator(),
-                              );
-                            } else if (state is ImageLoaded) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                    image: DecorationImage(
-                                  image: MemoryImage(state.imageData),
-                                  fit: BoxFit.cover,
-                                )),
-                              );
-                            } else if (state is ImageError) {
-                              return Container(
-                                color: Colors.grey[300],
-                                child: const Icon(Icons.error),
-                              );
-                            }
-                            return Container(
-                              color: Colors.grey[300],
-                            ); // Placeholder for initial state
-                          },
-                        );
-  }
+void _showImageSlider(
+    BuildContext context, List<dynamic> imageUrls, int initialIndex) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return Dialog(
+        insetPadding: EdgeInsets.zero,
+        backgroundColor: Colors.black,
+        child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          child: CarouselSlider.builder(
+            itemCount: imageUrls.length,
+            options: CarouselOptions(
+              initialPage: initialIndex,
+              enableInfiniteScroll: false,
+              enlargeCenterPage: true,
+              viewportFraction: 1.0,
+              aspectRatio: MediaQuery.of(context).size.aspectRatio,
+            ),
+            itemBuilder: (context, index, _) {
+              final imageUrl = ApiConstants.baseUrl + imageUrls[index];
+              return BlocProvider(
+                create: (context) =>
+                    getIt<NetworkImageCubit>()..fetchImage(imageUrl),
+                child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
+                  builder: (context, state) {
+                    if (state is ImageLoading) {
+                      return const Center(child: CircularProgressIndicator());
+                    } else if (state is ImageLoaded) {
+                      return Image.memory(
+                        state.imageData,
+                        fit: BoxFit.contain,
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height,
+                      );
+                    } else if (state is ImageError) {
+                      return Center(
+                        child: Icon(Icons.error, color: Colors.red, size: 60),
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+              );
+            },
+          ),
+        ),
+      );
+    },
+  );
 }

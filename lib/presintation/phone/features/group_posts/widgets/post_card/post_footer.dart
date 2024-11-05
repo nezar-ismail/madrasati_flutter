@@ -1,23 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 
 class PostFooter extends StatelessWidget {
   const PostFooter({
     super.key,
     required this.likeCount,
     required this.commentCount,
-    required this.isLiked,
+    required this.isLiked, required this.postId,
   });
 
   final String likeCount;
   final String commentCount;
   final bool isLiked;
+  final String postId;
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final iconSize = screenWidth * 0.06; // Dynamic icon size based on screen width
-    final fontSize = screenWidth * 0.04; // Dynamic font size based on screen width
+    final iconSize =
+        screenWidth * 0.06; // Dynamic icon size based on screen width
+    final fontSize =
+        screenWidth * 0.04; // Dynamic font size based on screen width
     final padding = screenWidth * 0.02; // Dynamic padding based on screen width
 
     return Row(
@@ -76,15 +82,89 @@ class PostFooter extends StatelessWidget {
             ),
             child: Column(
               children: [
-                IconButton(
-                  iconSize: iconSize,
-                  icon: Icon(
-                    isLiked ? FontAwesomeIcons.solidThumbsUp : FontAwesomeIcons.thumbsUp,
-                    color: isLiked ? Colors.blue : Colors.grey.shade800,
+                BlocProvider(
+                  create: (context) => getIt<PostServicesCubit>(),
+                  child: BlocBuilder<PostServicesCubit, PostServicesState>(
+                    builder: (context, state) {
+                      if (state is PostServicesLoading) {
+                        return const CircularProgressIndicator();
+                      }
+                      if (state is PostServicesInitial) {
+                          return IconButton(
+                        iconSize: iconSize,
+                        icon: Icon(
+                          isLiked
+                              ? FontAwesomeIcons.solidThumbsUp
+                              : FontAwesomeIcons.thumbsUp,
+                          color: isLiked ? Colors.blue : Colors.grey.shade800,
+                        ),
+                        onPressed: () {
+                          if (isLiked) {
+                            context
+                                .read<PostServicesCubit>()
+                                .unlikePost(postId);
+                          } else {
+                            context
+                                .read<PostServicesCubit>()
+                                .likePost(postId);
+                          }
+                        },
+                      );
+                      }
+                      if(state is LikeAdded){
+                        return IconButton(
+                        iconSize: iconSize,
+                        icon: const Icon(
+                          FontAwesomeIcons.solidThumbsUp,
+                          color: Colors.blue,
+                        ),
+                        onPressed: () {
+                          context
+                              .read<PostServicesCubit>()
+                              .unlikePost(postId);
+                        },
+                      );
+                      }
+                      if(state is LikeRemoved){
+                        return IconButton(
+                        iconSize: iconSize,
+                        icon: Icon(
+                          FontAwesomeIcons.thumbsUp,
+                          color: Colors.grey.shade800,
+                        ),
+                        onPressed: () {
+                          context
+                              .read<PostServicesCubit>()
+                              .likePost(postId);
+                        },
+                      );
+                      }
+                      if(state is PostServicesError){
+                        return IconButton(
+                        iconSize: iconSize,
+                        icon: Icon(
+                          isLiked
+                              ? FontAwesomeIcons.solidThumbsUp
+                              : FontAwesomeIcons.thumbsUp,
+                          color: isLiked ? Colors.blue : Colors.grey.shade800,
+                        ),
+                        onPressed: () {
+                          if (isLiked) {
+                            context
+                                .read<PostServicesCubit>()
+                                .unlikePost(postId);
+                          } else {
+                            context
+                                .read<PostServicesCubit>()
+                                .likePost(postId);
+                          }
+                        },
+                      );
+                      }
+                      return Container();
+                    
+                    },
                   ),
-                  onPressed: () {
-                    // Handle like toggle functionality here
-                  },
                 ),
                 Text(
                   likeCount,
