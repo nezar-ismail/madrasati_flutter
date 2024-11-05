@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/home/widgets/school_card_info.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
@@ -26,20 +27,17 @@ class SchoolCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageCubit = context.read<NetworkImageCubit>();
+    final imageCubit = getIt<NetworkImageCubit>();
+    ;
     final schoolInfoCubit = context.read<SchoolInfoCubit>();
     final imageFullPath = ApiConstants.baseUrl + imagePath;
-
-    // Check if image has already been loaded to avoid redundant fetches
-    if (imageCubit.state is! ImageLoaded) {
-      imageCubit.fetchImage(imageFullPath);
-    }
+    imageCubit.fetchImage(imageFullPath);
 
     return GestureDetector(
       onTap: () {
         // Use the existing cubit instance and fetch the info needed
         schoolInfoCubit.getSchoolInfo(schoolId: id);
-        
+
         Navigator.push(
           context,
           MaterialPageRoute(
@@ -66,17 +64,20 @@ class SchoolCard extends StatelessWidget {
             ),
           ],
         ),
-        child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
-          builder: (context, state) {
-            if (state is ImageLoading) {
-              return const Center(child: CircularProgressIndicator());
-            } else if (state is ImageLoaded) {
-              return _buildImageContent(state.imageData, context);
-            } else if (state is ImageError) {
-              return const Center(child: Icon(Icons.error));
-            }
-            return const SizedBox.shrink(); // Placeholder for initial state
-          },
+        child: BlocProvider(
+          create: (context) => imageCubit,
+          child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
+            builder: (context, state) {
+              if (state is ImageLoading) {
+                return const Center(child: CircularProgressIndicator());
+              } else if (state is ImageLoaded) {
+                return _buildImageContent(state.imageData, context);
+              } else if (state is ImageError) {
+                return const Center(child: Icon(Icons.error));
+              }
+              return const SizedBox.shrink(); // Placeholder for initial state
+            },
+          ),
         ),
       ),
     );

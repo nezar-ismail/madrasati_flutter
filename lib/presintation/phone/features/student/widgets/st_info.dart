@@ -2,23 +2,25 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/role_desesion.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
+
 class ContainerStudentInfo extends StatelessWidget {
   const ContainerStudentInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var networkImageCubit = context.read<NetworkImageCubit>();
-
+    var imageCubit = getIt<NetworkImageCubit>();
     return BlocBuilder<UserProfileCubit, LocalStudent?>(
       builder: (context, user) {
         if (user != null) {
-          final imageFullPath = '${ApiConstants.baseUrl}/${user.imagePath??''}';
-          networkImageCubit.fetchImage(imageFullPath);
+          final imageFullPath =
+              '${ApiConstants.baseUrl}/${user.imagePath ?? ''}';
+        imageCubit.fetchImage(imageFullPath);
         }
 
         return Container(
@@ -47,27 +49,30 @@ class ContainerStudentInfo extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              BlocBuilder<NetworkImageCubit, NetworkImageState>(
-                builder: (context, state) {
-                  if (state is ImageLoading) {
-                    return CircleAvatar(
-                      radius: 50,
-                      backgroundColor: Colors.grey.shade300,
-                      child: const CircularProgressIndicator(),
-                    );
-                  } else if (state is ImageLoaded) {
-                    return CircleAvatar(
-                      radius: 50,
-                      backgroundImage: MemoryImage(state.imageData),
-                    );
-                  } else {
-                    return CircleAvatar(
-                      radius: 50,
-                      backgroundImage:
-                          AssetImage('asset/static/image/default_avatar.png'),
-                    );
-                  }
-                },
+              BlocProvider(
+                create: (context) => imageCubit,
+                child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
+                  builder: (context, state) {
+                    if (state is ImageLoading) {
+                      return CircleAvatar(
+                        radius: 50,
+                        backgroundColor: Colors.grey.shade300,
+                        child: const CircularProgressIndicator(),
+                      );
+                    } else if (state is ImageLoaded) {
+                      return CircleAvatar(
+                        radius: 50,
+                        backgroundImage: MemoryImage(state.imageData),
+                      );
+                    } else {
+                      return CircleAvatar(
+                        radius: 50,
+                        backgroundImage:
+                            AssetImage('asset/static/image/default_avatar.png'),
+                      );
+                    }
+                  },
+                ),
               ),
               Padding(
                 padding:
@@ -86,13 +91,13 @@ class ContainerStudentInfo extends StatelessWidget {
                     ),
                     Text(
                       user?.userEmail ?? 'Email',
-                      style:
-                          const TextStyle(fontFamily: 'Roboto', color: Colors.white),
+                      style: const TextStyle(
+                          fontFamily: 'Roboto', color: Colors.white),
                     ),
                     Text(
                       user?.birthDate ?? 'Birth Date',
-                      style:
-                          const TextStyle(fontFamily: 'Roboto', color: Colors.white),
+                      style: const TextStyle(
+                          fontFamily: 'Roboto', color: Colors.white),
                     ),
                   ],
                 ),

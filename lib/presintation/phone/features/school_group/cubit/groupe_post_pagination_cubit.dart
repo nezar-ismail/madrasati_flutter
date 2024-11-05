@@ -21,7 +21,8 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
   ScrollController scrollController = ScrollController();
 
   Future<void> fetchPosts(String groupId) async {
-    if (!hasMore || isFetching) return; // Stop fetching if no more pages or already fetching
+    if (!hasMore || isFetching)
+      return; // Stop fetching if no more pages or already fetching
     isFetching = true; // Set fetching flag to true to prevent multiple calls
     emit(PostLoading());
     try {
@@ -30,7 +31,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
           token: await SecureStorageApi.instance.getAccessToken() ?? "",
           page: currentPage,
           size: 10);
-          log('Current page: $currentPage$response');
+      log('Current page: $currentPage$response');
       if (response is PostResponse) {
         currentPage++;
         hasMore = !response.last; // Update hasMore based on response
@@ -46,6 +47,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
                 isLiked: post.isLiked,
                 withImage: post.withImage,
                 postId: post.postId,
+                imagePost: post.imagePost,
               ),
             )
             .toList());
