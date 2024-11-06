@@ -33,17 +33,16 @@ class AuthService {
           // Create a Student object and save it in Hive
           final student = LocalStudent(
             userEmail: data['user']['userEmail'],
-            firstName: data['user']['firstName'],
-            lastName: data['user']['lastName'],
-            imagePath: data['user']['imagePath'],
-            birthDate: data['user']['birthDate'],
-            gender: data['user']['gender'],
+            firstName: data['user']['userFirstName'],
+            lastName: data['user']['userLastName'],
+            imagePath: data['user']['userImage'],
+            birthDate: data['user']['userBirthDate'],
+            gender: data['user']['userGender'],
             schoolId: data['data']['school'],
             groupId: data['data']['group'],
-            
           );
 
-           log('Service: schoolSignIn: $student');
+          log('Service: schoolSignIn: $student');
           // Save student data to Hive
           await UserBox.saveUser(student);
 

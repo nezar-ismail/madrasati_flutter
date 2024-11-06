@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/errors/global_exception.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
+import 'package:madrasati/data/models/comment_model/data.dart';
 import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/models/group_models/group_post_page.dart';
 import 'package:madrasati/data/repo_apis/group_post_api.dart';
@@ -41,6 +42,39 @@ class GroupPostService {
       rethrow;
     }
   }
+
+  Future<ResponsModel> getAllComments({
+    required String postId,
+    required String token,
+    required int page,
+    required int size,
+  }) async {
+    try {
+      Response response = await _groupPostApi.getAllComments(
+        postId: postId,
+        token: token,
+        page: page,
+        size: size,
+      );
+      switch (response.statusCode) {
+        case 200:
+          final data = CommentData.fromMap(response.data['data']);
+          if (data.empty) {
+            return EmptyResponse();
+          }
+          return data;
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw InternalException("Failed to fetch posts");
+      }
+    } catch (e) {
+      logError('error with getAllPosts $e');
+      rethrow;
+    }
+  }
+
 
   // Future<ResponsModel> createGroupPost({
   //   required String groupId,

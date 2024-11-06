@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_detailes/detailes_add_comment.dart';
-import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_detailes/detailes_body.dart';
-import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_detailes/detailes_comment_section.dart';
-import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_detailes/detailes_footer.dart';
-import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_detailes/detailes_header.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/widgets/comment_section.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_add_comment.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_body.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_footer.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_header.dart';
 
 class PostDetails extends StatelessWidget {
   const PostDetails({
@@ -15,7 +15,8 @@ class PostDetails extends StatelessWidget {
     required this.commentCount,
     required this.isLiked,
     required this.withImage,
-    required this.postId, this.imagePost,
+    required this.postId,
+    this.imagePost,
   });
 
   final List<dynamic>? imagePost;
@@ -30,6 +31,12 @@ class PostDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    final padding = screenWidth * 0.04;
+    final verticalSpacing = screenHeight * 0.02;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Post Details'),
@@ -37,24 +44,31 @@ class PostDetails extends StatelessWidget {
         backgroundColor: Colors.blueAccent,
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(padding),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DetailsHeader(
-              postCreatedAt: postCreatedAt, schoolImage: schoolImage, schoolName:'School Name' ,
+              postCreatedAt: postCreatedAt,
+              schoolImage: schoolImage,
+              schoolName: 'School Name',
             ),
-            const SizedBox(height: 12.0),
-            DetailesBody(caption: caption, withImage: withImage, imagePost: imagePost,),
-            const SizedBox(height: 12.0),
+            SizedBox(height: verticalSpacing),
+            DetailesBody(
+              caption: caption,
+              withImage: withImage,
+              imagePost: imagePost,
+            ),
+            SizedBox(height: verticalSpacing),
             DetailesFooter(
               likeCount: likeCount,
-              commentCount: commentCount, 
+              commentCount: commentCount,
               isLiked: isLiked,
+              postId: postId,
             ),
-            const SizedBox(height: 12.0),
-            DetailesCommentSection(),
-            const SizedBox(height: 12.0),
+            SizedBox(height: verticalSpacing),
+            CommentSection(postId: postId),
+            SizedBox(height: verticalSpacing),
             const AddCommentSection(),
           ],
         ),
@@ -62,4 +76,3 @@ class PostDetails extends StatelessWidget {
     );
   }
 }
-

@@ -6,10 +6,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
-import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_card/post_body.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/views/post_detailes.dart';
-import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_card/post_footer.dart';
-import 'package:madrasati/presintation/phone/features/group_posts/widgets/post_card/post_header.dart';
+import 'package:madrasati/presintation/phone/features/school_group/widgets/post_body.dart';
+import 'package:madrasati/presintation/phone/features/school_group/widgets/post_footer.dart';
+import 'package:madrasati/presintation/phone/features/school_group/widgets/post_header.dart';
 
 class PostCard extends StatelessWidget {
   const PostCard({
@@ -76,6 +76,7 @@ class PostCard extends StatelessWidget {
                 isLiked: isLiked,
                 withImage: withImage,
                 postId: postId,
+                imagePost: imagePost,
               ),
             ),
           );

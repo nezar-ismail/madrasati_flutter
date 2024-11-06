@@ -17,6 +17,18 @@ class GroupPostApi {
     return response;
   }
 
+    Future<Response> getAllComments(
+      {required String postId,
+      required String token,
+      required int page,
+      required int size}) async {
+    String url = GroupeEndpoints.getAllComments(page, size, postId);
+    Map<String, String> authHeader = makeHeaders(token);
+    Response response = await _api.get(url, headers: authHeader);
+    return response;
+  }
+
+
   Future<Response> createGroupPost(
       {required String groupId,
       List<MultipartFile>? image,

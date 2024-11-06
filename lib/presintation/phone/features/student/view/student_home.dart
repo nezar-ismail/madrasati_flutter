@@ -46,7 +46,7 @@ class StudentHomePage extends StatelessWidget {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SchoolGroup(
-                                        groupId: user?.groupId ?? '',
+                                        groupId: user!.groupId!,
                                       )));
                         },
                         text: 'School Group',
