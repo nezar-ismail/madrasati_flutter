@@ -15,6 +15,16 @@ final class LikeAdded extends PostServicesState {}
 
 final class LikeRemoved extends PostServicesState {}
 
+final class ComentLoaded extends PostServicesState {
+  final List<Widget> comments; 
+  final bool hasMore;
+
+  const ComentLoaded({required this.comments, required this.hasMore});
+
+  @override
+  List<Object> get props => [comments, hasMore];
+}
+
 final class PostServicesError extends PostServicesState {
   final String message;
   const PostServicesError({required this.message});

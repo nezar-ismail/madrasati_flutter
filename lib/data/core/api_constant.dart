@@ -33,6 +33,10 @@ class GroupeEndpoints {
     return '$baseUrl/$groupId/post/getAllPosts?page=$page&size=$size';
   }
 
+  static String getAllComments(int page, int size, String postId) {
+    return '$baseUrl/post/$postId/comments?page=$page&size=$size';
+  }
+
   static String createGroupPost(String groupId) {
     return '$baseUrl/$groupId/createPost';
   }

@@ -1,37 +1,84 @@
-
+import 'dart:developer';
 import 'package:flutter/material.dart';
 
 class DetailesCommentSection extends StatelessWidget {
+  final String commentCreatedAt;
+  final String commentAuthor;
+  final String commentText;
+  final String commentId;
+
   const DetailesCommentSection({
     super.key,
+    required this.commentId,
+    required this.commentCreatedAt,
+    required this.commentAuthor,
+    required this.commentText,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const Text(
-          'Comments',
-          style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 8.0),
-        ListView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: 10, // Replace with actual comment count
-          itemBuilder: (context, index) {
-            return Card(
-              margin: const EdgeInsets.only(bottom: 8.0),
-              child: ListTile(
-                title: Text('Comment #$index'),
-                subtitle: Text('This is a placeholder comment text.'),
-                contentPadding: const EdgeInsets.all(16.0),
+    log(commentId);
+    return Card(
+      elevation: 3,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+      margin: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const CircleAvatar(
+                  radius: 20,
+                  backgroundColor: Colors.blueAccent,
+                  child: Icon(Icons.person, color: Colors.white),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        commentAuthor,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        commentCreatedAt,
+                        style: TextStyle(
+                          fontSize: 12,
+                          color: Colors.grey[600],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.more_vert),
+                  onPressed: () {
+                    // Additional options for comment can be added here
+                  },
+                ),
+              ],
+            ),
+            const Divider(height: 20, thickness: 1),
+            Text(
+              commentText,
+              style: const TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+                height: 1.4,
               ),
-            );
-          },
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }

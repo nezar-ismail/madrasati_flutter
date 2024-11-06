@@ -25,8 +25,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
   ScrollController scrollController = ScrollController();
 
   Future<void> fetchPosts(String groupId) async {
-    if (!hasMore || isFetching)
-      return; // Stop fetching if no more pages or already fetching
+    if (!hasMore || isFetching)return; // Stop fetching if no more pages or already fetching
     isFetching = true; // Set fetching flag to true to prevent multiple calls
     emit(PostLoading());
     try {
