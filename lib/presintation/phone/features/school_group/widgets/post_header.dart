@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:madrasati/data/core/api_constant.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 
@@ -21,45 +19,34 @@ class PostHeader extends StatelessWidget {
     final avatarRadius = screenWidth * 0.1; // Responsive avatar size
     final padding = screenWidth * 0.02;
 
-    final imageCubit = getIt<NetworkImageCubit>();
-    final imageFullPath = ApiConstants.baseUrl + schoolImage;
-
-    // Initiate image loading if not already loaded
-    if (imageCubit.state is! ImageLoaded) {
-      imageCubit.fetchImage(imageFullPath);
-    }
-
     return Padding(
       padding: EdgeInsets.all(padding),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          BlocProvider(
-            create: (context) => imageCubit,
-            child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
-              builder: (context, state) {
-                if (state is ImageLoading) {
-                  return CircleAvatar(
-                    radius: avatarRadius,
-                    child: const CircularProgressIndicator(),
-                  );
-                } else if (state is ImageLoaded) {
-                  return CircleAvatar(
-                    radius: avatarRadius,
-                    backgroundImage: MemoryImage(state.imageData),
-                  );
-                } else if (state is ImageError) {
-                  return CircleAvatar(
-                    radius: avatarRadius,
-                    child: const Icon(Icons.error),
-                  );
-                }
+          BlocBuilder<NetworkImageCubit, NetworkImageState>(
+            builder: (context, state) {
+              if (state is ImageLoading) {
                 return CircleAvatar(
                   radius: avatarRadius,
-                  backgroundColor: Colors.grey[300],
-                ); // Placeholder for initial state
-              },
-            ),
+                  child: const CircularProgressIndicator(),
+                );
+              } else if (state is ImageLoaded) {
+                return CircleAvatar(
+                  radius: avatarRadius,
+                  backgroundImage: MemoryImage(state.imageData),
+                );
+              } else if (state is ImageError) {
+                return CircleAvatar(
+                  radius: avatarRadius,
+                  child: const Icon(Icons.error),
+                );
+              }
+              return CircleAvatar(
+                radius: avatarRadius,
+                backgroundColor: Colors.grey[300],
+              ); // Placeholder for initial state
+            },
           ),
           Text(
             postCreatedAt

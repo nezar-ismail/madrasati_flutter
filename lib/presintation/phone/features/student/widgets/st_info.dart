@@ -14,14 +14,9 @@ class ContainerStudentInfo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var imageCubit = getIt<NetworkImageCubit>();
     return BlocBuilder<UserProfileCubit, LocalStudent?>(
       builder: (context, user) {
-        if (user != null) {
-          final imageFullPath =
-              '${ApiConstants.baseUrl}/${user.imagePath ?? ''}';
-        imageCubit.fetchImage(imageFullPath);
-        }
+        final imageFullPath = '${ApiConstants.baseUrl}/${user!.imagePath!.replaceFirst('/', '')}';
 
         return Container(
           width: double.infinity,
@@ -50,13 +45,14 @@ class ContainerStudentInfo extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               BlocProvider(
-                create: (context) => imageCubit,
+                create: (context) =>
+                    getIt<NetworkImageCubit>()..fetchImage(imageFullPath),
                 child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
                   builder: (context, state) {
                     if (state is ImageLoading) {
                       return CircleAvatar(
                         radius: 50,
-                        backgroundColor: Colors.grey.shade300,
+                        backgroundColor: Colors.black,
                         child: const CircularProgressIndicator(),
                       );
                     } else if (state is ImageLoaded) {
@@ -81,7 +77,7 @@ class ContainerStudentInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${user?.firstName ?? "User"} ${user?.lastName ?? "Name"}',
+                      '${user.firstName ?? "User"} ${user.lastName ?? "Name"}',
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         fontSize: scaleText(20, context),
@@ -90,12 +86,12 @@ class ContainerStudentInfo extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      user?.userEmail ?? 'Email',
+                      user.userEmail ?? 'Email',
                       style: const TextStyle(
                           fontFamily: 'Roboto', color: Colors.white),
                     ),
                     Text(
-                      user?.birthDate ?? 'Birth Date',
+                      user.birthDate ?? 'Birth Date',
                       style: const TextStyle(
                           fontFamily: 'Roboto', color: Colors.white),
                     ),
