@@ -14,7 +14,7 @@ class StudentSignInBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInCubit(getIt<AuthService>()),
+      create: (context) => getIt<SignInCubit>(),
       child: BlocConsumer<SignInCubit, SignInState>(
         builder: (context, state) {
           if (state is SignInLoading) {

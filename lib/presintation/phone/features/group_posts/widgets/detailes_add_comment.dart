@@ -10,7 +10,7 @@ class AddCommentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = context.read<PostServicesCubit>();
-    final TextEditingController _commentController = TextEditingController();
+    final TextEditingController commentController = TextEditingController();
     return Container(
       padding: const EdgeInsets.all(8.0),
       color: Colors.white,
@@ -18,7 +18,7 @@ class AddCommentSection extends StatelessWidget {
         children: [
           Expanded(
             child: TextField(
-              controller: _commentController,
+              controller: commentController,
               decoration: InputDecoration(
                 hintText: 'Add a comment...',
                 border: OutlineInputBorder(
@@ -34,10 +34,10 @@ class AddCommentSection extends StatelessWidget {
           ElevatedButton(
             onPressed: () async {
               // Handle the comment submission logic
-              String comment = _commentController.text;
+              String comment = commentController.text;
               if (comment.isNotEmpty) {
                 await cubit.addComment(postId, comment);
-                _commentController.clear();
+                commentController.clear();
                 if (cubit.state is !ComentLoaded) {
                   ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text('Something went wrong, please try again.'),

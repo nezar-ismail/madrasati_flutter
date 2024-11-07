@@ -14,7 +14,11 @@ class NetworkImageCubit extends Cubit<NetworkImageState> {
 
   NetworkImageCubit(this._dio) : super(NetworkImageInitial());
 
-  Future<void> fetchImage(String imageUrl) async {
+  Future<void> fetchImage(String? imageUrl) async {
+    if (imageUrl == null || imageUrl.isEmpty) {
+      emit(ImageError("Invalid image URL"));
+      return;
+    }
     emit(ImageLoading());
     try {
       final response = await _dio.getImage(

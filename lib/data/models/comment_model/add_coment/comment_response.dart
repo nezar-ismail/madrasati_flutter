@@ -74,10 +74,10 @@ class CommentAddedData implements ResponsModel{
 
 Comment toComment(String author) {
     return Comment(
-      commentId: this.commentId,
-      comment: this.comment,
+      commentId: commentId,
+      comment: comment,
       author: author ,
-      createdAt: this.createdAt,
+      createdAt: createdAt,
     );
   }
 } 

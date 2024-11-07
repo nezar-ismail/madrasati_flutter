@@ -8,6 +8,7 @@ import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/school_group/school_group.dart';
 import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 import 'package:madrasati/presintation/phone/features/student/widgets/st_info.dart';
+import 'package:madrasati/presintation/phone/features/user_profile/student_profile.dart';
 
 class StudentHomePage extends StatelessWidget {
   const StudentHomePage({super.key});
@@ -15,6 +16,7 @@ class StudentHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
           // User Profile Section
@@ -70,7 +72,7 @@ class StudentHomePage extends StatelessWidget {
 
       // Bottom Navigation Bar
       bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
+        elevation: 10,
         selectedLabelStyle:
             TextStyle(color: Colors.blue, fontSize: scaleText(15, context)),
         unselectedLabelStyle:
@@ -89,16 +91,26 @@ class StudentHomePage extends StatelessWidget {
           log(index.toString());
           if (index == 0) {
             // Home
-            // TODO: Navigate to Home
+          
           } else if (index == 1) {
             // Profile
-            // TODO: Navigate to Profile
+            Navigator.push(context, MaterialPageRoute(builder: (context) => StudentProfile()));
           }
         },
-        items: const [
+        items: [
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home_filled,
+              icon: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.blueAccent,
+                  ),
+                  color: Colors.blueAccent,
+                ),
+                child: Icon(
+                  Icons.home_filled,
+                  color: Colors.white,
+                ),
               ),
               label: 'Home',
               backgroundColor: Colors.blue),
@@ -107,6 +119,7 @@ class StudentHomePage extends StatelessWidget {
               Icons.person,
             ),
             label: 'Profile',
+            backgroundColor: Colors.blue,
           ),
         ],
       ),
