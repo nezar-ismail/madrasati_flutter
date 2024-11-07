@@ -53,7 +53,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
                   isLiked: post.isLiked,
                   withImage: post.withImage,
                   postId: post.postId,
-                  imagePost: post.imagePost,
+                  imagePost: post.imagePost, schoolName: post.schoolName,
                 ),
               ),
             )

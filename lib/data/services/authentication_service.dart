@@ -40,6 +40,7 @@ class AuthService {
             gender: data['user']['userGender'],
             schoolId: data['data']['school'],
             groupId: data['data']['group'],
+            studentId: data['data']['userId'],
           );
 
           log('Service: schoolSignIn: $student');

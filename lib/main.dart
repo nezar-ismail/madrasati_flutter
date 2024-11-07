@@ -20,7 +20,7 @@ void main() async{
     runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => UserProfileCubit()),
+        BlocProvider(create: (context) => getIt<UserProfileCubit>()),
       ],
       child: const MadrasatiApp(),
     ),

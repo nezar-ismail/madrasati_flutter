@@ -9,7 +9,8 @@ class PostFooter extends StatelessWidget {
     super.key,
     required this.likeCount,
     required this.commentCount,
-    required this.isLiked, required this.postId,
+    required this.isLiked,
+    required this.postId,
   });
 
   final String likeCount;
@@ -20,10 +21,8 @@ class PostFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final iconSize =
-        screenWidth * 0.06; // Dynamic icon size based on screen width
-    final fontSize =
-        screenWidth * 0.04; // Dynamic font size based on screen width
+    final iconSize = screenWidth * 0.06; // Dynamic icon size based on screen width
+    final fontSize = screenWidth * 0.04; // Dynamic font size based on screen width
     final padding = screenWidth * 0.02; // Dynamic padding based on screen width
 
     return Row(
@@ -45,7 +44,8 @@ class PostFooter extends StatelessWidget {
                 ),
               ],
             ),
-            child: Column(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 IconButton(
                   iconSize: iconSize,
@@ -80,97 +80,46 @@ class PostFooter extends StatelessWidget {
                 ),
               ],
             ),
-            child: Column(
-              children: [
-                BlocProvider(
-                  create: (context) => getIt<PostServicesCubit>(),
-                  child: BlocBuilder<PostServicesCubit, PostServicesState>(
-                    builder: (context, state) {
-                      if (state is PostServicesLoading) {
-                        return const CircularProgressIndicator();
-                      }
-                      if (state is PostServicesInitial) {
-                          return IconButton(
+            child: BlocProvider(
+              create: (context) => getIt<PostServicesCubit>(),
+              child: BlocBuilder<PostServicesCubit, PostServicesState>(
+                builder: (context, state) {
+                  bool liked = isLiked;
+                  String count = likeCount;
+            
+                  if (state is LikeAdded && !liked) {
+                    liked = true;
+                    count = '${int.parse(count) + 1}';
+                  } else if (state is LikeRemoved && liked) {
+                    liked = false;
+                    count = '${int.parse(count) - 1}';
+                  }
+            
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      IconButton(
                         iconSize: iconSize,
                         icon: Icon(
-                          isLiked
+                          liked
                               ? FontAwesomeIcons.solidThumbsUp
                               : FontAwesomeIcons.thumbsUp,
-                          color: isLiked ? Colors.blue : Colors.grey.shade800,
+                          color: liked ? Colors.blue : Colors.grey.shade800,
                         ),
                         onPressed: () {
-                          if (isLiked) {
-                            context
-                                .read<PostServicesCubit>()
-                                .unlikePost(postId);
-                          } else {
-                            context
-                                .read<PostServicesCubit>()
-                                .likePost(postId);
-                          }
+                          liked
+                              ? context.read<PostServicesCubit>().unlikePost(postId)
+                              : context.read<PostServicesCubit>().likePost(postId);
                         },
-                      );
-                      }
-                      if(state is LikeAdded){
-                        return IconButton(
-                        iconSize: iconSize,
-                        icon: const Icon(
-                          FontAwesomeIcons.solidThumbsUp,
-                          color: Colors.blue,
-                        ),
-                        onPressed: () {
-                          context
-                              .read<PostServicesCubit>()
-                              .unlikePost(postId);
-                        },
-                      );
-                      }
-                      if(state is LikeRemoved){
-                        return IconButton(
-                        iconSize: iconSize,
-                        icon: Icon(
-                          FontAwesomeIcons.thumbsUp,
-                          color: Colors.grey.shade800,
-                        ),
-                        onPressed: () {
-                          context
-                              .read<PostServicesCubit>()
-                              .likePost(postId);
-                        },
-                      );
-                      }
-                      if(state is PostServicesError){
-                        return IconButton(
-                        iconSize: iconSize,
-                        icon: Icon(
-                          isLiked
-                              ? FontAwesomeIcons.solidThumbsUp
-                              : FontAwesomeIcons.thumbsUp,
-                          color: isLiked ? Colors.blue : Colors.grey.shade800,
-                        ),
-                        onPressed: () {
-                          if (isLiked) {
-                            context
-                                .read<PostServicesCubit>()
-                                .unlikePost(postId);
-                          } else {
-                            context
-                                .read<PostServicesCubit>()
-                                .likePost(postId);
-                          }
-                        },
-                      );
-                      }
-                      return Container();
-                    
-                    },
-                  ),
-                ),
-                Text(
-                  likeCount,
-                  style: TextStyle(fontSize: fontSize),
-                ),
-              ],
+                      ),
+                      Text(
+                        '$count Likes',
+                        style: TextStyle(fontSize: fontSize),
+                      ),
+                    ],
+                  );
+                },
+              ),
             ),
           ),
         ),

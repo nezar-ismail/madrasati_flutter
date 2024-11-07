@@ -1,13 +1,35 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/comment_section.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_add_comment.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_body.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_footer.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_header.dart';
 
+// ignore: must_be_immutable
 class PostDetails extends StatelessWidget {
-  const PostDetails({
+
+
+  final String schoolName;
+  final List<dynamic>? imagePost;
+  final String schoolImage;
+  final String caption;
+  final String postCreatedAt;
+  final String likeCount;
+  String commentCount;
+  final bool isLiked;
+  final bool withImage;
+  final String postId;
+
+
+  PostDetails({
     super.key,
+    required this.schoolName,
+    this.imagePost,
     required this.schoolImage,
     required this.caption,
     required this.postCreatedAt,
@@ -16,61 +38,73 @@ class PostDetails extends StatelessWidget {
     required this.isLiked,
     required this.withImage,
     required this.postId,
-    this.imagePost,
   });
-
-  final List<dynamic>? imagePost;
-  final String schoolImage;
-  final String caption;
-  final String postCreatedAt;
-  final String likeCount;
-  final String commentCount;
-  final bool isLiked;
-  final bool withImage;
-  final String postId;
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-
-    final padding = screenWidth * 0.04;
     final verticalSpacing = screenHeight * 0.02;
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Post Details'),
-        centerTitle: true,
-        backgroundColor: Colors.blueAccent,
-      ),
-      body: SingleChildScrollView(
-        padding: EdgeInsets.all(padding),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            DetailsHeader(
-              postCreatedAt: postCreatedAt,
-              schoolImage: schoolImage,
-              schoolName: 'School Name',
+    return BlocProvider(
+      create: (context) =>
+          getIt<PostServicesCubit>()..commentCount = commentCount,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        resizeToAvoidBottomInset: true, // Allow resizing when keyboard shows up
+        appBar: AppBar(
+          title: const Text('Post Details'),
+          centerTitle: true,
+          backgroundColor: Colors.blueAccent,
+        ),
+        body: SafeArea(
+          // Ensure content stays within safe area of the screen
+          child: SingleChildScrollView(
+            child: BlocListener<PostServicesCubit, PostServicesState>(
+              listener: (context, state) {
+                if (state is CommentAdded || state is CommentRemoved) {
+                  commentCount = context.read<PostServicesCubit>().commentCount;
+                }
+              },
+              child: Column(
+                
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  DetailsHeader(
+                    postCreatedAt: postCreatedAt,
+                    schoolImage: schoolImage,
+                    schoolName: schoolName,
+                  ),
+                  SizedBox(height: verticalSpacing),
+                  DetailesBody(
+                    caption: caption,
+                    withImage: withImage,
+                    imagePost: imagePost,
+                  ),
+                  SizedBox(height: verticalSpacing),
+                  BlocBuilder<PostServicesCubit, PostServicesState>(
+                    builder: (context, state) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                        child: DetailesFooter(
+                          likeCount: likeCount,
+                          commentCount: commentCount,
+                          isLiked: isLiked,
+                          postId: postId,
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: verticalSpacing),
+                  CommentSection(postId: postId, withImage: withImage,),
+                ],
+              ),
             ),
-            SizedBox(height: verticalSpacing),
-            DetailesBody(
-              caption: caption,
-              withImage: withImage,
-              imagePost: imagePost,
-            ),
-            SizedBox(height: verticalSpacing),
-            DetailesFooter(
-              likeCount: likeCount,
-              commentCount: commentCount,
-              isLiked: isLiked,
-              postId: postId,
-            ),
-            SizedBox(height: verticalSpacing),
-            CommentSection(postId: postId),
-            SizedBox(height: verticalSpacing),
-            const AddCommentSection(),
-          ],
+          ),
+        ),
+        bottomNavigationBar: Padding(
+          padding:
+              EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
+          child: AddCommentSection(postId: postId),
         ),
       ),
     );

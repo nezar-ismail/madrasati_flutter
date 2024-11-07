@@ -112,4 +112,16 @@ class UserBox {
   static String? getGroupId() {
     return getUser()?.groupId;
   }
+
+  // Save userId
+  static Future<void> putStudentId(String userId) async {
+    var user = getUser() ?? LocalStudent();
+    user.studentId = userId;
+    await saveUser(user);
+  }
+
+  // Get userId
+  static String? getStudentId() {
+    return getUser()?.studentId;
+  }
 }

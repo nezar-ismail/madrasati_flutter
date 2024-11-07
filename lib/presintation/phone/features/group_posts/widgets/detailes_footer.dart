@@ -42,12 +42,12 @@ class DetailesFooter extends StatelessWidget {
     bool liked = isLiked;
     String count = likeCount;
 
-    if (state is LikeAdded) {
+    if (state is LikeAdded && !liked) {
       liked = true;
       count = '${int.parse(count) + 1}';
-    } else if (state is LikeRemoved) {
+    } else if (state is LikeRemoved && liked) {
       liked = false;
-      count = '${int.parse(count) - 1}';
+      count = '${int.parse(count)- 1}';
     }
 
     return Row(
