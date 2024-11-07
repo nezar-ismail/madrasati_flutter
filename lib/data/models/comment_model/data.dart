@@ -14,7 +14,7 @@ class CommentData implements ResponsModel {
   final int size;
   final List<Comment> content;
   final int number;
-  final List<Sort> sort;
+  final Sort sort;
   final bool first;
   final bool last;
   final int numberOfElements;
@@ -40,7 +40,7 @@ class CommentData implements ResponsModel {
     int? size,
     List<Comment>? content,
     int? number,
-    List<Sort>? sort,
+    Sort? sort,
     bool? first,
     bool? last,
     int? numberOfElements,
@@ -69,7 +69,7 @@ class CommentData implements ResponsModel {
       'size': size,
       'content': content.map((x) => x.toMap()).toList(),
       'number': number,
-      'sort': sort.map((x) => x.toMap()).toList(),
+      'sort': sort.toMap(),
       'first': first,
       'last': last,
       'numberOfElements': numberOfElements,
@@ -89,11 +89,7 @@ class CommentData implements ResponsModel {
         ),
       ),
       number: map['number'] as int,
-      sort: List<Sort>.from(
-        (map['sort'] as List<dynamic>).map<Sort>(
-          (x) => Sort.fromMap(x as Map<String, dynamic>),
-        ),
-      ),
+      sort: Sort.fromMap(map['sort'] as Map<String, dynamic>),
       first: map['first'] as bool,
       last: map['last'] as bool,
       numberOfElements: map['numberOfElements'] as int,
@@ -121,7 +117,7 @@ class CommentData implements ResponsModel {
         other.size == size &&
         listEquals(other.content, content) &&
         other.number == number &&
-        listEquals(other.sort, sort) &&
+        other.sort == sort &&
         other.first == first &&
         other.last == last &&
         other.numberOfElements == numberOfElements &&

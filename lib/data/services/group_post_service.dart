@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/errors/global_exception.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
+import 'package:madrasati/data/models/comment_model/add_coment/comment_response.dart';
 import 'package:madrasati/data/models/comment_model/data.dart';
 import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/models/group_models/group_post_page.dart';
@@ -112,39 +113,56 @@ class GroupPostService {
   //   }
   // }
 
-  // Future<ResponsModel> addComment({
-  //   required String postId,
-  //   required String comment,
-  //   required String token,
-  // }) async {
-  //   try {
-  //     Response response = await _groupPostApi.addComment(
-  //       postId: postId,
-  //       comment: comment,
-  //       token: token,
-  //     );
-  //     return _handleResponse(response);
-  //   } catch (e) {
-  //     throw InternalException("Failed to add comment: ${e.toString()}");
-  //   }
-  // }
+  Future<ResponsModel> addComment({
+    required String postId,
+    required String comment,
+    required String token,
+  }) async {
+    try {
+      Response response = await _groupPostApi.addComment(
+        postId: postId,
+        comment: comment,
+        token: token,
+      );
+      switch (response.statusCode) {
+        case 201:
+          final data = CommentAddedData.fromJson(response.data['data']);
+          return data;
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw InternalException("Failed to fetch posts");
+      }
+    } catch (e) {
+      throw InternalException("Failed to add comment: ${e.toString()}");
+    }
+  }
 
-  // Future<ResponsModel> deleteComment({
-  //   required String postId,
-  //   required String commentId,
-  //   required String token,
-  // }) async {
-  //   try {
-  //     Response response = await _groupPostApi.deleteComment(
-  //       postId: postId,
-  //       commentId: commentId,
-  //       token: token,
-  //     );
-  //     return _handleResponse(response);
-  //   } catch (e) {
-  //     throw InternalException("Failed to delete comment: ${e.toString()}");
-  //   }
-  // }
+  Future<ResponsModel> deleteComment({
+    required String postId,
+    required String commentId,
+    required String token,
+  }) async {
+    try {
+      Response response = await _groupPostApi.deleteComment(
+        postId: postId,
+        commentId: commentId,
+        token: token,
+      );
+      switch (response.statusCode) {
+        case 204:
+          return EmptyResponse();
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw InternalException("Failed to fetch posts");
+      }
+    } catch (e) {
+      throw InternalException("Failed to delete comment: ${e.toString()}");
+    }
+  }
 
   Future<ResponsModel> addLike({
     required String postId,

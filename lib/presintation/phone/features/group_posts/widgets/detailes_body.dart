@@ -25,6 +25,7 @@ class DetailesBody extends StatelessWidget {
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16.0),
+      margin: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(10),

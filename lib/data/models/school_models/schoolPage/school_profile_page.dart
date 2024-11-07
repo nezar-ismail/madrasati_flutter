@@ -19,7 +19,7 @@ class SchoolProfilepage implements ResponsModel {
   String schoolEmail;
   List<String> schoolFeedBacks;
   List<String> schoolImages;
-  Set<Teacher> teachers;
+  List<Teacher> teachers;
   SchoolProfilepage({
     required this.schoolId,
     required this.schoolName,
@@ -47,7 +47,7 @@ class SchoolProfilepage implements ResponsModel {
     String? schoolEmail,
     List<String>? schoolFeedBacks,
     List<String>? schoolImages,
-    Set<Teacher>? teachers,
+    List<Teacher>? teachers,
   }) {
     return SchoolProfilepage(
       schoolId: schoolId ?? this.schoolId,
@@ -93,9 +93,10 @@ class SchoolProfilepage implements ResponsModel {
       schoolLocation: map['schoolLocation'] as String,
       averageRating: map['averageRating'] as Map<String, dynamic>,
       schoolEmail: map['schoolEmail'] as String,
-      schoolFeedBacks: List<String>.from((map['schoolFeedBacks'] as List<dynamic>)),
+      schoolFeedBacks:
+          List<String>.from((map['schoolFeedBacks'] as List<dynamic>)),
       schoolImages: List<String>.from((map['schoolImages'] as List<dynamic>)),
-      teachers: Set<Teacher>.from(
+      teachers: List<Teacher>.from(
         (map['teachers'] as List<dynamic>).map<Teacher>(
           (x) => Teacher.fromMap(x as Map<String, dynamic>),
         ),
@@ -128,7 +129,7 @@ class SchoolProfilepage implements ResponsModel {
         other.schoolEmail == schoolEmail &&
         listEquals(other.schoolFeedBacks, schoolFeedBacks) &&
         listEquals(other.schoolImages, schoolImages) &&
-        setEquals(other.teachers, teachers);
+        listEquals(other.teachers, teachers);
   }
 
   @override

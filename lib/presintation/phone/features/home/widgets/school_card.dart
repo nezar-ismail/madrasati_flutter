@@ -28,21 +28,20 @@ class SchoolCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageCubit = getIt<NetworkImageCubit>();
-    ;
-    final schoolInfoCubit = context.read<SchoolInfoCubit>();
+    final schoolInfoCubit =getIt<SchoolInfoCubit>();
     final imageFullPath = ApiConstants.baseUrl + imagePath;
     imageCubit.fetchImage(imageFullPath);
 
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         // Use the existing cubit instance and fetch the info needed
-        schoolInfoCubit.getSchoolInfo(schoolId: id);
+        await schoolInfoCubit.getSchoolInfo(schoolId: id);
 
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => BlocProvider.value(
-              value: schoolInfoCubit,
+            builder: (context) => BlocProvider(
+              create: (context) => schoolInfoCubit,
               child: SchoolDetailPage(),
             ),
           ),

@@ -15,8 +15,12 @@ final class LikeAdded extends PostServicesState {}
 
 final class LikeRemoved extends PostServicesState {}
 
+final class CommentAdded extends PostServicesState {}
+
+final class CommentRemoved extends PostServicesState {}
+
 final class ComentLoaded extends PostServicesState {
-  final List<Widget> comments; 
+  final List<Comment> comments; 
   final bool hasMore;
 
   const ComentLoaded({required this.comments, required this.hasMore});

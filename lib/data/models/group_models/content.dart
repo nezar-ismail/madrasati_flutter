@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 class Content {
+  String schoolName;
   String authorId;
   String caption;
   String groupId;
@@ -16,6 +17,7 @@ class Content {
   bool withImage;
   List<dynamic> imagePost;
   Content({
+    required this.schoolName,
     required this.authorId,
     required this.caption,
     required this.groupId,
@@ -30,6 +32,7 @@ class Content {
   });
 
   Content copyWith({
+    String? schoolName,
     String? authorId,
     String? caption,
     String? groupId,
@@ -40,9 +43,10 @@ class Content {
     int? numberOfLike,
     bool? isLiked,
     bool? withImage,
-    List<String>? imagePost,
+    List<dynamic>? imagePost,
   }) {
     return Content(
+      schoolName: schoolName ?? this.schoolName,
       authorId: authorId ?? this.authorId,
       caption: caption ?? this.caption,
       groupId: groupId ?? this.groupId,
@@ -59,6 +63,7 @@ class Content {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'schoolName': schoolName,
       'authorId': authorId,
       'caption': caption,
       'groupId': groupId,
@@ -75,6 +80,7 @@ class Content {
 
   factory Content.fromMap(Map<String, dynamic> map) {
     return Content(
+      schoolName: map['schoolName'] as String,
       authorId: map['authorId'] as String,
       caption: map['caption'] as String,
       groupId: map['groupId'] as String,
@@ -85,7 +91,9 @@ class Content {
       numberOfLike: map['likeCount'] as int,
       isLiked: map['userLiked'] as bool,
       withImage: map['withImage'] as bool,
-      imagePost: List<dynamic>.from((map['imagePost'] as List<dynamic>),),);
+      imagePost: List<dynamic>.from((map['imagePost'] as List<dynamic>),
+    )
+    );
   }
 
 
@@ -95,7 +103,7 @@ class Content {
 
   @override
   String toString() {
-    return 'Content(authorId: $authorId, caption: $caption, groupId: $groupId, postId: $postId, schoolImagePath: $schoolImagePath, postCreatedAt: $postCreatedAt, numberOfComment: $numberOfComment, numberOfLike: $numberOfLike, isLiked: $isLiked, withImage: $withImage, imagePost: $imagePost)';
+    return 'Content(schoolName: $schoolName, authorId: $authorId, caption: $caption, groupId: $groupId, postId: $postId, schoolImagePath: $schoolImagePath, postCreatedAt: $postCreatedAt, numberOfComment: $numberOfComment, numberOfLike: $numberOfLike, isLiked: $isLiked, withImage: $withImage, imagePost: $imagePost)';
   }
 
   @override
@@ -103,6 +111,7 @@ class Content {
     if (identical(this, other)) return true;
   
     return 
+      other.schoolName == schoolName &&
       other.authorId == authorId &&
       other.caption == caption &&
       other.groupId == groupId &&
@@ -118,7 +127,8 @@ class Content {
 
   @override
   int get hashCode {
-    return authorId.hashCode ^
+    return schoolName.hashCode ^
+      authorId.hashCode ^
       caption.hashCode ^
       groupId.hashCode ^
       postId.hashCode ^

@@ -1,42 +1,54 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 
 class AddCommentSection extends StatelessWidget {
-  const AddCommentSection({super.key});
+  const AddCommentSection({super.key, required this.postId});
+
+  final String postId;
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController _commentController = TextEditingController();
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _commentController,
-            decoration: InputDecoration(
-              hintText: 'Add a comment...',
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: const BorderSide(color: Colors.grey),
+    var cubit = context.read<PostServicesCubit>();
+    final TextEditingController commentController = TextEditingController();
+    return Container(
+      padding: const EdgeInsets.all(8.0),
+      color: Colors.white,
+      child: Row(
+        children: [
+          Expanded(
+            child: TextField(
+              controller: commentController,
+              decoration: InputDecoration(
+                hintText: 'Add a comment...',
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(color: Colors.grey),
+                ),
+                contentPadding:
+                    const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
               ),
-              contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
             ),
           ),
-        ),
-        const SizedBox(width: 8.0),
-        ElevatedButton(
-          onPressed: () {
-            // Handle the comment submission logic
-            String comment = _commentController.text;
-            if (comment.isNotEmpty) {
-              // Call a function to submit the comment
-              // submitComment(comment);
-              _commentController.clear();
-            }
-          },
-          child: const Text('Post'),
-        ),
-      ],
+          const SizedBox(width: 8.0),
+          ElevatedButton(
+            onPressed: () async {
+              // Handle the comment submission logic
+              String comment = commentController.text;
+              if (comment.isNotEmpty) {
+                await cubit.addComment(postId, comment);
+                commentController.clear();
+                if (cubit.state is !ComentLoaded) {
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Something went wrong, please try again.'),
+                  ));
+                }
+              }
+            },
+            child: const Text('Post'),
+          ),
+        ],
+      ),
     );
   }
 }

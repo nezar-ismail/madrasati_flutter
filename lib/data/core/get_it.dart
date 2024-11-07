@@ -14,6 +14,7 @@ import 'package:madrasati/presintation/phone/features/school_info/cubit/school_i
 import 'package:madrasati/presintation/phone/features/sign_in/cubit/sign_in_cubit.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
+import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -37,6 +38,7 @@ void setupLocator() {
   getIt.registerLazySingleton<SignInCubit>(() => SignInCubit(getIt<AuthService>()));
   getIt.registerLazySingleton<SchoolPagingCubit>(() => SchoolPagingCubit(getIt<SchoolService>()));
   getIt.registerLazySingleton<SchoolInfoCubit>(() => SchoolInfoCubit(getIt<SchoolService>()));
+  getIt.registerLazySingleton<UserProfileCubit>(() => UserProfileCubit());
   getIt.registerFactory<NetworkImageCubit>(() => NetworkImageCubit(getIt<API>()));
   getIt.registerFactory<PostServicesCubit>(() => PostServicesCubit(getIt<GroupPostService>()));
   getIt.registerFactory<GroupePostPaginationCubit>(() => GroupePostPaginationCubit(getIt<GroupPostService>())); // Register GroupePostPaginationCubit as a factory (non-singleton)

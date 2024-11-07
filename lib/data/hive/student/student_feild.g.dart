@@ -25,6 +25,7 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
       gender: fields[5] as String?,
       schoolId: fields[6] as String?,
       groupId: fields[7] as String?,
+      studentId: fields[8] as String?,
     );
   }
 
@@ -47,7 +48,10 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
       ..writeByte(6)
       ..write(obj.schoolId)
       ..writeByte(7)
-      ..write(obj.groupId);
+      ..write(obj.groupId)
+      ..writeByte(8)
+      ..write(obj.studentId);
+
   }
 
   @override

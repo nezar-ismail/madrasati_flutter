@@ -29,6 +29,7 @@ class DetailsHeader extends StatelessWidget {
         color: Colors.blue[50],
       ),
       padding: EdgeInsets.all(padding),
+      margin: EdgeInsets.all(8),
       child: Row(
         children: [
           ClipOval(
@@ -74,7 +75,7 @@ class DetailsHeader extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'School Name',
+                  schoolName,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: screenWidth * 0.045, // Responsive font size

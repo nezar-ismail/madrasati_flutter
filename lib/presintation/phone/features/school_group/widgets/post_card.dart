@@ -22,9 +22,10 @@ class PostCard extends StatelessWidget {
     required this.isLiked,
     required this.withImage,
     required this.postId,
-    required this.imagePost,
+    required this.imagePost, required this.schoolName,
   });
 
+  final String schoolName;
   final String schoolImage;
   final String caption;
   final String postCreatedAt;
@@ -68,6 +69,7 @@ class PostCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => PostDetails(
+                schoolName: schoolName,
                 schoolImage: schoolImage,
                 caption: caption,
                 postCreatedAt: postCreatedAt,
