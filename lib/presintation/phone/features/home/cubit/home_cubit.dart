@@ -19,6 +19,20 @@ class SchoolPagingCubit extends Cubit<SchoolPagingState> {
 
   SchoolPagingCubit(this.schoolService) : super(SchoolInitial());
 
+  /// Fetches a page of schools from the server and updates the state with the 
+  /// fetched schools. If there are no more pages to fetch, [hasMore] is set 
+  /// to false. The fetched data is converted to `SchoolCard` widgets and added 
+  /// to the [schools] list.
+  ///
+  /// This method is idempotent, meaning it can be safely called multiple times,
+  /// and it will only fetch new schools if there are more schools to fetch.
+  ///
+  /// Emits a [SchoolLoading] state before the fetching starts. If the fetching 
+  /// is successful, emits a [SchoolLoaded] state with the fetched schools and 
+  /// [hasMore] flag. If the fetching fails, emits a [SchoolError] state with 
+  /// the error message.
+  ///
+  /// Uses a flag to prevent multiple simultaneous requests.
   Future<void> fetchSchools() async {
     if (!hasMore || isFetching) return; // Stop fetching if no more pages or already fetching
 

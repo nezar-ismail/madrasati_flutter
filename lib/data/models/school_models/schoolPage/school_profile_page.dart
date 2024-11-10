@@ -35,6 +35,12 @@ class SchoolProfilepage implements ResponsModel {
     required this.teachers,
   });
 
+  /// Creates a copy of this [SchoolProfilepage] but with the given fields replaced with the new values.
+  ///
+  /// If a field is not provided, it will keep its current value.
+  ///
+  /// This method is useful when you need to update a [SchoolProfilepage] object without
+  /// having to create a new instance.
   SchoolProfilepage copyWith({
     String? schoolId,
     String? schoolName,
@@ -65,6 +71,22 @@ class SchoolProfilepage implements ResponsModel {
     );
   }
 
+  /// Converts this [SchoolProfilepage] into a map for JSON encoding.
+  ///
+  /// The map will contain the following keys:
+  /// - `schoolId`: The [schoolId].
+  /// - `schoolName`: The [schoolName].
+  /// - `schoolCoverImage`: The [schoolCoverImage].
+  /// - `schoolDescription`: The [schoolDescription].
+  /// - `schoolPhoneNumber`: The [schoolPhoneNumber].
+  /// - `schoolStudentCount`: The [schoolStudentCount].
+  /// - `schoolLocation`: The [schoolLocation].
+  /// - `averageRating`: The [averageRating].
+  /// - `schoolEmail`: The [schoolEmail].
+  /// - `schoolFeedBacks`: The [schoolFeedBacks].
+  /// - `schoolImages`: The [schoolImages].
+  /// - `teachers`: A list of maps containing the properties of each [Teacher] in [teachers].
+  ///
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'schoolId': schoolId,
@@ -110,6 +132,12 @@ class SchoolProfilepage implements ResponsModel {
       SchoolProfilepage.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+  /// Returns a string representation of this [SchoolProfilepage] object.
+  ///
+  /// The string representation will include all the properties of the
+  /// [SchoolProfilepage] object, in the format:
+  ///
+  /// `SchoolProfilepage(schoolId: $schoolId, schoolName: $schoolName, schoolCoverImage: $schoolCoverImage, schoolDescription: $schoolDescription, schoolPhoneNumber: $schoolPhoneNumber, schoolStudentCount: $schoolStudentCount, schoolLocation: $schoolLocation, averageRating: $averageRating, schoolEmail: $schoolEmail, schoolFeedBacks: $schoolFeedBacks, schoolImages: $schoolImages, teachers: $teachers)`
   String toString() {
     return 'SchoolProfilepage(schoolId: $schoolId, schoolName: $schoolName, schoolCoverImage: $schoolCoverImage, schoolDescription: $schoolDescription, schoolPhoneNumber: $schoolPhoneNumber, schoolStudentCount: $schoolStudentCount, schoolLocation: $schoolLocation, averageRating: $averageRating, schoolEmail: $schoolEmail, schoolFeedBacks: $schoolFeedBacks, schoolImages: $schoolImages, teachers: $teachers)';
   }

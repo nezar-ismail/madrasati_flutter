@@ -10,6 +10,12 @@ class Sort {
     required this.unsorted,
   });
 
+  /// Creates a copy of this [Sort] object with the given fields replaced with the new values.
+  ///
+  /// If a field is not provided, it will retain its current value from the original object.
+  ///
+  /// This method is useful for creating modified copies of a [Sort] instance
+  /// without changing the original instance.
   Sort copyWith({
     bool? empty,
     bool? sorted,
@@ -22,6 +28,18 @@ class Sort {
     );
   }
 
+  /// Converts this [Sort] object into a [Map] representation.
+  ///
+  /// The keys in the map correspond to the field names of the [Sort] object,
+  /// and the values are the respective field values.
+  ///
+  /// This method is useful for serialization and transferring data in a
+  /// key-value format.
+  ///
+  /// Returns a [Map] with the following keys:
+  /// - 'empty': whether the list is empty
+  /// - 'sorted': whether the list is sorted
+  /// - 'unsorted': whether the list is unsorted
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'empty': empty,
@@ -44,6 +62,12 @@ class Sort {
       Sort.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+/// Returns a string representation of the [Sort] object.
+///
+/// This string includes the values of all fields: `empty`, `sorted`, and `unsorted`.
+///
+/// This method is useful for debugging and logging purposes to get a quick
+/// overview of the [Sort] object's current state.
   String toString() =>
       'Sort(empty: $empty, sorted: $sorted, unsorted: $unsorted)';
 

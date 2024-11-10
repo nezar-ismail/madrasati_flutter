@@ -13,6 +13,18 @@ class Comment {
     required this.createdAt,
   });
 
+  /// Creates a copy of this [Comment] with the given fields replaced with the
+  /// new values.
+  ///
+  /// The fields that can be replaced are:
+  ///
+  /// * [commentId]
+  /// * [comment]
+  /// * [author]
+  /// * [createdAt]
+  ///
+  /// If any of the fields are null, the corresponding field of this object
+  /// is used instead.
   Comment copyWith({
     String? commentId,
     String? comment,
@@ -27,6 +39,10 @@ class Comment {
     );
   }
 
+  /// Converts the [Comment] object to a map.
+  ///
+  /// Returns a [Map<String, dynamic>] containing key-value pairs representing
+  /// the properties of the [Comment] object.
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'commentId': commentId,

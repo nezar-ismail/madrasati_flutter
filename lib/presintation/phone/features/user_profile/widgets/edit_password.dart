@@ -87,12 +87,12 @@ class _EditPasswordScreenState extends State<EditPasswordScreen> {
               Center(
                 child: ElevatedButton(
                   onPressed: _savePassword,
-                  child: const Text('Save Password'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blueAccent,
                     padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
                     textStyle: const TextStyle(fontSize: 16),
                   ),
+                  child: const Text('Save Password'),
                 ),
               ),
             ],

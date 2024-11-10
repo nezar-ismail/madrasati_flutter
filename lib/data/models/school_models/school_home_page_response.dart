@@ -35,6 +35,16 @@ class SchoolHomePage implements ResponsModel {
     required this.empty,
   });
 
+  /// Creates a copy of this [SchoolHomePage] but with the given fields
+  /// replaced with the new values.
+  ///
+  /// If a field is not provided, it will keep its current value.
+  ///
+  /// This method is useful when you need to update a [SchoolHomePage] object
+  /// without having to create a new instance.
+  ///
+  /// Example:
+  ///
   SchoolHomePage copyWith({
     int? totalElements,
     int? totalPages,
@@ -63,6 +73,21 @@ class SchoolHomePage implements ResponsModel {
     );
   }
 
+  /// Converts this [SchoolHomePage] object to a [Map] which can be used
+  /// to encode it as JSON.
+  ///
+  /// The returned [Map] contains the following keys:
+  /// - `totalElements`: the total number of elements in the whole list
+  /// - `totalPages`: the total number of pages
+  /// - `size`: the number of elements per page
+  /// - `content`: a list of [SchoolCard] objects, each as a [Map]
+  /// - `number`: the page number
+  /// - `first`: whether this is the first page
+  /// - `last`: whether this is the last page
+  /// - `numberOfElements`: the number of elements in the current page
+  /// - `sort`: the sort options, as a [Map]
+  /// - `pageable`: the page options, as a [Map]
+  /// - `empty`: whether the list is empty
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'totalElements': totalElements,
@@ -105,6 +130,11 @@ class SchoolHomePage implements ResponsModel {
       SchoolHomePage.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+  /// Returns a string representation of the [SchoolHomePage] object, including
+  /// all its fields such as totalElements, totalPages, size, content, number,
+  /// first, last, numberOfElements, sort, pageable, and empty. This method is
+  /// useful for debugging and logging purposes to get a quick overview of the
+  /// [SchoolHomePage] object's current state.
   String toString() {
     return 'SchoolHomePage(totalElements: $totalElements, totalPages: $totalPages, size: $size, content: $content, number: $number, first: $first, last: $last, numberOfElements: $numberOfElements, sort: $sort, pageable: $pageable, empty: $empty)';
   }

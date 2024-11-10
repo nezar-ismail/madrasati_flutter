@@ -24,6 +24,17 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
   List<Widget> posts = [];
   ScrollController scrollController = ScrollController();
 
+  /// Fetches a page of posts from the server and updates the state with the fetched
+  /// posts. If there are no more pages to fetch, [hasMore] is set to false.
+  ///
+  /// If the fetching is successfull, the state is updated with the fetched posts
+  /// and [hasMore] flag. If the fetching fails, the state is updated with the
+  /// error message.
+  ///
+  /// This method is idempotent, meaning it can be safely called multiple times,
+  /// and it will only fetch new posts if there are more posts to fetch.
+  ///
+  /// [groupId] is the id of the school group to fetch posts from.
   Future<void> fetchPosts(String groupId) async {
     if (!hasMore || isFetching)return; // Stop fetching if no more pages or already fetching
     isFetching = true; // Set fetching flag to true to prevent multiple calls

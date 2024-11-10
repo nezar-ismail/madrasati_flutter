@@ -18,6 +18,17 @@ class CommentsResult {
     required this.data,
   });
 
+  /// Creates a copy of this [CommentsResult] but with the given fields
+  /// replaced with the new values.
+  ///
+  /// If a field is not provided, it will keep its current value.
+  ///
+  /// This method is useful when you need to update a [CommentsResult] object
+  /// without having to create a new instance.
+  ///
+  /// Example:
+  ///
+  /// 
   CommentsResult copyWith({
     String? timestamp,
     int? status,
@@ -34,6 +45,10 @@ class CommentsResult {
     );
   }
 
+  /// Converts this [CommentsResult] instance into a [Map] with keys 'timestamp',
+  /// 'status', 'success', 'message', and 'data', and their respective values
+  /// from the instance. This is useful for serializing the object to JSON or
+  /// other formats that use key-value pairs.
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'timestamp': timestamp,

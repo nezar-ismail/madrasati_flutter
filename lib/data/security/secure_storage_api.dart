@@ -13,6 +13,11 @@ class SecureStorageApi {
   static const String _accessTokenKey = 'accessToken';
   static const String _refreshTokenKey = 'refreshToken';
 
+  /// Stores the access token in secure storage.
+  ///
+  /// Takes a [String] value representing the access token and writes it to
+  /// secure storage under the key `_accessTokenKey`. If an error occurs during
+  /// this process, it logs the error and throws an [InternalException].
   Future<void> setAccessToken(String? value) async {
     try {
       await _secureStorage.write(key: _accessTokenKey, value: value);
@@ -22,6 +27,11 @@ class SecureStorageApi {
     }
   }
 
+  /// Retrieves the access token from secure storage.
+  ///
+  /// Returns a [String] value representing the access token if it exists in
+  /// secure storage, or `null` otherwise. If an error occurs during this
+  /// process, it logs the error and throws an [InternalException].
   Future<String?> getAccessToken() async {
     try {
       return await _secureStorage.read(key: _accessTokenKey);
@@ -31,6 +41,11 @@ class SecureStorageApi {
     }
   }
 
+  /// Stores the refresh token in secure storage.
+  ///
+  /// Takes a [String] value representing the refresh token and writes it to
+  /// secure storage under the key `_refreshTokenKey`. If an error occurs during
+  /// this process, it logs the error and throws an [InternalException].
   Future<void> setRefreshToken(String? value) async {
     try {
       await _secureStorage.write(key: _refreshTokenKey, value: value);
@@ -40,6 +55,11 @@ class SecureStorageApi {
     }
   }
 
+  /// Retrieves the refresh token from secure storage.
+  ///
+  /// Returns a [String] value representing the refresh token if it exists in
+  /// secure storage, or `null` otherwise. If an error occurs during this
+  /// process, it logs the error and throws an [InternalException].
   Future<String?> getRefreshToken() async {
     try {
       return await _secureStorage.read(key: _refreshTokenKey);
@@ -49,6 +69,13 @@ class SecureStorageApi {
     }
   }
 
+  /// Checks whether the user is currently logged in.
+  ///
+  /// Returns a [Future] containing a [bool] value indicating whether the user is
+  /// currently logged in. If the user is logged in (i.e., a refresh token exists
+  /// in secure storage), the returned value is `true`. Otherwise, the returned
+  /// value is `false`. If an error occurs during this process, it logs the error
+  /// and throws an [InternalException].
   Future<bool> isUserLoggedIn() async {
     try {
       final refreshToken = await getRefreshToken();
@@ -59,6 +86,10 @@ class SecureStorageApi {
     }
   }
 
+  /// Logs the user out by deleting all values from secure storage.
+  ///
+  /// If an error occurs during this process, it logs the error and throws an
+  /// [InternalException].
   Future<void> logout() async {
     try {
       await _secureStorage.deleteAll();

@@ -9,6 +9,16 @@ import '../models/school_models/school_home_page_response.dart';
 class SchoolService {
   final SchoolApi schoolApi;
   SchoolService(this.schoolApi);
+  
+  /// Fetches a page of schools from the server with pagination.
+  ///
+  /// [page] specifies the page number to be fetched.
+  /// [size] determines the number of schools per page.
+  /// [token] is the authentication token for the API request.
+  ///
+  /// Returns a [Future] containing the server [Response] with the list of schools
+  /// if the request is successful. Logs the request URL and response data for
+  /// debugging.
   Future<ResponsModel> getAllSchools({
     required int page,
     required int size,
@@ -36,6 +46,16 @@ class SchoolService {
     }
   }
 
+  /// Fetches the school information for a given [schoolId] from the server.
+  ///
+  /// [schoolId] is the identifier of the school to be fetched.
+  /// [token] is the authentication token required for the API request.
+  ///
+  /// Returns a [Future] containing a [ResponsModel] which will be an instance
+  /// of [SchoolProfilepage] if the request is successful.
+  /// If the response status code is not 200, it throws an exception with the
+  /// corresponding status code and error message.
+  /// Logs any errors encountered during the request.
   Future<ResponsModel> getSchoolById(
       {required String schoolId, required String token}) async {
     try {
@@ -56,6 +76,16 @@ class SchoolService {
     }
   }
 
+  /// Uploads the cover image for a school with the specified [schoolId].
+  ///
+  /// [schoolId] is the identifier for the school to which the cover image is
+  /// being uploaded.
+  /// [file] is the image file to be uploaded.
+  /// [token] is the authentication token for the API request.
+  ///
+  /// Returns a [Future] containing the server [Response] with the upload
+  /// status if the request is successful. Logs the request URL and response
+  /// data for debugging.
   Future<ResponsModel> uploadCoverImage(
       {required String schoolId,
       required MultipartFile file,
@@ -79,6 +109,16 @@ class SchoolService {
     }
   }
 
+  /// Uploads the images for a school with the specified [schoolId].
+  ///
+  /// [schoolId] is the identifier for the school to which the images are
+  /// being uploaded.
+  /// [files] is the list of image files to be uploaded.
+  /// [token] is the authentication token for the API request.
+  ///
+  /// Returns a [Future] containing the server [Response] with the upload
+  /// status if the request is successful. Logs the request URL and response
+  /// data for debugging.
   Future<ResponsModel> uploadSchoolImages(
       {required String schoolId,
       required List<MultipartFile> files,

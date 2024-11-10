@@ -11,6 +11,11 @@ class SchoolInfoCubit extends Cubit<SchoolInfoState> {
   final SchoolService _schoolService ;
   SchoolInfoCubit(this._schoolService) : super(SchoolInfoInitial());
 
+  /// Get school information by schoolId
+  ///
+  /// Emits [SchoolInfoLoading] state, then
+  /// - [SchoolInfoLoaded] with [SchoolProfilepage] if the request is successful
+  /// - [SchoolInfoError] if the request fails
   Future<void> getSchoolInfo( {required String schoolId}) async {
     emit(SchoolInfoLoading());
     try {

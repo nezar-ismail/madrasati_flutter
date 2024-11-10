@@ -38,6 +38,13 @@ class API {
     }
   }
 
+  /// Download an image from the given URL.
+  ///
+  /// [headers] is an optional map of headers to add to the request.
+  ///
+  /// Returns a [Future<Response>] containing the server response.
+  ///
+  /// Throws a [DioException] if the request fails.
   Future getImage(String url, {Map<String, dynamic>? headers}) async {
     try {
       log('url request: $url');

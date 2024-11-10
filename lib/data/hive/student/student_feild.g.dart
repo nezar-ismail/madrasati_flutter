@@ -11,6 +11,19 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
   final int typeId = 0;
 
   @override
+  /// Reads a [LocalStudent] from the given [BinaryReader].
+  ///
+  /// The read fields are:
+  ///
+  /// 1. [userEmail]
+  /// 2. [firstName]
+  /// 3. [lastName]
+  /// 4. [imagePath]
+  /// 5. [birthDate]
+  /// 6. [gender]
+  /// 7. [schoolId]
+  /// 8. [groupId]
+  /// 9. [studentId]
   LocalStudent read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
@@ -30,6 +43,19 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
   }
 
   @override
+  /// Writes the given [LocalStudent] to the [BinaryWriter].
+  ///
+  /// The order of the fields is as follows:
+  ///
+  /// 1. [userEmail]
+  /// 2. [firstName]
+  /// 3. [lastName]
+  /// 4. [imagePath]
+  /// 5. [birthDate]
+  /// 6. [gender]
+  /// 7. [schoolId]
+  /// 8. [groupId]
+  /// 9. [studentId]
   void write(BinaryWriter writer, LocalStudent obj) {
     writer
       ..writeByte(6)

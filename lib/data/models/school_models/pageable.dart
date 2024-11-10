@@ -20,6 +20,15 @@ class Pageable {
     required this.unpaged,
   });
 
+  /// Creates a copy of this [Pageable] but with the given fields replaced with the new values.
+  ///
+  /// If a field is not provided, it will keep its current value.
+  ///
+  /// This method is useful for creating modified copies of a [Pageable] instance
+  /// without changing the original instance.
+  ///
+  /// Example:
+  /// 
   Pageable copyWith({
     int? offset,
     Sort? sort,
@@ -38,6 +47,18 @@ class Pageable {
     );
   }
 
+/// Converts this [Pageable] object into a [Map] representation.
+///
+/// This method is useful for serialization and transferring data
+/// in a key-value format. The returned map contains the following
+/// key-value pairs:
+///
+/// - `offset`: the offset of the pagination.
+/// - `sort`: the sort order, represented as a map.
+/// - `paged`: indicates if the pagination is paged.
+/// - `pageNumber`: the current page number.
+/// - `pageSize`: the size of the page.
+/// - `unpaged`: indicates if the pagination is unpaged.
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'offset': offset,
@@ -65,6 +86,10 @@ class Pageable {
   factory Pageable.fromJson(String source) => Pageable.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+  /// Returns a string representation of the [Pageable] object, including
+  /// all its fields such as `offset`, `sort`, `paged`, `pageNumber`, `pageSize`,
+  /// and `unpaged`. This method is useful for debugging and logging purposes
+  /// to get a quick overview of the [Pageable] object's current state.
   String toString() {
     return 'Pageable(offset: $offset, sort: $sort, paged: $paged, pageNumber: $pageNumber, pageSize: $pageSize, unpaged: $unpaged)';
   }

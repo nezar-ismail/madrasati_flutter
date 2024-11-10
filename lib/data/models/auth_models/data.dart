@@ -10,6 +10,13 @@ class Data {
     required this.groupId,
   });
 
+  /// Creates a copy of this [Data] but with the given fields replaced with the
+  /// new values.
+  ///
+  /// [schoolId] and [groupId] can be null, in which case they will be ignored.
+  ///
+  /// Returns a new object with the given fields replaced, without modifying the
+  /// original object.
   Data copyWith({
     String? schoolId,
     String? groupId,
@@ -20,6 +27,8 @@ class Data {
     );
   }
 
+  /// Converts this [Data] instance into a [Map] with keys 'schoolId' and 'groupId',
+  /// and their respective values from the instance.
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'schoolId': schoolId,

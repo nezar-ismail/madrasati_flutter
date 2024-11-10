@@ -22,6 +22,8 @@ class DetailesCommentSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log('commentAuthor = $commentAuthor');
+    log('userId = ${getIt<UserProfileCubit>().state!.studentId}');
     log(commentId);
 
     // Retrieve the screen width and calculate responsive sizes

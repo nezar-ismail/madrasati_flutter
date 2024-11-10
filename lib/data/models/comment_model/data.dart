@@ -34,6 +34,12 @@ class CommentData implements ResponsModel {
     required this.empty,
   });
 
+  /// Creates a copy of this [CommentData] with the given fields replaced with the new values.
+  ///
+  /// If a field is not provided, it will keep its current value.
+  ///
+  /// This method is useful when you need to update a [CommentData] object without
+  /// having to create a new instance.
   CommentData copyWith({
     int? totalElements,
     int? totalPages,
@@ -62,6 +68,21 @@ class CommentData implements ResponsModel {
     );
   }
 
+  /// Converts this [CommentData] to a [Map] which can be used
+  /// to encode it as JSON.
+  ///
+  /// Returns a [Map] with the following keys:
+  /// - `totalElements`: the total number of elements in the whole list
+  /// - `totalPages`: the total number of pages
+  /// - `size`: the number of elements per page
+  /// - `content`: a list of comments, each as a [Map]
+  /// - `number`: the page number
+  /// - `sort`: the sort options, as a [Map]
+  /// - `first`: whether this is the first page
+  /// - `last`: whether this is the last page
+  /// - `numberOfElements`: the number of elements in the current page
+  /// - `pageable`: the page options, as a [Map]
+  /// - `empty`: whether the list is empty
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'totalElements': totalElements,
@@ -104,6 +125,9 @@ class CommentData implements ResponsModel {
       CommentData.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+/// Returns a string representation of the [CommentData] object, including
+/// all its fields such as totalElements, totalPages, size, content, number,
+/// sort, first, last, numberOfElements, pageable, and empty.
   String toString() {
     return 'Data(totalElements: $totalElements, totalPages: $totalPages, size: $size, content: $content, number: $number, sort: $sort, first: $first, last: $last, numberOfElements: $numberOfElements, pageable: $pageable, empty: $empty)';
   }

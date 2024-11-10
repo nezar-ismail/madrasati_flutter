@@ -15,9 +15,14 @@ import 'package:madrasati/presintation/phone/features/sign_in/cubit/sign_in_cubi
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
+import 'package:madrasati/presintation/phone/features/user_profile/cubit/edit_password_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
+/// Register all the services and cubits in the locator
+///
+/// This function should be called once during the app initialization
+///
 void setupLocator() {
   // Register BaseApi (Dio, BaseAPI, SecureStorageApi
   getIt.registerLazySingleton<Dio>(() => Dio());
@@ -25,21 +30,36 @@ void setupLocator() {
   getIt.registerLazySingleton<SecureStorageApi>(() => SecureStorageApi());
 
   // Register ApisRepository
-    getIt.registerLazySingleton<AuthApi>(() => AuthApi(getIt<API>()));
-    getIt.registerLazySingleton<SchoolApi>(() => SchoolApi(getIt<API>()));
-    getIt.registerLazySingleton<GroupPostApi>(() => GroupPostApi(getIt<API>()));
+  getIt.registerLazySingleton<AuthApi>(() => AuthApi(getIt<API>()));
+  getIt.registerLazySingleton<SchoolApi>(() => SchoolApi(getIt<API>()));
+  getIt.registerLazySingleton<GroupPostApi>(() => GroupPostApi(getIt<API>()));
 
   // Register Services
-  getIt.registerLazySingleton<AuthService>(() => AuthService(getIt<AuthApi>(),getIt<SecureStorageApi>(),));
-  getIt.registerLazySingleton<SchoolService>(() => SchoolService(getIt<SchoolApi>()));
-  getIt.registerLazySingleton<GroupPostService>(() => GroupPostService(getIt<GroupPostApi>()));
+  getIt.registerLazySingleton<AuthService>(() => AuthService(
+        getIt<AuthApi>(),
+        getIt<SecureStorageApi>(),
+      ));
+  getIt.registerLazySingleton<SchoolService>(
+      () => SchoolService(getIt<SchoolApi>()));
+  getIt.registerLazySingleton<GroupPostService>(
+      () => GroupPostService(getIt<GroupPostApi>()));
 
-  // Register Cubits
-  getIt.registerLazySingleton<SignInCubit>(() => SignInCubit(getIt<AuthService>()));
-  getIt.registerLazySingleton<SchoolPagingCubit>(() => SchoolPagingCubit(getIt<SchoolService>()));
-  getIt.registerLazySingleton<SchoolInfoCubit>(() => SchoolInfoCubit(getIt<SchoolService>()));
+  // Register LazySingleton Cubits
+  getIt.registerLazySingleton<SignInCubit>(
+      () => SignInCubit(getIt<AuthService>()));
+  getIt.registerLazySingleton<SchoolPagingCubit>(
+      () => SchoolPagingCubit(getIt<SchoolService>()));
+  getIt.registerLazySingleton<SchoolInfoCubit>(
+      () => SchoolInfoCubit(getIt<SchoolService>()));
   getIt.registerLazySingleton<UserProfileCubit>(() => UserProfileCubit());
-  getIt.registerFactory<NetworkImageCubit>(() => NetworkImageCubit(getIt<API>()));
-  getIt.registerFactory<PostServicesCubit>(() => PostServicesCubit(getIt<GroupPostService>()));
-  getIt.registerFactory<GroupePostPaginationCubit>(() => GroupePostPaginationCubit(getIt<GroupPostService>())); // Register GroupePostPaginationCubit as a factory (non-singleton)
+
+  // Register Factory Cubits
+  getIt.registerFactory<NetworkImageCubit>(
+      () => NetworkImageCubit(getIt<API>()));
+  getIt.registerFactory<PostServicesCubit>(
+      () => PostServicesCubit(getIt<GroupPostService>()));
+  getIt.registerFactory<GroupePostPaginationCubit>(
+      () => GroupePostPaginationCubit(getIt<GroupPostService>()));
+  getIt.registerFactory<EditPasswordCubit>(
+      () => EditPasswordCubit(getIt<AuthService>()));
 }

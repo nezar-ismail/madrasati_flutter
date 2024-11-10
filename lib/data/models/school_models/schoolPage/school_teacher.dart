@@ -14,6 +14,14 @@ class Teacher {
     required this.teacherImage,
   });
 
+  /// Creates a copy of this [Teacher] but with the given fields replaced with
+  /// the new values.
+  ///
+  /// If a field is not provided, it will keep its current value from the 
+  /// existing [Teacher] instance.
+  ///
+  /// This method is useful when you need to update a [Teacher] object without
+  /// having to create a new instance.
   Teacher copyWith({
     String? teacherName,
     String? teacherSubject,
@@ -30,6 +38,17 @@ class Teacher {
     );
   }
 
+  /// Converts this [Teacher] into a map for JSON encoding.
+  ///
+  /// The map will contain the following keys:
+  /// - `teacherName`: The [teacherName].
+  /// - `teacherSubject`: The [teacherSubject].
+  /// - `teacherExperience`: The [teacherExperience].
+  /// - `teacherDescription`: The [teacherDescription].
+  /// - `teacherImage`: The [teacherImage].
+  ///
+  /// The values of these keys will be `null` if the respective field
+  /// is `null`.
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'teacherName': teacherName,
@@ -56,6 +75,9 @@ class Teacher {
       Teacher.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+/// Returns a string representation of the [Teacher] object, including
+/// all its fields such as teacherName, teacherSubject, teacherExperience,
+/// teacherDescription, and teacherImage.
   String toString() {
     return 'Teacher(teacherName: $teacherName, teacherSubject: $teacherSubject, teacherExperience: $teacherExperience, teacherDescription: $teacherDescription, teacherImage: $teacherImage)';
   }

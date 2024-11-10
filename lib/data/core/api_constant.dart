@@ -13,8 +13,7 @@ class ApiConstants {
 }
 
 class AuthEndpoints {
-  static final String baseUrl =
-      '${ApiConstants.baseUrl}${ApiConstants.authVersion}/auth';
+  static final String baseUrl = '${ApiConstants.baseUrl}${ApiConstants.authVersion}/auth';
 
   static final String schoolLogin = '$baseUrl/login';
   static final String studentLogin = '$baseUrl/login';
@@ -23,6 +22,7 @@ class AuthEndpoints {
   static final String refreshToken = '$baseUrl/refreshToken';
   static final String guestLogin = '$baseUrl/guestLogin';
   static final String guestLogout = '$baseUrl/guestLogout';
+  static final String editPassword = '$baseUrl/user/changePassword';
 }
 
 class GroupeEndpoints {
