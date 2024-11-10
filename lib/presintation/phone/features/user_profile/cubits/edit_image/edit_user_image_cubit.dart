@@ -57,7 +57,7 @@ class UserImageCubit extends Cubit<EditUserImageState> {
   postPatientImage({required File file, required int userId}) async {
     try {
       if (state is UserImageLoaded) {
-        MultipartFile imageFile = await getMultipartFile(file);
+        //! MultipartFile imageFile = await getMultipartFile(file);
         // user =
         //     await PatientService(usersAPI: PatientAPI(), imageAPI: ImageAPI())
         //         .updateImage(file: imageFile, userId: userId);

@@ -49,7 +49,7 @@ void setupLocator() {
       () => SignInCubit(getIt<AuthService>()));
   getIt.registerLazySingleton<SchoolPagingCubit>(
       () => SchoolPagingCubit(getIt<SchoolService>()));
-  getIt.registerLazySingleton<SchoolInfoCubit>(
+  getIt.registerFactory<SchoolInfoCubit>(
       () => SchoolInfoCubit(getIt<SchoolService>()));
   getIt.registerLazySingleton<UserProfileCubit>(() => UserProfileCubit());
 

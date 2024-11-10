@@ -134,9 +134,9 @@ class AuthApi {
     required String newPassword,
     required String token,
   }) async {
-    String url = AuthEndpoints.editPassword;
+    String url = UserEndpoints.editPassword;
 
-    final Map<String, dynamic> header = makeHeaders(token, true);
+    final Map<String, dynamic> header = {'Authorization': 'Bearer $token'};
 
     final Map<String, dynamic> body = {
       "oldPassword": oldPassword,

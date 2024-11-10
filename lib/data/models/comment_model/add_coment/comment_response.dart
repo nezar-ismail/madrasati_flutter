@@ -86,6 +86,7 @@ class CommentAddedData implements ResponsModel{
   /// Returns a [Comment] object.
 Comment toComment(String author) {
     return Comment(
+      authorId: authorId,
       commentId: commentId,
       comment: comment,
       author: author ,

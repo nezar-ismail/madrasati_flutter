@@ -22,7 +22,13 @@ class AuthEndpoints {
   static final String refreshToken = '$baseUrl/refreshToken';
   static final String guestLogin = '$baseUrl/guestLogin';
   static final String guestLogout = '$baseUrl/guestLogout';
-  static final String editPassword = '$baseUrl/user/changePassword';
+
+}
+class UserEndpoints {
+  static final String baseUrl =
+      '${ApiConstants.baseUrl}${ApiConstants.authVersion}/user';
+
+  static final String editPassword = '$baseUrl/changePassword';
 }
 
 class GroupeEndpoints {
@@ -50,7 +56,7 @@ class GroupeEndpoints {
   }
 
   static String deleteComment(String postId, String commentId) {
-    return '$baseUrl/post/$postId/comment/$commentId/deleteComment';
+    return '$baseUrl/post/$postId/comment/$commentId';
   }
 
   static String addLike(String postId) {
@@ -80,5 +86,9 @@ class SchoolEndpoints {
 
   static String uploadSchoolImages(String schoolId) {
     return '$baseUrl/$schoolId/uploadSchoolImages';
+  }
+
+    static String getAllFeedbacks(int page, int size, String schoolId) {
+    return '$baseUrl/$schoolId/getSchoolFeedbacks?page=$page&size=$size';
   }
 }

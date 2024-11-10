@@ -9,14 +9,14 @@ class SchoolApi {
 
   SchoolApi(this.api);
 
-/// Fetches a list of schools from the server with pagination.
-///
-/// [page] specifies the page number to be fetched.
-/// [size] determines the number of schools per page.
-/// [token] is the authentication token for the API request.
-///
-/// Returns a [Future] containing the server [Response] with the list of schools
-/// if the request is successful. Logs the request URL and response data for debugging.
+  /// Fetches a list of schools from the server with pagination.
+  ///
+  /// [page] specifies the page number to be fetched.
+  /// [size] determines the number of schools per page.
+  /// [token] is the authentication token for the API request.
+  ///
+  /// Returns a [Future] containing the server [Response] with the list of schools
+  /// if the request is successful. Logs the request URL and response data for debugging.
   Future<Response> getAllSchools(
       {required int page, required int size, required String token}) async {
     String url = SchoolEndpoints.getAllSchools(page, size);
@@ -88,6 +88,26 @@ class SchoolApi {
     });
 
     Response response = await api.post(url, body: body, headers: authHeader);
+    return response;
+  }
+
+  /// Fetches all feedbacks for a specified school.
+  ///
+  /// [schoolId] is the identifier for the school whose feedbacks are to be fetched.
+  /// [token] is the authentication token required for the API request.
+  /// [page] is the page number for pagination.
+  /// [size] indicates the number of feedbacks to fetch per page.
+  ///
+  /// Returns a [Future] containing the server [Response] with the feedbacks data if the request is successful.
+  /// Throws an exception if the request fails.
+  Future<Response> getAllFeedbacks(
+      {required String schoolId,
+      required String token,
+      required int page,
+      required int size}) async {
+    String url = SchoolEndpoints.getAllFeedbacks(page, size, schoolId);
+    Map<String, String> authHeader = makeHeaders(token);
+    Response response = await api.get(url, headers: authHeader);
     return response;
   }
 

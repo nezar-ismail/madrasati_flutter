@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:madrasati/data/errors/internal_exception.dart';
+import 'package:madrasati/data/models/feedback/feedback_res.dart';
 import 'package:madrasati/data/models/school_models/schoolPage/school_profile_page.dart';
 import 'package:madrasati/data/repo_apis/school_api.dart';
 import 'package:madrasati/data/utils/custom_logs.dart';
@@ -141,6 +143,42 @@ class SchoolService {
       rethrow;
     }
   }
+
+
+Future<ResponsModel> getAllComments({
+    required String schoolId,
+    required String token,
+    required int page,
+    required int size,
+  }) async {
+    try {
+      Response response = await schoolApi.getAllFeedbacks(
+        schoolId: schoolId,
+        token: token,
+        page: page,
+        size: size,
+      );
+      switch (response.statusCode) {
+        case 200:
+          final data = FeedbackData.fromMap(response.data['data']);
+          if (data.empty) {
+            return EmptyResponse();
+          }
+          return data;
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw InternalException("Failed to fetch posts");
+      }
+    } catch (e) {
+      logError('error with getAllPosts $e');
+      rethrow;
+    }
+  }
+
+
+
 }
 //TODO: we need to handle the exception from server and front 
 //TODO: determine the way to handle the data from server and choose the method 

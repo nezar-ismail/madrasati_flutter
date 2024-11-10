@@ -6,7 +6,9 @@ class Comment {
   final String comment;
   final String author;
   final String createdAt;
+  final String authorId;
   Comment({
+    required this.authorId,
     required this.commentId,
     required this.comment,
     required this.author,
@@ -30,12 +32,14 @@ class Comment {
     String? comment,
     String? author,
     String? createdAt,
+    String? authorId
   }) {
     return Comment(
+      authorId: authorId ?? this.authorId,
       commentId: commentId ?? this.commentId,
       comment: comment ?? this.comment,
       author: author ?? this.author,
-      createdAt: createdAt ?? this.createdAt,
+      createdAt: createdAt ?? this.createdAt
     );
   }
 
@@ -49,11 +53,13 @@ class Comment {
       'comment': comment,
       'author': author,
       'createdAt': createdAt,
+      'authorId': authorId
     };
   }
 
   factory Comment.fromMap(Map<String, dynamic> map) {
     return Comment(
+      authorId: map['authorId'] as String,
       commentId: map['commentId'] as String,
       comment: map['comment'] as String,
       author: map['author'] as String,
@@ -67,7 +73,7 @@ class Comment {
 
   @override
   String toString() {
-    return 'Comment(commentId: $commentId, comment: $comment, author: $author, createdAt: $createdAt)';
+    return 'Comment(commentId: $commentId, comment: $comment, author: $author, createdAt: $createdAt authorId: $authorId)';
   }
 
   @override
@@ -78,6 +84,7 @@ class Comment {
       other.commentId == commentId &&
       other.comment == comment &&
       other.author == author &&
+      other.authorId == authorId &&
       other.createdAt == createdAt;
   }
 
@@ -86,6 +93,7 @@ class Comment {
     return commentId.hashCode ^
       comment.hashCode ^
       author.hashCode ^
+      authorId.hashCode ^
       createdAt.hashCode;
   }
 }
