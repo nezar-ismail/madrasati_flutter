@@ -78,6 +78,7 @@ class SchoolService {
     }
   }
 
+
   /// Uploads the cover image for a school with the specified [schoolId].
   ///
   /// [schoolId] is the identifier for the school to which the cover image is
@@ -145,6 +146,15 @@ class SchoolService {
   }
 
 
+  /// Fetches all feedbacks for a specified school.
+  ///
+  /// [schoolId] is the identifier for the school whose feedbacks are to be fetched.
+  /// [token] is the authentication token required for the API request.
+  /// [page] is the page number for pagination.
+  /// [size] indicates the number of feedbacks to fetch per page.
+  ///
+  /// Returns a [Future] containing the server [Response] with the feedbacks data if the request is successful.
+  /// Throws an exception if the request fails.
 Future<ResponsModel> getAllComments({
     required String schoolId,
     required String token,
@@ -177,6 +187,37 @@ Future<ResponsModel> getAllComments({
     }
   }
 
+Future<ResponsModel> getAllFeedback({
+    required String schoolId,
+    required String token,
+    required int page,
+    required int size,
+  }) async {
+    try {
+      Response response = await schoolApi.getAllFeedbacks(
+        
+        token: token,
+        page: page,
+        size: size, schoolId: schoolId,
+      );
+      switch (response.statusCode) {
+        case 200:
+          final data = FeedbackData.fromMap(response.data['data']);
+          if (data.empty) {
+            return EmptyResponse();
+          }
+          return data;
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw InternalException("Failed to fetch posts");
+      }
+    } catch (e) {
+      logError('error with getAllPosts $e');
+      rethrow;
+    }
+  }
 
 
 }

@@ -22,3 +22,14 @@ final class SchoolInfoError extends SchoolInfoState {
 }
 
 
+final class FeedbackLoaded extends SchoolInfoState {
+  final List<FeedbackContent> feedbackContents; 
+  final bool hasMore;
+
+  const FeedbackLoaded({required this.feedbackContents, required this.hasMore});
+
+  @override
+  List<Object> get props => [feedbackContents, hasMore];
+}
+
+

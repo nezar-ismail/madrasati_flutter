@@ -1,5 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:madrasati/data/models/feedback/feedback.dart';
+import 'package:madrasati/data/models/feedback/feedback_res.dart';
 import 'package:madrasati/data/models/school_models/schoolPage/school_profile_page.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/data/services/school_service.dart';
@@ -9,6 +11,10 @@ part 'school_info_state.dart';
 
 class SchoolInfoCubit extends Cubit<SchoolInfoState> {
   final SchoolService _schoolService ;
+  int currentPage = 0;
+  bool hasMore = true;
+  bool isFetching = false;
+  List<FeedbackContent> feedbackContents = [];
   SchoolInfoCubit(this._schoolService) : super(SchoolInfoInitial());
 
   /// Get school information by schoolId
@@ -29,5 +35,30 @@ class SchoolInfoCubit extends Cubit<SchoolInfoState> {
       logError(e.toString());
       emit(SchoolInfoError(message: e.toString()));
     }    
+  }
+
+
+    Future<void> fetchFeedback(String schoolId) async {
+    if (!hasMore || isFetching)return; // Stop fetching if no more pages or already fetching
+    isFetching = true; // Set fetching flag to true to prevent multiple calls
+    emit(SchoolInfoLoading());
+    try {
+      final response = await _schoolService.getAllFeedback(
+          schoolId: schoolId,
+          token: await SecureStorageApi.instance.getAccessToken() ?? "",
+          page: currentPage,
+          size: 10);
+      if (response is FeedbackData) {
+        currentPage++;
+        hasMore = !response.last;
+        feedbackContents.addAll(response.content);
+        isFetching = false;
+        emit(FeedbackLoaded(
+            feedbackContents: feedbackContents,
+            hasMore: hasMore)); // Emit state with the updated list
+      }
+    } catch (e) {
+      emit(SchoolInfoError(message: e.toString()));
+    }
   }
 }

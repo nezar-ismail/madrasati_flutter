@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 
 import 'package:madrasati/data/models/common_response_model.dart';
+import 'package:madrasati/data/models/feedback/feedback.dart';
 
 import 'school_teacher.dart';
 
@@ -17,7 +18,7 @@ class SchoolProfilepage implements ResponsModel {
   String schoolLocation;
   Map<String, dynamic> averageRating;
   String schoolEmail;
-  List<String> schoolFeedBacks;
+  List<FeedbackContent> schoolFeedBacks;
   List<String> schoolImages;
   List<Teacher> teachers;
   SchoolProfilepage({
@@ -51,7 +52,7 @@ class SchoolProfilepage implements ResponsModel {
     String? schoolLocation,
     Map<String, dynamic>? averageRating,
     String? schoolEmail,
-    List<String>? schoolFeedBacks,
+    List<FeedbackContent>? schoolFeedBacks,
     List<String>? schoolImages,
     List<Teacher>? teachers,
   }) {
@@ -116,7 +117,11 @@ class SchoolProfilepage implements ResponsModel {
       averageRating: map['averageRating'] as Map<String, dynamic>,
       schoolEmail: map['schoolEmail'] as String,
       schoolFeedBacks:
-          List<String>.from((map['schoolFeedBacks'] as List<dynamic>)),
+          List<FeedbackContent>.from((map['schoolFeedBacks'] as List<dynamic>)
+              .map<FeedbackContent>(
+                (x) => FeedbackContent.fromMap(x as Map<String, dynamic>),
+              )
+              .toList()),
       schoolImages: List<String>.from((map['schoolImages'] as List<dynamic>)),
       teachers: List<Teacher>.from(
         (map['teachers'] as List<dynamic>).map<Teacher>(
@@ -132,6 +137,7 @@ class SchoolProfilepage implements ResponsModel {
       SchoolProfilepage.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+
   /// Returns a string representation of this [SchoolProfilepage] object.
   ///
   /// The string representation will include all the properties of the

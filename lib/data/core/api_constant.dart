@@ -89,6 +89,6 @@ class SchoolEndpoints {
   }
 
     static String getAllFeedbacks(int page, int size, String schoolId) {
-    return '$baseUrl/$schoolId/getSchoolFeedbacks?page=$page&size=$size';
+    return '$baseUrl/$schoolId/getSchoolFeedBacks?page=$page&size=$size';
   }
 }

@@ -5,7 +5,7 @@ import 'package:madrasati/data/models/common_response_model.dart';
 
 class FeedbackContent implements ResponsModel {
   final String userFirstName;
-  final DateTime createdAt;
+  final String createdAt;
   final String userId;
   final String feedbackDescription;
   final String feedbackId;
@@ -25,7 +25,7 @@ class FeedbackContent implements ResponsModel {
   /// This method is useful when you need to update a [FeedbackContent] object without having to create a new instance.
   FeedbackContent copyWith({
     String? userFirstName,
-    DateTime? createdAt,
+    String? createdAt,
     String? userId,
     String? feedbackDescription,
     String? feedbackId,
@@ -54,7 +54,7 @@ class FeedbackContent implements ResponsModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'userFirstName': userFirstName,
-      'createdAt': createdAt.millisecondsSinceEpoch,
+      'createdAt': createdAt,
       'userId': userId,
       'feedbackDescription': feedbackDescription,
       'feedbackId': feedbackId,
@@ -64,7 +64,7 @@ class FeedbackContent implements ResponsModel {
   factory FeedbackContent.fromMap(Map<String, dynamic> map) {
     return FeedbackContent(
       userFirstName: map['userFirstName'] as String,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+      createdAt: map['createdAt'] as String,
       userId: map['userId'] as String,
       feedbackDescription: map['feedbackDescription'] as String,
       feedbackId: map['feedbackId'] as String,

@@ -103,7 +103,7 @@ class FeedbackData implements ResponsModel {
       totalElements: map['totalElements'] as int,
       totalPages: map['totalPages'] as int,
       size: map['size'] as int,
-      content: List<FeedbackContent>.from((map['content'] as List<int>).map<FeedbackContent>((x) => FeedbackContent.fromMap(x as Map<String,dynamic>),),),
+      content: List<FeedbackContent>.from((map['content'] as List<dynamic>).map<FeedbackContent>((x) => FeedbackContent.fromMap(x as Map<String,dynamic>),),),
       number: map['number'] as int,
       sort: Sort.fromMap(map['sort'] as Map<String,dynamic>),
       first: map['first'] as bool,

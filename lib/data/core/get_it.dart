@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:madrasati/data/core/api.dart';
+import 'package:madrasati/data/core/api_inspector.dart';
 import 'package:madrasati/data/repo_apis/group_post_api.dart';
 import 'package:madrasati/data/repo_apis/school_api.dart';
 import 'package:madrasati/data/services/authentication_service.dart';
@@ -26,7 +27,8 @@ final GetIt getIt = GetIt.instance;
 void setupLocator() {
   // Register BaseApi (Dio, BaseAPI, SecureStorageApi
   getIt.registerLazySingleton<Dio>(() => Dio());
-  getIt.registerLazySingleton<API>(() => API(getIt<Dio>()));
+  getIt.registerLazySingleton<APIInspector>(() => APIInspector(getIt<Dio>()));
+  getIt.registerLazySingleton<API>(() => API(getIt<APIInspector>()));
   getIt.registerLazySingleton<SecureStorageApi>(() => SecureStorageApi());
 
   // Register ApisRepository

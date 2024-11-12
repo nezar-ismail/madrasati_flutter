@@ -205,4 +205,19 @@ class UserBox {
   static String? getStudentId() {
     return getUser()?.studentId;
   }
+
+  // Save userSchool
+  /// Saves the given [userSchool] to Hive as the school of the currently logged in user.
+  /// If no user is logged in, creates a new user with the given [userSchool].
+  static Future<void> putUserSchool(String userSchool) async {
+    var user = getUser() ?? LocalStudent();
+    user.schoolName = userSchool;
+    await saveUser(user);
+  }
+
+  // Get userSchool
+  /// Returns the school of the currently logged in user, or null if no user is logged in.
+  static String? getUserSchool() {
+    return getUser()?.schoolName;
+  }
 }
