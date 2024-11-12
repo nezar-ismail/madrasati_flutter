@@ -26,42 +26,42 @@ final GetIt getIt = GetIt.instance;
 ///
 void setupLocator() {
   // Register BaseApi (Dio, BaseAPI, SecureStorageApi
-  getIt.registerLazySingleton<Dio>(() => Dio());
-  getIt.registerLazySingleton<APIInspector>(() => APIInspector(getIt<Dio>()));
-  getIt.registerLazySingleton<API>(() => API(getIt<APIInspector>()));
-  getIt.registerLazySingleton<SecureStorageApi>(() => SecureStorageApi());
+    getIt.registerLazySingleton<Dio>(() => Dio());
+    getIt.registerLazySingleton<APIInspector>(() => APIInspector(getIt<Dio>()));
+    getIt.registerLazySingleton<API>(() => API(getIt<APIInspector>()));
+    getIt.registerLazySingleton<SecureStorageApi>(() => SecureStorageApi());
 
   // Register ApisRepository
-  getIt.registerLazySingleton<AuthApi>(() => AuthApi(getIt<API>()));
-  getIt.registerLazySingleton<SchoolApi>(() => SchoolApi(getIt<API>()));
-  getIt.registerLazySingleton<GroupPostApi>(() => GroupPostApi(getIt<API>()));
+    getIt.registerLazySingleton<AuthApi>(() => AuthApi(getIt<API>()));
+    getIt.registerLazySingleton<SchoolApi>(() => SchoolApi(getIt<API>()));
+    getIt.registerLazySingleton<GroupPostApi>(() => GroupPostApi(getIt<API>()));
 
   // Register Services
-  getIt.registerLazySingleton<AuthService>(() => AuthService(
+    getIt.registerLazySingleton<AuthService>(() => AuthService(
         getIt<AuthApi>(),
         getIt<SecureStorageApi>(),
-      ));
-  getIt.registerLazySingleton<SchoolService>(
-      () => SchoolService(getIt<SchoolApi>()));
-  getIt.registerLazySingleton<GroupPostService>(
-      () => GroupPostService(getIt<GroupPostApi>()));
+            ));
+    getIt.registerLazySingleton<SchoolService>(
+        () => SchoolService(getIt<SchoolApi>()));
+    getIt.registerLazySingleton<GroupPostService>(
+        () => GroupPostService(getIt<GroupPostApi>()));
 
   // Register LazySingleton Cubits
-  getIt.registerLazySingleton<SignInCubit>(
-      () => SignInCubit(getIt<AuthService>()));
-  getIt.registerLazySingleton<SchoolPagingCubit>(
-      () => SchoolPagingCubit(getIt<SchoolService>()));
-  getIt.registerFactory<SchoolInfoCubit>(
-      () => SchoolInfoCubit(getIt<SchoolService>()));
-  getIt.registerLazySingleton<UserProfileCubit>(() => UserProfileCubit());
+    getIt.registerLazySingleton<SignInCubit>(
+        () => SignInCubit(getIt<AuthService>()));
+    getIt.registerLazySingleton<SchoolPagingCubit>(
+        () => SchoolPagingCubit(getIt<SchoolService>()));
+    getIt.registerFactory<SchoolInfoCubit>(
+        () => SchoolInfoCubit(getIt<SchoolService>()));
+    getIt.registerLazySingleton<UserProfileCubit>(() => UserProfileCubit());
 
   // Register Factory Cubits
-  getIt.registerFactory<NetworkImageCubit>(
-      () => NetworkImageCubit(getIt<API>()));
-  getIt.registerFactory<PostServicesCubit>(
-      () => PostServicesCubit(getIt<GroupPostService>()));
-  getIt.registerFactory<GroupePostPaginationCubit>(
-      () => GroupePostPaginationCubit(getIt<GroupPostService>()));
-  getIt.registerFactory<EditPasswordCubit>(
-      () => EditPasswordCubit(getIt<AuthService>()));
+    getIt.registerFactory<NetworkImageCubit>(
+        () => NetworkImageCubit(getIt<API>()));
+    getIt.registerFactory<PostServicesCubit>(
+        () => PostServicesCubit(getIt<GroupPostService>()));
+    getIt.registerFactory<GroupePostPaginationCubit>(
+        () => GroupePostPaginationCubit(getIt<GroupPostService>()));
+    getIt.registerFactory<EditPasswordCubit>(
+        () => EditPasswordCubit(getIt<AuthService>()));
 }
