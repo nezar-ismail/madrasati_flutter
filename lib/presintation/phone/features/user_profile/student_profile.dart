@@ -106,7 +106,7 @@ class StudentProfile extends StatelessWidget {
                     Expanded(
                       child: ProfileInfoRow(
                         label: "School Name",
-                        value: student.schoolId ?? "Not specified",
+                        value: student.schoolName ?? "Not specified",
                       ),
                     ),
                     Expanded(

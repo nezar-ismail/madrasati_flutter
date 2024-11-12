@@ -9,6 +9,13 @@ class AuthApi {
 
   AuthApi(this.api);
 
+  /// Sends a POST request to the student login endpoint with the provided
+  /// [email], [password], and [deviceId].
+  ///
+  /// Constructs headers using [deviceId] and a request body with [email] and [password].
+  /// Returns a [Future] containing the server [Response].
+  ///
+  /// Throws an exception if the request fails.
   Future<Response> studentSignIn(
       {required String email,
       required String password,
@@ -28,6 +35,13 @@ class AuthApi {
 }
   }
 
+  /// Sends a POST request to the school login endpoint with the provided
+  /// [email], [password], and [deviceId].
+  ///
+  /// Constructs headers using [deviceId] and a request body with [email] and [password].
+  /// Returns a [Future] containing the server [Response].
+  ///
+  /// Throws an exception if the request fails.
   Future<Response> schoolSignIn(
       {required String email,
       required String password,
@@ -42,6 +56,13 @@ class AuthApi {
     return response;
   }
 
+  /// Sends a POST request to the guest login endpoint with the provided
+  /// [deviceId].
+  ///
+  /// Constructs a request header with [deviceId].
+  /// Returns a [Future] containing the server [Response].
+  ///
+  /// Throws an exception if the request fails.
   Future<Response> guestSignIn({required String deviceId}) async {
     String url = AuthEndpoints.guestLogin;
 
@@ -51,6 +72,13 @@ class AuthApi {
     return response;
   }
 
+  /// Sends a POST request to the guest logout endpoint with the provided
+  /// [token].
+  ///
+  /// Constructs a request header with [token].
+  /// Returns a [Future] containing the server [Response].
+  ///
+  /// Throws an exception if the request fails.
   Future<Response> guestSignOut({required String token}) async {
     String url = AuthEndpoints.guestLogout;
 
@@ -60,6 +88,13 @@ class AuthApi {
     return response;
   }
 
+  /// Sends a POST request to the user logout endpoint with the provided
+  /// [refreshToken].
+  ///
+  /// Constructs a request header with [refreshToken].
+  /// Returns a [Future] containing the server [Response].
+  ///
+  /// Throws an exception if the request fails.
   Future<Response> logout({required String refreshToken}) async {
     String url = AuthEndpoints.userLogout;
 
@@ -69,6 +104,13 @@ class AuthApi {
     return response;
   }
 
+  /// Sends a POST request to the refresh token endpoint using the provided
+  /// [refreshToken].
+  ///
+  /// Constructs a request header with [refreshToken].
+  /// Returns a [Future] containing the server [Response].
+  ///
+  /// Throws an exception if the request fails.
   Future<Response> refreshToken({required String refreshToken}) async {
     String url = AuthEndpoints.refreshToken;
 
@@ -78,6 +120,37 @@ class AuthApi {
 
     return response;
   }
+
+
+  /// Sends a PUT request to the user password edit endpoint with the provided
+  /// [oldPassword], [newPassword], and [token].
+  ///
+  /// Constructs headers using [token] and a request body with [oldPassword] and [newPassword].
+  /// Returns a [Future] containing the server [Response].
+  ///
+  /// Throws an exception if the request fails.
+  Future<Response> editPassword({
+    required String oldPassword,
+    required String newPassword,
+    required String token,
+  }) async {
+    String url = UserEndpoints.editPassword;
+
+    final Map<String, dynamic> header = {'Authorization': 'Bearer $token'};
+
+    final Map<String, dynamic> body = {
+      "oldPassword": oldPassword,
+      "newPassword": newPassword,
+    };
+
+    Response response = await api.put(url, headers: header, body: body);
+    return response;
+  }
+
+
+
+
+
 
   Map<String, String> makeHeaders(String value, bool isToken) {
     if (isToken) {

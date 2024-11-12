@@ -19,6 +19,16 @@ class GlobalException implements Exception {
   String toString() => '[$statusCode].$message. Error : $error';
 
   // Factory method to return appropriate response type based on status code
+  /// Converts a Dio [Response] to a [ResponsModel].
+  ///
+  /// This method will return the appropriate [ResponsModel] based on the status code of the response.
+  /// If the status code is not recognized, it will return a [ServerErrorResponse].
+  ///
+  /// If the status code is 400, the method will extract the errors from the response and return a [BadRequestResponse].
+  /// If the status code is 401, the method will return an [UnAuthorizedResponse].
+  /// If the status code is 403, the method will return a [ForbiddenResponse].
+  /// If the status code is 500, the method will return a [ServerErrorResponse].
+  /// If the status code is 409, the method will return a [ConflictResponse].
   static ResponsModel fromResponse(Response response) {
     final String message =
         response.data['message'] ?? 'An unknown error occurred.';

@@ -33,6 +33,13 @@ class PostResponse implements ResponsModel {
     required this.empty,
   });
 
+  /// Creates a copy of this [PostResponse] with the given fields replaced 
+  /// with the new values.
+  ///
+  /// If a field is not provided, it will keep its current value.
+  ///
+  /// This method is useful when you need to update a [PostResponse] object 
+  /// without having to create a new instance.
   PostResponse copyWith({
     List<Content>? content,
     Pageable? pageable,
@@ -61,6 +68,11 @@ class PostResponse implements ResponsModel {
     );
   }
 
+  /// Converts this [PostResponse] instance into a [Map] with keys 'content', 'pageable', 
+  /// 'last', 'totalElements', 'totalPages', 'size', 'number', 'sort', 'first', 
+  /// 'numberOfElements', and 'empty', and their respective values from the instance. 
+  /// This is useful for serializing the object to JSON or other formats that use 
+  /// key-value pairs.
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'content': content.map((x) => x.toMap()).toList(),
@@ -103,6 +115,9 @@ class PostResponse implements ResponsModel {
       PostResponse.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+  /// Returns a string representation of the [PostResponse] object, including
+  /// all its fields such as content, pageable, last, totalElements, totalPages,
+  /// size, number, sort, first, numberOfElements, and empty.
   String toString() {
     return 'PostResponse(content: $content, pageable: $pageable, last: $last, totalElements: $totalElements, totalPages: $totalPages, size: $size, number: $number, sort: $sort, first: $first, numberOfElements: $numberOfElements, empty: $empty)';
   }

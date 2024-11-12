@@ -31,6 +31,9 @@ class LocalStudent {
   @HiveField(8)
   String? studentId;
 
+  @HiveField(9)
+  String? schoolName;
+
   LocalStudent({
     this.userEmail,
     this.firstName,
@@ -40,6 +43,7 @@ class LocalStudent {
     this.gender,
     this.schoolId,
     this.groupId,
-    this.studentId
+    this.studentId,
+    this.schoolName
   });
 }

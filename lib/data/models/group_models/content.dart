@@ -31,6 +31,26 @@ class Content {
     required this.imagePost,
   });
 
+  /// Creates a copy of this [Content] but with the given fields replaced with the
+  /// new values.
+  ///
+  /// The fields that can be replaced are:
+  ///
+  /// * [schoolName]
+  /// * [authorId]
+  /// * [caption]
+  /// * [groupId]
+  /// * [postId]
+  /// * [schoolImagePath]
+  /// * [postCreatedAt]
+  /// * [numberOfComment]
+  /// * [numberOfLike]
+  /// * [isLiked]
+  /// * [withImage]
+  /// * [imagePost]
+  ///
+  /// If any of the fields are null, the corresponding field of this object
+  /// is used instead.
   Content copyWith({
     String? schoolName,
     String? authorId,
@@ -61,6 +81,25 @@ class Content {
     );
   }
 
+  /// Converts the [Content] object to a map.
+  ///
+  /// Returns a [Map<String, dynamic>] containing key-value pairs representing
+  /// the properties of the [Content] object.
+  ///
+  /// The map contains the following keys and values:
+  ///
+  /// * `'schoolName'`: [schoolName]
+  /// * `'authorId'`: [authorId]
+  /// * `'caption'`: [caption]
+  /// * `'groupId'`: [groupId]
+  /// * `'postId'`: [postId]
+  /// * `'schoolImagePath'`: [schoolImagePath]
+  /// * `'postCreatedAt'`: [postCreatedAt]
+  /// * `'numberOfComment'`: [numberOfComment]
+  /// * `'numberOfLike'`: [numberOfLike]
+  /// * `'isLiked'`: [isLiked]
+  /// * `'withImage'`: [withImage]
+  /// * `'imagePost'`: [imagePost]
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'schoolName': schoolName,
@@ -102,6 +141,17 @@ class Content {
   factory Content.fromJson(String source) => Content.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+  /// Returns a string representation of this [Content] object.
+  ///
+  /// The string representation will include all the properties of the [Content]
+  /// object, in the format:
+  ///
+  /// `Content(schoolName: $schoolName, authorId: $authorId, caption: $caption,
+  /// groupId: $groupId, postId: $postId, schoolImagePath: $schoolImagePath,
+  /// postCreatedAt: $postCreatedAt, numberOfComment: $numberOfComment,
+  /// numberOfLike: $numberOfLike, isLiked: $isLiked, withImage: $withImage,
+  /// imagePost: $imagePost)`
+  ///
   String toString() {
     return 'Content(schoolName: $schoolName, authorId: $authorId, caption: $caption, groupId: $groupId, postId: $postId, schoolImagePath: $schoolImagePath, postCreatedAt: $postCreatedAt, numberOfComment: $numberOfComment, numberOfLike: $numberOfLike, isLiked: $isLiked, withImage: $withImage, imagePost: $imagePost)';
   }

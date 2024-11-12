@@ -12,7 +12,7 @@ class SchoolInitial extends SchoolPagingState {}
 class SchoolLoading extends SchoolPagingState {}
 
 class SchoolLoaded extends SchoolPagingState {
-  final List<Widget> schools; // Store widgets for displaying
+  final List<SchoolCard> schools; // Store widgets for displaying
   final bool hasMore;
 
   const SchoolLoaded({required this.schools, required this.hasMore});

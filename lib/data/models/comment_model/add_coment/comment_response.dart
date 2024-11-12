@@ -26,6 +26,9 @@ class ResponseData {
     );
   }
 
+  /// Converts the object to a JSON-serializable map.
+  ///
+  /// This is the inverse of [ResponseData.fromJson].
   Map<String, dynamic> toJson() {
     return {
       'timestamp': timestamp,
@@ -62,6 +65,10 @@ class CommentAddedData implements ResponsModel{
     );
   }
 
+  /// Converts the [CommentAddedData] object to a JSON map.
+  ///
+  /// Returns a [Map<String, dynamic>] containing key-value pairs representing
+  /// the properties of the [CommentAddedData] object.
   Map<String, dynamic> toJson() {
     return {
       'commentId': commentId,
@@ -72,8 +79,14 @@ class CommentAddedData implements ResponsModel{
     };
   }
 
+  /// Converts the [CommentAddedData] object to a [Comment] object.
+  ///
+  /// The [author] parameter is used to set the author of the comment.
+  ///
+  /// Returns a [Comment] object.
 Comment toComment(String author) {
     return Comment(
+      authorId: authorId,
       commentId: commentId,
       comment: comment,
       author: author ,

@@ -13,8 +13,7 @@ class ApiConstants {
 }
 
 class AuthEndpoints {
-  static final String baseUrl =
-      '${ApiConstants.baseUrl}${ApiConstants.authVersion}/auth';
+  static final String baseUrl = '${ApiConstants.baseUrl}${ApiConstants.authVersion}/auth';
 
   static final String schoolLogin = '$baseUrl/login';
   static final String studentLogin = '$baseUrl/login';
@@ -23,6 +22,13 @@ class AuthEndpoints {
   static final String refreshToken = '$baseUrl/refreshToken';
   static final String guestLogin = '$baseUrl/guestLogin';
   static final String guestLogout = '$baseUrl/guestLogout';
+
+}
+class UserEndpoints {
+  static final String baseUrl =
+      '${ApiConstants.baseUrl}${ApiConstants.authVersion}/user';
+
+  static final String editPassword = '$baseUrl/changePassword';
 }
 
 class GroupeEndpoints {
@@ -50,7 +56,7 @@ class GroupeEndpoints {
   }
 
   static String deleteComment(String postId, String commentId) {
-    return '$baseUrl/post/$postId/comment/$commentId/deleteComment';
+    return '$baseUrl/post/$postId/comment/$commentId';
   }
 
   static String addLike(String postId) {
@@ -80,5 +86,9 @@ class SchoolEndpoints {
 
   static String uploadSchoolImages(String schoolId) {
     return '$baseUrl/$schoolId/uploadSchoolImages';
+  }
+
+    static String getAllFeedbacks(int page, int size, String schoolId) {
+    return '$baseUrl/$schoolId/getSchoolFeedBacks?page=$page&size=$size';
   }
 }

@@ -17,6 +17,13 @@ class SchoolCard implements ResponsModel {
     this.averageRating,
   });
 
+/// Creates a copy of this [SchoolCard] but with the given fields replaced with the
+/// new values.
+///
+/// If a field is not provided, it will keep its current value.
+///
+/// This method is useful when you need to update a [SchoolCard] object without
+/// having to create a new instance.
   SchoolCard copyWith({
     String? id,
     String? schoolName,
@@ -33,6 +40,16 @@ class SchoolCard implements ResponsModel {
     );
   }
 
+  /// Converts this [SchoolCard] object to a map.
+  ///
+  /// The map contains the following keys and values:
+  ///
+  /// * `'id'`: [id]
+  /// * `'schoolName'`: [schoolName]
+  /// * `'schoolCoverImage'`: [schoolCoverImage]
+  /// * `'schoolType'`: [schoolType]
+  /// * `'averageRating'`: [averageRating]
+  ///
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
@@ -58,6 +75,13 @@ class SchoolCard implements ResponsModel {
   factory SchoolCard.fromJson(String source) => SchoolCard.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
+  /// Returns a string representation of this [SchoolCard] object.
+  ///
+  /// The string representation will include all the properties of the
+  /// [SchoolCard] object, in the format:
+  ///
+  /// `SchoolCard(id: $id, schoolName: $schoolName, schoolCoverImage: $schoolCoverImage, schoolType: $schoolType, averageRating: $averageRating)`
+  ///
   String toString() {
     return 'SchoolCard(id: $id, schoolName: $schoolName, schoolCoverImage: $schoolCoverImage, schoolType: $schoolType, averageRating: $averageRating)';
   }

@@ -3,26 +3,27 @@ import 'dart:developer';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:madrasati/data/hive/student/student_box.dart';
-import 'package:madrasati/data/hive/student/student_feild.dart';
+import 'package:madrasati/data/hive/school/s_manger_box.dart';
+import 'package:madrasati/data/hive/school/s_manger_field.dart';
 
-part 'student_home_state.dart';
+part 'school_home_cubit_state.dart';
 
-class UserProfileCubit extends Cubit<LocalStudent?> {
-  UserProfileCubit() : super(UserBox.getUser()) {
+class SchoolHomeCubit extends Cubit<LocalSchoolManger?> {
+  SchoolHomeCubit() : super(SMangerBox.getUser()){
     _initUserBoxListener();
   }
+
 
 /// Initializes a listener on the `UserBox` to emit the current user state
 /// whenever there are changes in the box. If the box is not open, it emits
 /// an error state indicating that the user box is not open.
   void _initUserBoxListener() {
-    final box = UserBox.box; // Use the public getter here
+    final box = SMangerBox.box; // Use the public getter here
 
     // Ensure the box is opened before listening
     if (box.isOpen) {
       box.listenable().addListener(() {
-        emit(UserBox.getUser());
+        emit(SMangerBox.getUser());
       });
     } else {
       emitErrorState('User box is not open.');
@@ -45,7 +46,7 @@ class UserProfileCubit extends Cubit<LocalStudent?> {
 /// `UserBox` are removed if the box is open, and then calls the
 /// superclass's `close` method.
   Future<void> close() {
-    final box = UserBox.box; // Use the public getter here
+    final box = SMangerBox.box; // Use the public getter here
     if (box.isOpen) {
       box.listenable().removeListener(() {});
     }

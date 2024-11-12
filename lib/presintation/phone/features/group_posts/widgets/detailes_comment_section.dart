@@ -1,7 +1,5 @@
-import 'dart:developer';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
@@ -11,18 +9,21 @@ class DetailesCommentSection extends StatelessWidget {
   final String commentAuthor;
   final String commentText;
   final String commentId;
+  final String authorId;
+  final String postId;
+  final PostServicesCubit cubit;
 
   const DetailesCommentSection({
     super.key,
     required this.commentId,
     required this.commentCreatedAt,
     required this.commentAuthor,
-    required this.commentText,
+    required this.commentText, required this.authorId, required this.cubit, required this.postId,
+
   });
 
   @override
   Widget build(BuildContext context) {
-    log(commentId);
 
     // Retrieve the screen width and calculate responsive sizes
     final screenWidth = MediaQuery.of(context).size.width;
@@ -73,7 +74,7 @@ class DetailesCommentSection extends StatelessWidget {
                           ),
                         ),
                       ),
-                      commentAuthor ==
+                      authorId ==
                               getIt<UserProfileCubit>().state?.studentId
                           ? IconButton(
                               onPressed: () {
@@ -93,15 +94,10 @@ class DetailesCommentSection extends StatelessWidget {
                                           ),
                                           TextButton(
                                             onPressed: () async {
-                                              await context
-                                                  .read<PostServicesCubit>()
+                                              await cubit
                                                   .deleteComment(
-                                                      commentId, commentId);
-                                              if (context
-                                                  .read<PostServicesCubit>()
-                                                  .state is CommentRemoved) {
-                                                Navigator.of(context).pop();
-                                              }
+                                                      postId, commentId);
+                                              Navigator.of(context).pop();
                                             },
                                             child: const Text('Delete'),
                                           ),

@@ -1,130 +1,132 @@
 import 'package:hive/hive.dart';
-
 import 's_manger_field.dart';
 
 class SMangerBox {
-  static const String boxName = 'schoolMangerBox';
-  static Future<void> init() async {
-    await Hive.openBox<LocalSManger>(boxName);
+  SMangerBox._();
+  static final SMangerBox instance = SMangerBox._();
+  static final Box<LocalSchoolManger> _box = Hive.box('schoolMangerBox');
+  static Box<LocalSchoolManger> get box => _box;
+  // Save the entire LocalSchoolManger object to the box
+  /// Saves the given [LocalSchoolManger] to the box, replacing the existing
+  /// user if one is already present.
+  static Future<void> saveUser(LocalSchoolManger user) async {
+    await _box.put('currentUser', user);
   }
 
-  // Save the entire SMangerBox object to the box
-  static Future<void> saveUser(LocalSManger user) async {
-    var box = Hive.box<LocalSManger>(boxName);
-    await box.put('currentUser', user);
-  }
-
-  // Get the entire SMangerBox object from the box
-  static LocalSManger? getUser() {
-    var box = Hive.box<LocalSManger>(boxName);
-    return box.get('currentUser');
+  // Get the entire LocalSchoolManger object from the box
+  /// Retrieves the currently saved [LocalSchoolManger] object, or returns `null`
+  /// if no user is saved.
+  static LocalSchoolManger? getUser() {
+    return _box.get('currentUser');
   }
 
   // Delete the current user from the box
+  /// Deletes the currently saved [LocalSchoolManger] from the box.
   static Future<void> deleteUser() async {
-    var box = Hive.box<LocalSManger>(boxName);
-    await box.delete('currentUser');
+    await _box.delete('currentUser');
   }
 
   // Close the Hive box (optional, typically done when the app closes)
+  /// Closes the Hive box associated with `SMangerBox`. This is usually called
+  /// when the app is closed.
   static Future<void> closeBox() async {
-    await Hive.box(boxName).close();
+    await _box.close();
   }
 
-  // Save and retrieve individual fields:
+  // Save and retrieve individual fields
 
-  // Save userEmail
-  static Future<void> putUserEmail(String email) async {
-    var user = getUser() ?? LocalSManger();
+  /// Sets the email of the saved [LocalSchoolManger] and saves the update.
+  static Future<void> setUserEmail(String email) async {
+    var user = getUser() ?? LocalSchoolManger();
     user.userEmail = email;
     await saveUser(user);
   }
 
-  // Get userEmail
+  /// Retrieves the email of the saved [LocalSchoolManger], or returns `null`.
   static String? getUserEmail() {
     return getUser()?.userEmail;
   }
 
-  // Save firstName
-  static Future<void> putFirstName(String firstName) async {
-    var user = getUser() ?? LocalSManger();
+  /// Sets the first name of the saved [LocalSchoolManger] and saves the update.
+  static Future<void> setFirstName(String firstName) async {
+    var user = getUser() ?? LocalSchoolManger();
     user.firstName = firstName;
     await saveUser(user);
   }
 
-  // Get firstName
+  /// Retrieves the first name of the saved [LocalSchoolManger], or returns `null`.
   static String? getFirstName() {
     return getUser()?.firstName;
   }
 
-  // Save lastName
-  static Future<void> putLastName(String lastName) async {
-    var user = getUser() ?? LocalSManger();
+  /// Sets the last name of the saved [LocalSchoolManger] and saves the update.
+  static Future<void> setLastName(String lastName) async {
+    var user = getUser() ?? LocalSchoolManger();
     user.lastName = lastName;
     await saveUser(user);
   }
 
-  // Get lastName
+  /// Retrieves the last name of the saved [LocalSchoolManger], or returns `null`.
   static String? getLastName() {
     return getUser()?.lastName;
   }
 
-  // Save imagePath
-  static Future<void> putImagePath(String imagePath) async {
-    var user = getUser() ?? LocalSManger();
+  /// Sets the image path of the saved [LocalSchoolManger] and saves the update.
+  static Future<void> setImagePath(String imagePath) async {
+    var user = getUser() ?? LocalSchoolManger();
     user.imagePath = imagePath;
     await saveUser(user);
   }
 
-  // Get imagePath
+  /// Retrieves the image path of the saved [LocalSchoolManger], or returns `null`.
   static String? getImagePath() {
     return getUser()?.imagePath;
   }
 
-  // Save birthDate
-  static Future<void> putBirthDate(String birthDate) async {
-    var user = getUser() ?? LocalSManger();
+  /// Sets the birth date of the saved [LocalSchoolManger] and saves the update.
+  static Future<void> setBirthDate(String birthDate) async {
+    var user = getUser() ?? LocalSchoolManger();
     user.birthDate = birthDate;
     await saveUser(user);
   }
 
-  // Get birthDate
+  /// Retrieves the birth date of the saved [LocalSchoolManger], or returns `null`.
   static String? getBirthDate() {
     return getUser()?.birthDate;
   }
 
-  // Save gender
-  static Future<void> putGender(String gender) async {
-    var user = getUser() ?? LocalSManger();
+  /// Sets the gender of the saved [LocalSchoolManger] and saves the update.
+  static Future<void> setGender(String gender) async {
+    var user = getUser() ?? LocalSchoolManger();
     user.gender = gender;
     await saveUser(user);
   }
 
-  // Get gender
+  /// Retrieves the gender of the saved [LocalSchoolManger], or returns `null`.
   static String? getGender() {
     return getUser()?.gender;
   }
 
-  // Save schoolId
-  static Future<void> putSchoolId(String schoolId) async {
-    var user = getUser() ?? LocalSManger();
+  /// Sets the school ID of the saved [LocalSchoolManger] and saves the update.
+  static Future<void> setSchoolId(String schoolId) async {
+    var user = getUser() ?? LocalSchoolManger();
     user.schoolId = schoolId;
     await saveUser(user);
   }
 
-  // Get schoolId
+  /// Retrieves the school ID of the saved [LocalSchoolManger], or returns `null`.
   static String? getSchoolId() {
     return getUser()?.schoolId;
   }
 
-  // Save groupId
-  static Future<void> putGroupId(String groupId) async {
-    var user = getUser() ?? LocalSManger();
+  /// Sets the group ID of the saved [LocalSchoolManger] and saves the update.
+  static Future<void> setGroupId(String groupId) async {
+    var user = getUser() ?? LocalSchoolManger();
     user.groupId = groupId;
     await saveUser(user);
   }
 
-  // Get groupId
+  /// Retrieves the group ID of the saved [LocalSchoolManger], or returns `null`.
   static String? getGroupId() {
     return getUser()?.groupId;
   }

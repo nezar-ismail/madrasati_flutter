@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +25,11 @@ class PostServicesCubit extends Cubit<PostServicesState> {
   ScrollController scrollController = ScrollController();
   PostServicesCubit(this._postService) : super(PostServicesInitial());
 
+  /// Sends a request to like a post.
+  ///
+  /// The post is liked on the server and a [LikeAdded] event is emitted.
+  /// If there is an error a [PostServicesError] event is emitted.
+  ///
   Future<void> likePost(String postId) async {
     emit(PostServicesLoading());
     try {
@@ -39,6 +46,11 @@ class PostServicesCubit extends Cubit<PostServicesState> {
     }
   }
 
+  /// Sends a request to unlike a post.
+  ///
+  /// The post is unliked on the server and a [LikeRemoved] event is emitted.
+  /// If there is an error a [PostServicesError] event is emitted.
+  ///
   Future<void> unlikePost(String postId) async {
     emit(PostServicesLoading());
     try {
@@ -55,6 +67,17 @@ class PostServicesCubit extends Cubit<PostServicesState> {
     }
   }
 
+  /// Fetches comments for a given post.
+  ///
+  /// If there are more comments to fetch, the [hasMore] flag is set to true.
+  /// If the fetching is successfull, the state is updated with the fetched
+  /// comments and [hasMore] flag. If the fetching fails, the state is updated
+  /// with the error message.
+  ///
+  /// This method is idempotent, meaning it can be safely called multiple times,
+  /// and it will only fetch new comments if there are more comments to fetch.
+  ///
+  /// [postId] is the id of the post to fetch comments from.
   Future<void> fetchComments(String postId) async {
     if (!hasMore || isFetching)return; // Stop fetching if no more pages or already fetching
     isFetching = true; // Set fetching flag to true to prevent multiple calls
@@ -79,6 +102,16 @@ class PostServicesCubit extends Cubit<PostServicesState> {
     }
   }
 
+  /// Sends a request to add a comment to a post.
+  ///
+  /// The comment is added on the server and a [CommentAdded] event is emitted.
+  /// If there is an error a [PostServicesError] event is emitted.
+  ///
+  /// This method is idempotent, meaning it can be safely called multiple times,
+  /// and it will only add the comment once.
+  ///
+  /// [postId] is the id of the post to add a comment to.
+  /// [comment] is the comment to add.
   Future<void> addComment(String postId, String comment) async {
     emit(PostServicesLoading());
     try {
@@ -97,6 +130,7 @@ class PostServicesCubit extends Cubit<PostServicesState> {
       );
       if (response is CommentAddedData) {
         String author = '${localStudent.firstName!} ${localStudent.lastName!}';
+        log(author);
         // Directly add the new comment to the list of comments
         comments.insert(0, response.toComment(author));
         commentCount = (int.parse(commentCount) + 1).toString();
@@ -113,6 +147,17 @@ class PostServicesCubit extends Cubit<PostServicesState> {
   }
 
 
+  /// Deletes a comment from a post.
+  ///
+  /// This method is idempotent, meaning it can be safely called multiple times,
+  /// and it will only remove the comment once.
+  ///
+  /// [postId] is the id of the post to delete the comment from.
+  /// [commentId] is the id of the comment to delete.
+  ///
+  /// If the deletion is successful, the state is updated with the comment removed
+  /// from the list of comments and the comment count is decremented.
+  /// If the deletion fails, the state is updated with an error message.
   Future<void> deleteComment(String postId, String commentId) async {
     emit(PostServicesLoading());
     try {

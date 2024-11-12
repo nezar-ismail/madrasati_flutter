@@ -27,6 +27,7 @@ void main() async{
   );
   
 }
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class MadrasatiApp extends StatelessWidget {
   const MadrasatiApp({super.key});
@@ -35,6 +36,7 @@ class MadrasatiApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Madrasati App',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(

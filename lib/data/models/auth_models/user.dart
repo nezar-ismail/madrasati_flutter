@@ -16,6 +16,12 @@ class Student {
     this.gender,
   });
 
+  /// Creates a copy of this [Student] but with the given fields replaced with the
+  /// new values.
+  ///
+  /// The [userEmail], [firstName], [lastName], [imagePath], [birthDate], and
+  /// [gender] parameter are all optional and default to the value of the
+  /// current object if not provided.
   Student copyWith({
     String? userEmail,
     String? firstName,
@@ -34,6 +40,18 @@ class Student {
     );
   }
 
+  /// Converts this [Student] into a map for JSON encoding.
+  ///
+  /// The map will contain the following keys:
+  /// - `userEmail`: The [userEmail].
+  /// - `firstName`: The [firstName].
+  /// - `lastName`: The [lastName].
+  /// - `imagePath`: The [imagePath].
+  /// - `birthDate`: The [birthDate] in milliseconds since the epoch.
+  /// - `gender`: The [gender].
+  ///
+  /// The values of these keys will be `null` if the respective field
+  /// is `null`.
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'userEmail': userEmail,

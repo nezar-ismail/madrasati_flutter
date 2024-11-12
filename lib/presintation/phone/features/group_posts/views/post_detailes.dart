@@ -74,7 +74,6 @@ class PostDetails extends StatelessWidget {
                     schoolImage: schoolImage,
                     schoolName: schoolName,
                   ),
-                  SizedBox(height: verticalSpacing),
                   DetailesBody(
                     caption: caption,
                     withImage: withImage,

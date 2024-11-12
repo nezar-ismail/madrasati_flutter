@@ -14,6 +14,15 @@ class NetworkImageCubit extends Cubit<NetworkImageState> {
 
   NetworkImageCubit(this._dio) : super(NetworkImageInitial());
 
+  /// Fetches the image from the network.
+  ///
+  /// If [imageUrl] is null or empty, emits [ImageError] with
+  /// "Invalid image URL".
+  ///
+  /// Otherwise, emits [ImageLoading] and then attempts to fetch the
+  /// image. If the fetch is successful, emits [ImageLoaded] with the
+  /// image data. If the fetch fails, emits [ImageError] with the error
+  /// message.
   Future<void> fetchImage(String? imageUrl) async {
     if (imageUrl == null || imageUrl.isEmpty) {
       emit(ImageError("Invalid image URL"));

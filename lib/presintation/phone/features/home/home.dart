@@ -2,20 +2,18 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/services/school_service.dart';
+import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/home/cubit/home_cubit.dart';
-import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
+import 'package:madrasati/presintation/phone/features/home/widgets/school_card.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => getIt<SchoolPagingCubit>()..fetchSchools()),
-        BlocProvider(create: (context) => getIt<SchoolInfoCubit>()),
-        
-      ],
+    return BlocProvider(
+      create: (context) => SchoolPagingCubit(getIt<SchoolService>())..fetchSchools(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Welcome to Madrasati'),
@@ -41,22 +39,25 @@ class HomePage extends StatelessWidget {
                   }
                   return Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: cubit.schools[index],
+                    child: SchoolCard(
+                      schoolName: cubit.schools[index].schoolName,
+                      schoolType: cubit.schools[index].schoolType,
+                      rating: cubit.schools[index].averageRating??0,
+                      id: cubit.schools[index].id,
+                      imagePath: cubit.schools[index].schoolCoverImage,
+                    ),
                   );
                 },
               ),
             );
-          }, listener: (BuildContext context, SchoolPagingState state) {
+          },
+          listener: (BuildContext context, SchoolPagingState state) {
             if (state is SchoolError) {
               log(state.message);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  backgroundColor: Colors.red,
-                  content: Text("${state.message} Please check your internet connection and try again"),
-                ),
-              );
-            }else if (state is SchoolLoading) {
-            log('SchoolLoading');
+              final overLay = Overlay.of(context);
+              customSnackbar(overLay, state.message, Icons.error, Colors.red);
+            } else if (state is SchoolLoading) {
+              log('SchoolLoading');
             }
           },
         ),

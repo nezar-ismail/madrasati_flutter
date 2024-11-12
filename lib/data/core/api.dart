@@ -1,153 +1,165 @@
-// ignore_for_file: unused_field, recursive_getters
-
 import 'dart:convert';
-import 'dart:developer';
 import 'package:dio/dio.dart';
+import 'package:madrasati/data/core/api_inspector.dart';
+
 
 class API {
-  final Dio dio;
-  API(this.dio);
+  final APIInspector apiInspector;
 
-  // Options for the Dio instance.
-  Options jsonOptions = Options(
-    headers: {'Content-type': 'application/json; charset=UTF-8'},
-    responseType: ResponseType.json,
-  );
+  // Initialize with Dio and APIInspector
+  API(this.apiInspector);
 
-  Options formOptions = Options(
-    headers: {'Content-type': 'multipart/form-data'},
-    responseType: ResponseType.json,
-  );
-
-  /// get request
-  ///
-  /// Returns a [Future<Response>] containing the server response.
+  /// Get request (supports JSON)
   Future<Response> get(String url, {Map<String, dynamic>? headers}) async {
     try {
-      log('url request: $url');
-      final Response response = await dio.get(
+      apiInspector.logRequest(RequestOptions(path: url, headers: headers));
+      final Response response = await apiInspector.dio.get(
         url,
-        options: jsonOptions.copyWith(headers: headers),
+        options: apiInspector.createOptions(headers: headers),
       );
-
+      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
-      log('API Error message: ${e.message}');
-      if (e.response == null) rethrow;
-      return e.response!;
+      final errorResponse = await apiInspector.handleError(e, e.requestOptions);
+      if (errorResponse != null) {
+        return errorResponse;
+      }
+      rethrow;
     }
   }
 
-  Future getImage(String url, {Map<String, dynamic>? headers}) async {
+  /// Download an image (supports responseType.bytes)
+  Future<Response> getImage(String url, {Map<String, dynamic>? headers}) async {
     try {
-      log('url request: $url');
-      final Response response = await dio.get(
+      apiInspector.logRequest(RequestOptions(path: url, headers: headers));
+      final Response response = await apiInspector.dio.get(
         url,
-        options: jsonOptions.copyWith(
-            responseType: ResponseType.bytes, headers: headers),
+        options: apiInspector.createOptions(
+          headers: headers,
+          isJson: false,
+        ),
       );
-
+      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
-      log('API Error message: ${e.message}');
-      if (e.response == null) rethrow;
-      return e.response!;
+      final errorResponse = await apiInspector.handleError(e, e.requestOptions);
+      if (errorResponse != null) {
+        return errorResponse;
+      }
+      rethrow;
     }
   }
 
-  /// post request
-  ///
-  /// Returns a [Future<Response>] containing the server response.
+  /// Post request (supports JSON and multipart form data)
   Future<Response> post(
     String url, {
     Map<String, dynamic>? headers,
     Object? body,
   }) async {
     try {
+      apiInspector.logRequest(RequestOptions(path: url, headers: headers, data: body));
       final Response response;
-      // Check if the body is a dio FormData.
+
       if (body is FormData) {
-        // Send a POST request to the server and await the response.
-        response = await dio.post(
+        // Send multipart form data
+        response = await apiInspector.dio.post(
           url,
-          options: formOptions.copyWith(headers: headers),
+          options: apiInspector.createOptions(headers: headers),
           data: body,
         );
       } else {
-        // Send a POST request to the server and await the response.
-        response = await dio.post(
+        // Send JSON body
+        response = await apiInspector.dio.post(
           url,
-          options: jsonOptions.copyWith(headers: headers),
+          options: apiInspector.createOptions(headers: headers),
           data: body != null ? jsonEncode(body) : null,
         );
       }
 
+      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
-      log('message: ${e.message}');
-      if (e.response == null) rethrow;
-      return e.response!;
+      final errorResponse = await apiInspector.handleError(e, e.requestOptions);
+      if (errorResponse != null) {
+        return errorResponse;
+      }
+      rethrow;
     }
   }
 
-  /// put request
-  ///
-  /// Returns a [Future<Response>] containing the server response.
-  Future<Response> put(String url,
-      {Map<String, dynamic>? headers, Map<String, dynamic>? body}) async {
-    // Send a PUT request to the server and await the response.
-
+  /// Put request (supports JSON and multipart form data)
+  Future<Response> put(
+    String url, {
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? body,
+  }) async {
     try {
-      final Response response = await dio.put(
-        url,
-        options: jsonOptions.copyWith(headers: headers),
-        data: body != null ? jsonEncode(body) : null,
-      );
+      apiInspector.logRequest(RequestOptions(path: url, headers: headers, data: body));
+      final Response response;
 
+      if (body is FormData) {
+        // Send multipart form data
+        response = await apiInspector.dio.put(
+          url,
+          options: apiInspector.createOptions(headers: headers),
+          data: body,
+        );
+      } else {
+        // Send JSON body
+        response = await apiInspector.dio.put(
+          url,
+          options: apiInspector.createOptions(headers: headers),
+          data: body != null ? jsonEncode(body) : null,
+        );
+      }
+
+      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
-      if (e.response == null) rethrow;
-      return e.response!;
+      final errorResponse = await apiInspector.handleError(e, e.requestOptions);
+      if (errorResponse != null) {
+        return errorResponse;
+      }
+      rethrow;
     }
   }
 
-  /// putImage request
-  ///
-  /// Returns a [Future<Response>] containing the server response.
-  Future<Response> putImage(String url,
-      {Map<String, dynamic>? headers, Object? body}) async {
-    // Send a PUT request to the server and await the response.
-
+  /// Put request for Image (multipart form data)
+  Future<Response> putImage(String url, {Map<String, dynamic>? headers, Object? body}) async {
     try {
-      final Response response = await dio.put(
+      apiInspector.logRequest(RequestOptions(path: url, headers: headers, data: body));
+      final Response response = await apiInspector.dio.put(
         url,
-        options: formOptions.copyWith(headers: headers),
+        options: apiInspector.createOptions(headers: headers),
         data: body,
       );
-
+      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
-      if (e.response == null) rethrow;
-      return e.response!;
+      final errorResponse = await apiInspector.handleError(e, e.requestOptions);
+      if (errorResponse != null) {
+        return errorResponse;
+      }
+      rethrow;
     }
   }
 
-  /// delete request
-  ///
-  /// Returns a [Future<Response>] containing the server response.
+  /// Delete request (supports JSON)
   Future<Response> delete(String url, {Map<String, dynamic>? headers}) async {
-    // Send a DELETE request to the server and await the response.
-
     try {
-      final Response response = await dio.delete(
+      apiInspector.logRequest(RequestOptions(path: url, headers: headers));
+      final Response response = await apiInspector.dio.delete(
         url,
-        options: jsonOptions.copyWith(headers: headers),
+        options: apiInspector.createOptions(headers: headers),
       );
-
+      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
-      if (e.response == null) rethrow;
-      return e.response!;
+      final errorResponse = await apiInspector.handleError(e, e.requestOptions);
+      if (errorResponse != null) {
+        return errorResponse;
+      }
+      rethrow;
     }
   }
 }

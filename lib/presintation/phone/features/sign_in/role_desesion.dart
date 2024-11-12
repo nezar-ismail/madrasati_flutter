@@ -139,12 +139,12 @@ class RoleDesesion extends StatelessWidget {
                                   MaterialPageRoute(
                                       builder: (context) => const HomePage()));
                             } else if (selectedRoleIndex.value == 1) {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) => StudentSignInBuilder()));
                             } else {
-                              Navigator.push(
+                              Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>

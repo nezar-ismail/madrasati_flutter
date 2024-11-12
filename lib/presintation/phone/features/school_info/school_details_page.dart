@@ -9,7 +9,9 @@ import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/utils/coustum_loading.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
+import 'package:madrasati/presintation/phone/features/school_info/school_feedback.dart';
 import 'package:madrasati/presintation/phone/features/school_info/widgets/all_teacher.dart';
+import 'package:madrasati/presintation/phone/features/school_info/widgets/feedback_details.dart';
 import 'package:madrasati/presintation/phone/features/school_info/widgets/school_info.dart';
 import 'package:madrasati/presintation/phone/features/school_info/widgets/teacher_staff.dart';
 
@@ -92,7 +94,13 @@ class SchoolDetailPage extends StatelessWidget {
                       _buildSectionTitle(context, 'Teacher Staff'),
                       TextButton(
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => AllTeacherStaff(teacherList: state.schoolProfilePage.teachers,)));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AllTeacherStaff(
+                                        teacherList:
+                                            state.schoolProfilePage.teachers,
+                                      )));
                         },
                         child: Text(
                           'See All',
@@ -107,32 +115,81 @@ class SchoolDetailPage extends StatelessWidget {
                     ],
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 8.0),
-                    child: SizedBox(
-                      height: 100,
-                      child: ListView.builder(
-                        itemCount: state.schoolProfilePage.teachers.length,
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) {
-                          log(state.schoolProfilePage.teachers.length.toString());
-                          final teacher = state.schoolProfilePage.teachers[index];
-                          return Padding(
-                            padding: const EdgeInsets.only(right: 8),
-                            child: TeacherStaff(
-                              teacherExperience: teacher.teacherExperience,
-                              teacherDescription: teacher.teacherDescription,
-                              teacherName: teacher.teacherName,
-                              teacherSubject: teacher.teacherSubject, teacherImage: teacher.teacherImage,
-                              
-                            ),
-                          );
-                        
-                      }),
-                    )
-                  ),
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: SizedBox(
+                        height: 100,
+                        child: ListView.builder(
+                            itemCount: state.schoolProfilePage.teachers.length,
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: (context, index) {
+                              log(state.schoolProfilePage.teachers.length
+                                  .toString());
+                              final teacher =
+                                  state.schoolProfilePage.teachers[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: TeacherStaff(
+                                  teacherExperience: teacher.teacherExperience,
+                                  teacherDescription:
+                                      teacher.teacherDescription,
+                                  teacherName: teacher.teacherName,
+                                  teacherSubject: teacher.teacherSubject,
+                                  teacherImage: teacher.teacherImage,
+                                ),
+                              );
+                            }),
+                      )),
 
                   // Feedback Section Placeholder
-                  _buildSectionTitle(context, 'Feedback'),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      _buildSectionTitle(context, 'Feedback'),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => FeedbackSection(
+                                        schoolId:
+                                            state.schoolProfilePage.schoolId,
+                                      )));
+                        },
+                        child: Text(
+                          'See All',
+                          style: TextStyle(
+                            fontFamily: 'Roboto',
+                            fontSize: scaleText(12, context),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.orange,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                      padding: EdgeInsets.only(bottom: 8.0),
+                      child: SizedBox(
+                        height: 400,
+                        child: ListView.builder(
+                            itemCount:
+                                state.schoolProfilePage.schoolFeedBacks.length,
+                            scrollDirection: Axis.vertical,
+                            itemBuilder: (context, index) {
+                              log(state.schoolProfilePage.schoolFeedBacks.length
+                                  .toString());
+                              final feedbacks = state
+                                  .schoolProfilePage.schoolFeedBacks[index];
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: FeedbackDetails(
+                                  feedbackCreatedAt: feedbacks.createdAt,
+                                  feedbackAuthor: feedbacks.userFirstName,
+                                  feedbackText: feedbacks.feedbackDescription,
+                                ),
+                              );
+                            }),
+                      )),
                 ],
               ),
             ),

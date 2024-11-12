@@ -1,7 +1,7 @@
 import 'package:hive/hive.dart';
-
+part 's_manger_field.g.dart';
 @HiveType(typeId: 0)
-class LocalSManger {
+class LocalSchoolManger {
   @HiveField(0)
   String? userEmail;
 
@@ -26,7 +26,7 @@ class LocalSManger {
   @HiveField(7)
   String? groupId;
 
-  LocalSManger({
+  LocalSchoolManger({
     this.userEmail,
     this.firstName,
     this.lastName,

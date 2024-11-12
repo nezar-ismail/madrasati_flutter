@@ -17,6 +17,14 @@ class SignInCubit extends Cubit<SignInState> {
   final AuthService _authService;
 
 
+  /// Calls [_authService.studentSignIn] with the given [email], [password], and the
+  /// device id, and emits [SignInSuccess] if the response is an [EmptyResponse],
+  /// [SignInUnAuthorized] if the response is an [UnAuthorizedResponse], and
+  /// [SignInError] if the response is neither an [EmptyResponse] nor an
+  /// [UnAuthorizedResponse].
+  ///
+  /// If the call to [_authService.studentSignIn] throws, logs the error and
+  /// emits [SignInError].
   Future<void> studentSignIn({required String email, required String password}) async {
     emit(SignInLoading());
     try {
@@ -34,6 +42,14 @@ class SignInCubit extends Cubit<SignInState> {
     }
   }
 
+  /// Calls [_authService.schoolSignIn] with the provided [email], [password], and the
+  /// device id, and emits [SignInSuccess] if the response is an [EmptyResponse],
+  /// [SignInUnAuthorized] if the response is an [UnAuthorizedResponse], and
+  /// [SignInError] if the response is neither an [EmptyResponse] nor an
+  /// [UnAuthorizedResponse].
+  ///
+  /// If the call to [_authService.schoolSignIn] throws, logs the error and
+  /// emits [SignInError].
     Future<void> schoolSignIn({required String email, required String password}) async {
     emit(SignInLoading());
     try {
@@ -51,6 +67,13 @@ class SignInCubit extends Cubit<SignInState> {
     }
   }
 
+  /// Calls [_authService.guestSignIn] with the device id and emits [SignInSuccess]
+  /// if the response is an [EmptyResponse], [SignInUnAuthorized] if the response
+  /// is an [UnAuthorizedResponse], and [SignInError] if the response is neither
+  /// an [EmptyResponse] nor an [UnAuthorizedResponse].
+  ///
+  /// If the call to [_authService.guestSignIn] throws, logs the error and emits
+  /// [SignInError].
       Future<void> guestSignIn() async {
     emit(SignInLoading());
     try {

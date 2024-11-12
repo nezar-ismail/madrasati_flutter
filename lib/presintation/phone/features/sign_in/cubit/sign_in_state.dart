@@ -13,6 +13,11 @@ final class SignInUnAuthorized extends SignInState {
 
 final class SignInSuccess extends SignInState {}
 
+final class SchoolSignInSuccess extends SignInState {
+  final String schoolId;
+  SchoolSignInSuccess({required this.schoolId});
+}
+
 final class SignInError extends SignInState {
   final String message;
   SignInError({required this.message});

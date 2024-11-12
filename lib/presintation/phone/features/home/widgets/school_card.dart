@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/services/school_service.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/home/widgets/school_card_info.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
@@ -28,20 +29,16 @@ class SchoolCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final imageCubit = getIt<NetworkImageCubit>();
-    final schoolInfoCubit =getIt<SchoolInfoCubit>();
     final imageFullPath = ApiConstants.baseUrl + imagePath;
     imageCubit.fetchImage(imageFullPath);
 
     return GestureDetector(
       onTap: () async {
-        // Use the existing cubit instance and fetch the info needed
-        await schoolInfoCubit.getSchoolInfo(schoolId: id);
-
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => schoolInfoCubit,
+              create: (context) => SchoolInfoCubit(getIt<SchoolService>())..getSchoolInfo(schoolId: id),
               child: SchoolDetailPage(),
             ),
           ),
