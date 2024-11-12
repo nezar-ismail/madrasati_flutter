@@ -30,7 +30,7 @@ class SchoolSignInBuilder extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => BlocProvider(
               create: (context) => SchoolInfoCubit(getIt<SchoolService>())..getSchoolInfo(schoolId: schoolId!),
-              child: SchoolDetailPage(),
+              child: SchoolDetailPage(isManeger: true,),
             ),
           ),
         );

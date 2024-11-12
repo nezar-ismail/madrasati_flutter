@@ -7,6 +7,8 @@ import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/utils/coustum_loading.dart';
+import 'package:madrasati/presintation/phone/features/school_group/school_group.dart';
+import 'package:madrasati/presintation/phone/features/school_info/cubit/school_home_cubit_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/school_feedback.dart';
@@ -16,7 +18,8 @@ import 'package:madrasati/presintation/phone/features/school_info/widgets/school
 import 'package:madrasati/presintation/phone/features/school_info/widgets/teacher_staff.dart';
 
 class SchoolDetailPage extends StatelessWidget {
-  const SchoolDetailPage({super.key});
+  const SchoolDetailPage({super.key, required this.isManeger});
+  final bool isManeger;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,44 @@ class SchoolDetailPage extends StatelessWidget {
         }
         if (state is SchoolInfoLoaded) {
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
+              centerTitle: true,
+              leading: isManeger
+                  ? IconButton(
+                      icon: const Icon(
+                        Icons.edit,
+                        color: Colors.white,
+                      ),
+                      onPressed: () {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: const Text('Edit School'),
+                              content: Text(
+                                'Edit School Info Feature Coming Soon',
+                                style: TextStyle(
+                                  fontFamily: 'Roboto',
+                                  fontSize: scaleText(20, context),
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.orange,
+                                ),
+                              ),
+                              actions: [
+                                TextButton(
+                                  child: const Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    )
+                  : null,
               title: Text(
                 state.schoolProfilePage.schoolName,
                 style: const TextStyle(fontFamily: 'Roboto'),
@@ -193,6 +233,75 @@ class SchoolDetailPage extends StatelessWidget {
                 ],
               ),
             ),
+            bottomNavigationBar: isManeger
+                ? Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.rectangle,
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.5),
+                          spreadRadius: 0,
+                          blurRadius: 7,
+                          offset: const Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Colors.orange,
+                              ),
+                              child: const Icon(
+                                Icons.home,
+                                color: Colors.white,
+                                size: 40,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.grey,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              )),
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: IconButton(
+                              onPressed: () {
+                                log('Pressed School GroupId = ${getIt<SchoolHomeCubit>().state!.groupId}');
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SchoolGroup(
+                                              groupId: getIt<SchoolHomeCubit>()
+                                                  .state!
+                                                  .gender!,
+                                            )));
+                              },
+                              icon: const Icon(
+                                Icons.group,
+                                size: 40,
+                                color: Colors.orange,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.grey,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3),
+                                  ),
+                                ],
+                              )),
+                        ),
+                      ],
+                    ),
+                  )
+                : null,
           );
         }
 

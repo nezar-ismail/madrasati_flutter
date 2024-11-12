@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/school/s_manger_field.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 import 'presintation/phone/features/sign_in/role_desesion.dart';
@@ -16,6 +17,9 @@ void main() async{
   await Hive.initFlutter();
   Hive.registerAdapter(LocalStudentAdapter());
   await Hive.openBox<LocalStudent>('userBox');
+
+  Hive.registerAdapter(LocalSchoolMangerAdapter());
+  await Hive.openBox<LocalSchoolManger>('schoolMangerBox');
 
     runApp(
     MultiBlocProvider(

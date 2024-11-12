@@ -8,7 +8,7 @@ part of 's_manger_field.dart';
 
 class LocalSchoolMangerAdapter extends TypeAdapter<LocalSchoolManger> {
   @override
-  final int typeId = 0;
+  final int typeId = 1;
 
   @override
   LocalSchoolManger read(BinaryReader reader) {

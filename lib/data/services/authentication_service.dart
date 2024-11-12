@@ -90,7 +90,7 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
-          final student = LocalSchoolManger(
+          final school = LocalSchoolManger(
             userEmail: data['user']['userEmail'],
             firstName: data['user']['userFirstName'],
             lastName: data['user']['userLastName'],
@@ -102,7 +102,7 @@ class AuthService {
             
           );
           // Save student data to Hive
-          await SMangerBox.saveUser(student);
+          await SMangerBox.saveUser(school);
           return EmptyResponse();
         default:
           if (response.data is Map<String, dynamic>) {

@@ -39,7 +39,7 @@ class SchoolCard extends StatelessWidget {
           MaterialPageRoute(
             builder: (context) => BlocProvider(
               create: (context) => SchoolInfoCubit(getIt<SchoolService>())..getSchoolInfo(schoolId: id),
-              child: SchoolDetailPage(),
+              child: SchoolDetailPage(isManeger: false,),
             ),
           ),
         );
