@@ -90,13 +90,16 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
-          final student = LocalSManger(
-            userEmail: data['userEmail'],
-            firstName: data['firstName'],
-            lastName: data['lastName'],
-            imagePath: data['imagePath'],
-            birthDate: data['birthDate'],
-            gender: data['gender'],
+          final student = LocalSchoolManger(
+            userEmail: data['user']['userEmail'],
+            firstName: data['user']['userFirstName'],
+            lastName: data['user']['userLastName'],
+            imagePath: data['data']['school']['schoolCoverImage'],
+            birthDate: data['user']['userBirthDate'],
+            gender: data['user']['userGender'],
+            schoolId: data['data']['school']['schoolId'],
+            groupId: data['groupId'],
+            
           );
           // Save student data to Hive
           await SMangerBox.saveUser(student);

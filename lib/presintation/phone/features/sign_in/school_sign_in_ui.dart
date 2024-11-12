@@ -109,7 +109,7 @@ class SchoolSignInUi extends StatelessWidget {
                       Icons.error,
                       Colors.red);
                 } else {
-                  await context.read<SignInCubit>().studentSignIn(
+                  await context.read<SignInCubit>().schoolSignIn(
                       email: _emailController.text,
                       password: _passwordController.text);
                 }

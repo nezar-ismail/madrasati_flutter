@@ -11,6 +11,7 @@ import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.da
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/home/cubit/home_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_group/cubit/groupe_post_pagination_cubit.dart';
+import 'package:madrasati/presintation/phone/features/school_info/cubit/school_home_cubit_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/cubit/sign_in_cubit.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
@@ -54,6 +55,8 @@ void setupLocator() {
     getIt.registerFactory<SchoolInfoCubit>(
         () => SchoolInfoCubit(getIt<SchoolService>()));
     getIt.registerLazySingleton<UserProfileCubit>(() => UserProfileCubit());
+    getIt.registerLazySingleton<SchoolHomeCubit>(() => SchoolHomeCubit());
+
 
   // Register Factory Cubits
     getIt.registerFactory<NetworkImageCubit>(
