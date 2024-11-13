@@ -16,14 +16,14 @@ import 'package:madrasati/presintation/phone/features/student/cubit/student_home
 part 'post_services_state.dart';
 
 class PostServicesCubit extends Cubit<PostServicesState> {
-  final GroupPostService _postService;
+  final GroupPostService _postService = getIt<GroupPostService>();
   int currentPage = 0;
   String commentCount = '0';
   bool hasMore = true;
   bool isFetching = false;
   List<Comment> comments = [];
   ScrollController scrollController = ScrollController();
-  PostServicesCubit(this._postService) : super(PostServicesInitial());
+  PostServicesCubit() : super(PostServicesInitial());
 
   /// Sends a request to like a post.
   ///
@@ -79,7 +79,8 @@ class PostServicesCubit extends Cubit<PostServicesState> {
   ///
   /// [postId] is the id of the post to fetch comments from.
   Future<void> fetchComments(String postId) async {
-    if (!hasMore || isFetching)return; // Stop fetching if no more pages or already fetching
+    if (!hasMore || isFetching)
+      return; // Stop fetching if no more pages or already fetching
     isFetching = true; // Set fetching flag to true to prevent multiple calls
     emit(PostServicesLoading());
     try {
@@ -134,7 +135,7 @@ class PostServicesCubit extends Cubit<PostServicesState> {
         // Directly add the new comment to the list of comments
         comments.insert(0, response.toComment(author));
         commentCount = (int.parse(commentCount) + 1).toString();
-        emit (CommentAdded());
+        emit(CommentAdded());
         emit(ComentLoaded(
             comments: comments,
             hasMore: hasMore)); // Emit updated comments list
@@ -145,7 +146,6 @@ class PostServicesCubit extends Cubit<PostServicesState> {
       emit(PostServicesError(message: e.toString()));
     }
   }
-
 
   /// Deletes a comment from a post.
   ///
@@ -178,10 +178,30 @@ class PostServicesCubit extends Cubit<PostServicesState> {
         // Directly remove the comment from the list of comments
         comments.removeWhere((comment) => comment.commentId == commentId);
         commentCount = (int.parse(commentCount) - 1).toString();
-        emit (CommentRemoved());
+        emit(CommentRemoved());
         emit(ComentLoaded(
             comments: comments,
             hasMore: hasMore)); // Emit updated comments list
+      } else {
+        emit(PostServicesError(message: response.toString()));
+      }
+    } catch (e) {
+      emit(PostServicesError(message: e.toString()));
+    }
+  }
+
+  Future<void> createPost(
+      String groupId, List<String> pathes, String content) async {
+    emit(PostServicesLoading());
+    try {
+      final response = await _postService.createGroupPost(
+        groupId: groupId,
+        token: await SecureStorageApi.instance.getAccessToken() ?? "",
+        caption: content,
+        pathes: pathes,
+      );
+      if (response is EmptyResponse) {
+        emit(PostCreated());
       } else {
         emit(PostServicesError(message: response.toString()));
       }

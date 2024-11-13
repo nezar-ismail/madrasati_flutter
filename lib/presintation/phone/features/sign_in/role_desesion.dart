@@ -1,6 +1,5 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/utils/role_card.dart';
 import 'package:madrasati/presintation/phone/features/home/home.dart';
@@ -35,9 +34,7 @@ class RoleDesesion extends StatelessWidget {
     // Get screen size for responsive design
     final size = MediaQuery.of(context).size;
 
-
     // Scaling factor for responsive text
-
 
     // ValueNotifier to manage selected role index
     final ValueNotifier<int> selectedRoleIndex = ValueNotifier<int>(-1);
@@ -58,7 +55,8 @@ class RoleDesesion extends StatelessWidget {
                         'Welcome',
                         style: TextStyle(
                           fontFamily: 'Roboto',
-                          fontSize: scaleText(30, context), // Responsive font size
+                          fontSize:
+                              scaleText(30, context), // Responsive font size
                           color: index == -1
                               ? Colors.red
                               : index == 0
@@ -133,7 +131,7 @@ class RoleDesesion extends StatelessWidget {
                             // Navigate to the next screen
                             if (selectedRoleIndex.value == 0) {
                               //TODO: REFACTOR WITH OUT CONTEXT
-                              await getIt<SignInCubit>().guestSignIn();
+                              await SignInCubit().guestSignIn();
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
@@ -142,7 +140,8 @@ class RoleDesesion extends StatelessWidget {
                               Navigator.pushReplacement(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => StudentSignInBuilder()));
+                                      builder: (context) =>
+                                          StudentSignInBuilder()));
                             } else {
                               Navigator.pushReplacement(
                                   context,
@@ -177,8 +176,8 @@ class RoleDesesion extends StatelessWidget {
                                 'Continue',
                                 style: TextStyle(
                                   fontFamily: 'Roboto',
-                                  fontSize:
-                                      scaleText(20, context), // Responsive font size
+                                  fontSize: scaleText(
+                                      20, context), // Responsive font size
                                   color: Colors.white,
                                 ),
                               ),

@@ -86,7 +86,7 @@ class SchoolDetailPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 8.0),
                     child: BlocProvider(
-                      create: (context) => getIt<NetworkImageCubit>()
+                      create: (context) => NetworkImageCubit()
                         ..fetchImage(ApiConstants.baseUrl +
                             state.schoolProfilePage.schoolCoverImage),
                       child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
@@ -234,73 +234,7 @@ class SchoolDetailPage extends StatelessWidget {
               ),
             ),
             bottomNavigationBar: isManeger
-                ? Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.rectangle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.5),
-                          spreadRadius: 0,
-                          blurRadius: 7,
-                          offset: const Offset(0, 3),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: Colors.orange,
-                              ),
-                              child: const Icon(
-                                Icons.home,
-                                color: Colors.white,
-                                size: 40,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.grey,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
-                              )),
-                        ),
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.5,
-                          child: IconButton(
-                              onPressed: () {
-                                log('Pressed School GroupId = ${getIt<SchoolHomeCubit>().state!.groupId}');
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SchoolGroup(
-                                              groupId: getIt<SchoolHomeCubit>()
-                                                  .state!
-                                                  .gender!,
-                                            )));
-                              },
-                              icon: const Icon(
-                                Icons.group,
-                                size: 40,
-                                color: Colors.orange,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.grey,
-                                    blurRadius: 7,
-                                    offset: Offset(0, 3),
-                                  ),
-                                ],
-                              )),
-                        ),
-                      ],
-                    ),
-                  )
+                ? _buildBottomNavBar(context)
                 : null,
           );
         }
@@ -311,6 +245,76 @@ class SchoolDetailPage extends StatelessWidget {
         return const Center(child: Text('Something went wrong'));
       },
     );
+  }
+
+  Container _buildBottomNavBar(BuildContext context) {
+    return Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.rectangle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 0,
+                        blurRadius: 7,
+                        offset: const Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: Container(
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.orange,
+                            ),
+                            child: const Icon(
+                              Icons.home,
+                              color: Colors.white,
+                              size: 40,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.grey,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            )),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.5,
+                        child: IconButton(
+                            onPressed: () {
+                              log('Pressed School GroupId = ${getIt<SchoolHomeCubit>().state!.groupId}');
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => SchoolGroup(
+                                            groupId: getIt<SchoolHomeCubit>()
+                                                .state!
+                                                .groupId!, isManager: isManeger,
+                                          )));
+                            },
+                            icon: const Icon(
+                              Icons.group,
+                              size: 40,
+                              color: Colors.orange,
+                              shadows: [
+                                Shadow(
+                                  color: Colors.grey,
+                                  blurRadius: 7,
+                                  offset: Offset(0, 3),
+                                ),
+                              ],
+                            )),
+                      ),
+                    ],
+                  ),
+                );
   }
 
   Widget _buildSchoolName(BuildContext context, String name) {
@@ -395,10 +399,10 @@ class SchoolDetailPage extends StatelessWidget {
               aspectRatio: MediaQuery.of(context).size.aspectRatio,
             ),
             itemBuilder: (context, index, _) {
-              final imageUrl = ApiConstants.baseUrl + imageUrls[index];
+              final imageUrl = ApiConstants.baseUrl + imageUrls[index].toString();
               return BlocProvider(
                 create: (context) =>
-                    getIt<NetworkImageCubit>()..fetchImage(imageUrl),
+                    NetworkImageCubit()..fetchImage(imageUrl),
                 child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
                   builder: (context, state) {
                     if (state is ImageLoading) {

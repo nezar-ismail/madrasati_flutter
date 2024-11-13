@@ -2,20 +2,27 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/add_post/add_post_view.dart';
 import 'package:madrasati/presintation/phone/features/school_group/cubit/groupe_post_pagination_cubit.dart';
 
 class SchoolGroup extends StatelessWidget {
   final String groupId;
+  final bool isManager;
 
-  const SchoolGroup({super.key, required this.groupId});
+  const SchoolGroup({super.key, required this.groupId, required this.isManager});
 
   @override
   Widget build(BuildContext context) {
     log(groupId);
     return BlocProvider(
-      create: (context) => getIt<GroupePostPaginationCubit>()..fetchPosts(groupId),
+      create: (context) => GroupePostPaginationCubit()..fetchPosts(groupId),
       child: Scaffold(
+        floatingActionButton: isManager ? FloatingActionButton(
+          child: const Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(context, MaterialPageRoute(builder: (context) => AddPostScreen()));
+          }
+        ): null,
         appBar: AppBar(
           title: const Text(
             'School Group',

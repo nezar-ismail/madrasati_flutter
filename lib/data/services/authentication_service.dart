@@ -98,7 +98,7 @@ class AuthService {
             birthDate: data['user']['userBirthDate'],
             gender: data['user']['userGender'],
             schoolId: data['data']['school']['schoolId'],
-            groupId: data['groupId'],
+            groupId: data['data']['groupId'],
             
           );
           // Save student data to Hive

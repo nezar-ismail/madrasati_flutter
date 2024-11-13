@@ -4,6 +4,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/school/s_manger_field.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
+import 'package:madrasati/presintation/phone/features/school_info/cubit/school_home_cubit_cubit.dart';
 import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 import 'presintation/phone/features/sign_in/role_desesion.dart';
 
@@ -25,6 +26,7 @@ void main() async{
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => getIt<UserProfileCubit>()),
+        BlocProvider(create: (context) => getIt<SchoolHomeCubit>()),
       ],
       child: const MadrasatiApp(),
     ),

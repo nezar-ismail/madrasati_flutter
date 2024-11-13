@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/core/api_inspector.dart';
+import 'package:madrasati/data/utils/custom_logs.dart';
 
 
 class API {
@@ -57,15 +58,15 @@ class API {
     Object? body,
   }) async {
     try {
-      apiInspector.logRequest(RequestOptions(path: url, headers: headers, data: body));
       final Response response;
 
       if (body is FormData) {
         // Send multipart form data
         response = await apiInspector.dio.post(
           url,
-          options: apiInspector.createOptions(headers: headers),
+          options: apiInspector.createOptions(headers: headers, isMultipart: true),
           data: body,
+
         );
       } else {
         // Send JSON body
@@ -79,6 +80,7 @@ class API {
       apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
+      logError('DioException: $e');
       final errorResponse = await apiInspector.handleError(e, e.requestOptions);
       if (errorResponse != null) {
         return errorResponse;

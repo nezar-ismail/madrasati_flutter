@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 
 class DetailesFooter extends StatelessWidget {
@@ -24,7 +23,7 @@ class DetailesFooter extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         BlocProvider(
-          create: (context) => getIt<PostServicesCubit>(),
+          create: (context) => PostServicesCubit(),
           child: BlocBuilder<PostServicesCubit, PostServicesState>(
             builder: (context, state) {
               return state is PostServicesLoading

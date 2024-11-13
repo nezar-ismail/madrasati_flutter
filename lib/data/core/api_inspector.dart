@@ -15,23 +15,34 @@ class APIInspector {
 
   APIInspector(this.dio);
 
+  bool _isRefreshing = false;
+
   /// Logs request details.
   void logRequest(RequestOptions options) {
     log('Request: [${options.method}] ${options.path}');
-    log('Headers: ${options.headers}');
-    if (options.data != null) log('Data: ${options.data}');
+    if (options.data != null) log('Data: ${options.data.toString()}');
   }
 
-  /// Logs response details.
   void logResponse(Response response) {
     log('Response: [${response.statusCode}] ${response.requestOptions.path}');
   }
 
-  /// Creates a [Options] instance with the given headers and response type.
-  Options createOptions(
-      {Map<String, dynamic>? headers,
-      bool isJson = true,
-      bool isToken = true}) {
+  Options createOptions({
+    Map<String, dynamic>? headers,
+    bool isJson = true,
+    bool isToken = true,
+    String? token,
+    bool isMultipart = false,
+  }) {
+    headers = headers ?? {};
+    if (isToken && token != null && token.isNotEmpty && isJson) {
+      headers['Authorization'] = 'Bearer $token';
+      headers['Content-Type'] = 'application/json';
+    }
+    if (isToken && token != null && token.isNotEmpty && isMultipart == true) {
+      headers['Authorization'] = 'Bearer $token';
+      headers['Content-Type'] = 'multipart/form-data';
+    }
     return Options(
       headers: headers,
       responseType: isJson ? ResponseType.json : ResponseType.bytes,
@@ -44,51 +55,56 @@ class APIInspector {
   /// it signs out the user and navigates to the login screen.
   Future<Response?> handleError(
       DioException e, RequestOptions requestOptions) async {
-    if (e.response?.statusCode == 401) {
+    if (e.response?.statusCode == 401 && !_isRefreshing) {
+      _isRefreshing = true;
       try {
         final refresherToken =
             await SecureStorageApi.instance.getRefreshToken();
         final refreshedToken =
             await refreshToken(refreshToken: refresherToken!);
-
-        // Retry the original request with the new access token
         final newOptions = createOptions(
           headers: {
             ...requestOptions.headers,
             "Authorization": "Bearer ${refreshedToken.accessToken}"
           },
         );
-        log('New options: ${newOptions.toString()}');
         logInfo('Token refreshed successfully');
-        return await dio.request(
-          requestOptions.path,
-          options: newOptions,
-          data: requestOptions.data,
-          queryParameters: requestOptions.queryParameters,
-        );
+        if (requestOptions.data is FormData) {
+          final formData = requestOptions.data as FormData;
+          return await dio.request(
+            requestOptions.path,
+            options: newOptions,
+            data: formData,
+            queryParameters: requestOptions.queryParameters,
+          );
+        } else {
+          return await dio.request(
+            requestOptions.path,
+            options: newOptions,
+            data: requestOptions.data,
+            queryParameters: requestOptions.queryParameters,
+          );
+        }
       } catch (error) {
         log('Token refresh failed: $error');
-
-        // Handle refresh token expiration or failure
         await _handleTokenExpiration();
+      } finally {
+        _isRefreshing = false;
       }
     }
-    return e.response; // Return original error if not 401
+    return e.response;
   }
 
   /// Handles token expiration by clearing session data, redirecting the user
   /// to the sign-in page, and displaying a session expiration message.
   Future<void> _handleTokenExpiration() async {
     try {
-      // Clear session data
       await SecureStorageApi.instance.logout();
-
-      // Redirect to the sign-in page using the global navigator
-      navigatorKey.currentState?.pushReplacement(
-        MaterialPageRoute(builder: (context) => RoleDesesion()),
-      );
-
-      // Optionally, show a message to the user
+      if (navigatorKey.currentState?.canPop() == true) {
+        navigatorKey.currentState?.pushReplacement(
+          MaterialPageRoute(builder: (context) => RoleDesesion()),
+        );
+      }
       log('Session expired, user redirected to sign-in page');
       final overlayState = navigatorKey.currentState?.overlay;
       if (overlayState != null) {
@@ -125,7 +141,6 @@ class APIInspector {
   Future<Response> refreshTokenApi({required String refreshToken}) async {
     String url = AuthEndpoints.refreshToken;
     final Map<String, dynamic> header = {"refresher-token": refreshToken};
-
     try {
       Response response = await dio.post(
         url,

@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/data/services/authentication_service.dart';
@@ -8,8 +9,8 @@ import 'package:madrasati/data/utils/custom_logs.dart';
 part 'edit_password_state.dart';
 
 class EditPasswordCubit extends Cubit<EditPasswordState> {
-  final AuthService _authService;
-  EditPasswordCubit(this._authService) : super(EditPasswordInitial());
+  final AuthService _authService = getIt<AuthService>();
+  EditPasswordCubit() : super(EditPasswordInitial());
 
 
   /// Edits the user's password.

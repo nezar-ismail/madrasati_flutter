@@ -3,7 +3,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/core/utils/button_service.dart';
@@ -37,7 +36,7 @@ class StudentProfile extends StatelessWidget {
                 Center(
                   child: BlocProvider(
                     create: (_) =>
-                        getIt<NetworkImageCubit>()..fetchImage(imageFullUrl),
+                        NetworkImageCubit()..fetchImage(imageFullUrl),
                     child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
                       builder: (context, state) {
                         if (state is ImageLoading) {

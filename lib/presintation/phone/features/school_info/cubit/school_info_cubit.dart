@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/models/feedback/feedback.dart';
 import 'package:madrasati/data/models/feedback/feedback_res.dart';
 import 'package:madrasati/data/models/school_models/schoolPage/school_profile_page.dart';
@@ -10,12 +11,12 @@ import 'package:madrasati/data/utils/custom_logs.dart';
 part 'school_info_state.dart';
 
 class SchoolInfoCubit extends Cubit<SchoolInfoState> {
-  final SchoolService _schoolService ;
+  final SchoolService _schoolService = getIt<SchoolService>();
   int currentPage = 0;
   bool hasMore = true;
   bool isFetching = false;
   List<FeedbackContent> feedbackContents = [];
-  SchoolInfoCubit(this._schoolService) : super(SchoolInfoInitial());
+  SchoolInfoCubit() : super(SchoolInfoInitial());
 
   /// Get school information by schoolId
   ///

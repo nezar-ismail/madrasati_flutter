@@ -11,6 +11,8 @@ final class PostServicesInitial extends PostServicesState {}
 
 final class PostServicesLoading extends PostServicesState {}
 
+final class PostCreated extends PostServicesState {}
+
 final class LikeAdded extends PostServicesState {}
 
 final class LikeRemoved extends PostServicesState {}

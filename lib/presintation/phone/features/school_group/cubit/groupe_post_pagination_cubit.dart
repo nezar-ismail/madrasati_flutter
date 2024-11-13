@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,9 +14,9 @@ import 'package:madrasati/presintation/phone/features/school_group/widgets/post_
 part 'groupe_post_pagination_state.dart';
 
 class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
-  GroupePostPaginationCubit(this._groupPostService)
+  GroupePostPaginationCubit()
       : super(GroupePostPaginationInitial());
-  final GroupPostService _groupPostService;
+  final GroupPostService _groupPostService = getIt<GroupPostService>();
   int currentPage = 0;
   bool hasMore = true;
   bool isFetching = false;
@@ -53,11 +52,11 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
         posts.addAll(response.content
             .map(
               (post) => BlocProvider(
-                create: (context) => getIt<NetworkImageCubit>()
+                create: (context) => NetworkImageCubit()
                   ..fetchImage(ApiConstants.baseUrl + post.schoolImagePath),
                 child: PostCard(
                   schoolImage: post.schoolImagePath,
-                  caption: post.caption,
+                  caption: post.caption?? '',
                   postCreatedAt: post.postCreatedAt,
                   likeCount: post.numberOfLike.toString(),
                   commentCount: post.numberOfComment.toString(),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
-import 'package:madrasati/data/core/get_it.dart';
 
 class TeacherStaff extends StatelessWidget {
   const TeacherStaff({
@@ -24,7 +23,7 @@ class TeacherStaff extends StatelessWidget {
   Widget build(BuildContext context) {
     final imageUrl = ApiConstants.baseUrl + teacherImage;
     return BlocProvider(
-      create: (context) => getIt<NetworkImageCubit>()..fetchImage(imageUrl),
+      create: (context) => NetworkImageCubit()..fetchImage(imageUrl),
       child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
         builder: (context, state) {
           Widget imageWidget;

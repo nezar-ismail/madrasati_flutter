@@ -2,7 +2,6 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/role_desesion.dart';
@@ -46,7 +45,7 @@ class ContainerStudentInfo extends StatelessWidget {
             children: [
               BlocProvider(
                 create: (context) =>
-                    getIt<NetworkImageCubit>()..fetchImage(imageFullPath),
+                    NetworkImageCubit()..fetchImage(imageFullPath),
                 child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
                   builder: (context, state) {
                     if (state is ImageLoading) {

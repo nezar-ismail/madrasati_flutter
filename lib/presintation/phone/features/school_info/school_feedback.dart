@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
@@ -28,7 +27,7 @@ class FeedbackSection extends StatelessWidget {
       ),
       body: SafeArea(
         child: BlocProvider(
-          create: (context) => getIt<SchoolInfoCubit>()..fetchFeedback(schoolId),
+          create: (context) => SchoolInfoCubit()..fetchFeedback(schoolId),
           child: BlocConsumer<SchoolInfoCubit, SchoolInfoState>(
             builder: (context, state) {
               return Column(

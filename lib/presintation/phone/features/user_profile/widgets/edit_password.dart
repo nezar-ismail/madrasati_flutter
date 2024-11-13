@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/user_profile/cubit/edit_password_cubit.dart';
 
@@ -32,7 +31,7 @@ class EditPasswordScreenState extends State<EditPasswordScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<EditPasswordCubit>(),
+      create: (context) => EditPasswordCubit(),
       child: BlocConsumer<EditPasswordCubit, EditPasswordState>(
         listener: (context, state) {
           if (state is EditPasswordSuccess) {
