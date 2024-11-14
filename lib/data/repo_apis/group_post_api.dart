@@ -1,7 +1,9 @@
-
 import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import 'package:madrasati/data/core/api.dart';
 import 'package:madrasati/data/core/api_constant.dart';
+
+import '../utils/content_type_convert.dart';
 
 class GroupPostApi {
   final API _api;
@@ -36,7 +38,7 @@ class GroupPostApi {
   ///
   /// Returns a [Future] containing the server [Response] with the comments data if the request is successful.
   /// Throws an exception if the request fails.
-    Future<Response> getAllComments(
+  Future<Response> getAllComments(
       {required String postId,
       required String token,
       required int page,
@@ -46,7 +48,6 @@ class GroupPostApi {
     Response response = await _api.get(url, headers: authHeader);
     return response;
   }
-
 
   /// Creates a new group post.
   ///
@@ -65,19 +66,19 @@ class GroupPostApi {
     String url = GroupeEndpoints.createGroupPost(groupId);
     Map<String, String> authHeader = makeHeaders(token);
 
-  //   List<MultipartFile> imageFiles = [];
-  //   if (pathes != null) {
-  //     for (String path in pathes) {
-  //       imageFiles.add(await MultipartFile.fromFile(
-  //         path,
-  //         filename: path.split('/').last,
-  //       ));
-  //   }
-  // }
-    FormData body = FormData.fromMap({
-      'caption': caption,
-      'images': pathes != null ? pathes.map((p) => MultipartFile.fromFileSync(p)).toList() : [],
-    });
+    List<MultipartFile> imageFiles = [];
+    if (pathes != null) {
+      for (String path in pathes) {
+        String fileType = ContentTypeConvert.getFileType(path);
+        imageFiles.add(await MultipartFile.fromFile(
+          path,
+          filename: path.split('/').last,
+          contentType: MediaType.parse(fileType),
+        ));
+      }
+    }
+    FormData body =
+        FormData.fromMap({'caption': caption, 'images': imageFiles});
 
     Response response = await _api.post(url, body: body, headers: authHeader);
     return response;
