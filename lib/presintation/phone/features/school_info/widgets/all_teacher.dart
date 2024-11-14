@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/student/student_box.dart';
@@ -55,7 +56,7 @@ class AllTeacherStaff extends StatelessWidget {
                   imageWidget = const CircleAvatar(
                     radius: 25,
                     backgroundColor: Colors.red, // Color to indicate error
-                    child: Icon(Icons.error, color: Colors.white),
+                    child:LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,),
                   );
                 } else {
                   imageWidget = const CircleAvatar(

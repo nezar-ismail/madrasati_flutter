@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 
 class GetMemoryImage extends StatelessWidget {
@@ -28,7 +29,7 @@ class GetMemoryImage extends StatelessWidget {
         } else if (state is ImageError) {
           return Container(
             color: Colors.grey[300],
-            child: const Icon(Icons.error),
+            child: LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,),
           );
         }
         return Container(

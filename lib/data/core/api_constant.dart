@@ -1,16 +1,16 @@
 class BaseUrl {
-  static const String ipAddress = "http://192.168.1.26";
+  static const String ipAddress = "http://34.30.38.82";
   static const String port = "8080";
   static final String baseUrl = '$ipAddress:$port';  
 }
 
 class ApiConstants {
-  static final String baseUrl = BaseUrl.baseUrl; 
+  static final String baseUrl = '${BaseUrl.baseUrl}/'; 
   static final String baseUrlWithPort = '${BaseUrl.ipAddress}:${BaseUrl.port}';
 
-  static const String authVersion = '/v1';
-  static const String groupVersion = '/v1';
-  static const String schoolVersion = '/v1';
+  static const String authVersion = 'v1';
+  static const String groupVersion = 'v1';
+  static const String schoolVersion = 'v1';
 }
 
 class AuthEndpoints {

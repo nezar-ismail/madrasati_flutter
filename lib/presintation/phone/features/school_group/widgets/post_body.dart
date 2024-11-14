@@ -21,6 +21,7 @@ class PostBody extends StatelessWidget {
         softWrap: false,
         textAlign: TextAlign.justify,
         textDirection: TextDirection.ltr,
+        // ignore: deprecated_member_use
         textScaleFactor: 1.0,
         textWidthBasis: TextWidthBasis.parent,
         textHeightBehavior: null,

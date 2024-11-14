@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 
@@ -39,7 +40,7 @@ class PostHeader extends StatelessWidget {
               } else if (state is ImageError) {
                 return CircleAvatar(
                   radius: avatarRadius,
-                  child: const Icon(Icons.error),
+                  child: LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,),
                 );
               }
               return CircleAvatar(

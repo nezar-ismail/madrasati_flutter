@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/views/post_detailes.dart';
@@ -131,7 +132,7 @@ class PostCard extends StatelessWidget {
                               return Container(
                                 width: 200,
                                 color: Colors.grey[300],
-                                child: const Icon(Icons.error),
+                                child: LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,),
                               );
                             }
                             return const SizedBox.shrink();
@@ -193,7 +194,7 @@ void _showImageSlider(
                       );
                     } else if (state is ImageError) {
                       return Center(
-                        child: Icon(Icons.error, color: Colors.red, size: 60),
+                        child: LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,),
                       );
                     }
                     return const SizedBox.shrink();

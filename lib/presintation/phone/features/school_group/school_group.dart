@@ -31,7 +31,7 @@ class SchoolGroup extends StatelessWidget {
         appBar: AppBar(
           foregroundColor: Colors.white,
           centerTitle: true,
-          backgroundColor: isManager ? Colors.orange : Colors.blue,
+          backgroundColor: isManager ? Colors.green : Colors.blue,
           title: const Text(
             'School Group',
             style: TextStyle(fontFamily: 'Roboto', color: Colors.white),

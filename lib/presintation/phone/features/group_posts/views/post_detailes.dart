@@ -1,9 +1,6 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:madrasati/data/core/get_it.dart';
-import 'package:madrasati/data/hive/student/student_box.dart';
-
+import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/comment_section.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_add_comment.dart';
@@ -56,7 +53,7 @@ class PostDetails extends StatelessWidget {
           foregroundColor: Colors.white,
           title: const Text('Post Details', style: TextStyle(color: Colors.white)),
           centerTitle: true,
-          backgroundColor: getIt<UserBox>().getUser()!.isManager! ? Colors.orange : Colors.blue,
+          backgroundColor: SecureStorageApi.instance.getRole() == 'school_manager' ? Colors.green : Colors.blue,
         ),
         body: SafeArea(
           // Ensure content stays within safe area of the screen

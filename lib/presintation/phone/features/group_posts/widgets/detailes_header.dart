@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 
@@ -50,11 +51,7 @@ class DetailsHeader extends StatelessWidget {
                       fit: BoxFit.cover,
                     );
                   } else if (state is ImageError) {
-                    return Icon(
-                      Icons.error,
-                      color: Colors.red,
-                      size: imageSize,
-                    );
+                    return LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,);
                   }
                   return SizedBox(
                     width: imageSize,

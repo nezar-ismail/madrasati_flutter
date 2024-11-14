@@ -1,4 +1,3 @@
-
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
@@ -30,16 +29,13 @@ class NetworkImageCubit extends Cubit<NetworkImageState> {
     }
     emit(ImageLoading());
     try {
-      final response = await _dio.getImage(
-        imageUrl,
-        headers: {
-          'Authorization': 'Bearer ${await SecureStorageApi.instance.getAccessToken()??''}',
-        }
-      
-      );
-      emit(ImageLoaded(Uint8List.fromList(response.data! )));
+      final response = await _dio.getImage(imageUrl, headers: {
+        'Authorization':
+            'Bearer ${await SecureStorageApi.instance.getAccessToken() ?? ''}',
+      });
+      emit(ImageLoaded(Uint8List.fromList(response.data!)));
     } catch (e) {
-    emit(ImageError(e.toString()));
+      emit(ImageError(e.toString()));
     }
   }
 }

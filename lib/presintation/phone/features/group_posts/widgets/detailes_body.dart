@@ -1,7 +1,9 @@
+import 'dart:developer';
 import 'dart:typed_data';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 
@@ -111,7 +113,7 @@ class DetailesBody extends StatelessWidget {
       width: 200,
       color: Colors.grey[300],
       child: const Center(
-        child: Icon(Icons.error),
+        child: LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,),
       ),
     );
   }
@@ -134,6 +136,7 @@ void _showImageSlider(BuildContext context, List<dynamic> imageUrls, int initial
           ),
           itemBuilder: (context, index, _) {
             final imageUrl = ApiConstants.baseUrl + imageUrls[index];
+            log(imageUrl);
             return BlocProvider(
               create: (context) => NetworkImageCubit()..fetchImage(imageUrl),
               child: BlocBuilder<NetworkImageCubit, NetworkImageState>(

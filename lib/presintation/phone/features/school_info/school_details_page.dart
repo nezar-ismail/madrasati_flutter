@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/student/student_box.dart';
@@ -69,7 +70,7 @@ class SchoolDetailPage extends StatelessWidget {
                                   imageState.imageData, context),
                             );
                           } else if (imageState is ImageError) {
-                            return const Center(child: Icon(Icons.error));
+                            return const Center(child: LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,),);
                           }
                           return const SizedBox.shrink();
                         },
@@ -418,7 +419,7 @@ class SchoolDetailPage extends StatelessWidget {
                       );
                     } else if (state is ImageError) {
                       return Center(
-                        child: Icon(Icons.error, color: Colors.red, size: 60),
+                        child:LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,),
                       );
                     }
                     return const SizedBox.shrink();

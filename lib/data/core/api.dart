@@ -95,7 +95,7 @@ class API {
         // Send multipart form data
         response = await apiInspector.dio.put(
           url,
-          options: apiInspector.createOptions(headers: headers),
+          options: apiInspector.createOptions(headers: headers , isMultipart: true),
           data: body,
         );
       } else {
@@ -122,7 +122,7 @@ class API {
     try {
       final Response response = await apiInspector.dio.put(
         url,
-        options: apiInspector.createOptions(headers: headers),
+        options: apiInspector.createOptions(headers: headers, isMultipart: true),
         data: body,
       );
       return response;

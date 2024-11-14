@@ -2,6 +2,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/home/widgets/school_card_info.dart';
@@ -67,7 +68,7 @@ class SchoolCard extends StatelessWidget {
               } else if (state is ImageLoaded) {
                 return _buildImageContent(state.imageData, context);
               } else if (state is ImageError) {
-                return const Center(child: Icon(Icons.error));
+                return const Center(child: LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,),);
               }
               return const SizedBox.shrink(); // Placeholder for initial state
             },
