@@ -22,6 +22,7 @@ class SchoolDetailPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    getIt<UserBox>().saveManager(isManeger);
     return BlocBuilder<SchoolInfoCubit, SchoolInfoState>(
       builder: (context, state) {
         if (state is SchoolInfoLoading) {
@@ -253,15 +254,14 @@ class SchoolDetailPage extends StatelessWidget {
                       context,
                       MaterialPageRoute(
                           builder: (context) => SchoolGroup(
-                                groupId:
-                                    getIt<UserBox>().getUser()!.groupId!,
+                                groupId: getIt<UserBox>().getUser()!.groupId!,
                                 isManager: isManeger,
                               )));
                 },
-                icon:  Icon(
+                icon: Icon(
                   Icons.group,
                   size: 40,
-                  color:  isManeger ? Colors.green : Colors.orange,
+                  color: isManeger ? Colors.green : Colors.orange,
                   shadows: [
                     Shadow(
                       color: Colors.grey,

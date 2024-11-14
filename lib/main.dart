@@ -15,8 +15,6 @@ void main() async {
   Hive.registerAdapter(LocalUserAdapter());
   await Hive.openBox<LocalUser>('userBox');
 
-
-
   runApp(
     const MadrasatiApp(),
   );

@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/models/auth_models/token.dart';
-import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/data/services/authentication_service.dart';
 import 'package:madrasati/data/utils/custom_logs.dart';
@@ -86,11 +85,8 @@ class APIInspector {
   /// to the sign-in page, and displaying a session expiration message.
   Future<void> _handleTokenExpiration() async {
     try {
-      var response = await getIt<AuthService>().logout(
-          refreshToken:
-              await SecureStorageApi.instance.getRefreshToken() ?? "");
-      if (navigatorKey.currentState?.canPop() == true &&
-          response is EmptyResponse) {
+      await SecureStorageApi.instance.logout();
+      if (navigatorKey.currentState?.canPop() == true) {
         navigatorKey.currentState?.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => RoleDesesion()),
           (Route<dynamic> route) => false,

@@ -128,7 +128,7 @@ class RoleDesesion extends StatelessWidget {
                           onTap: () async {
                             // Navigate to the next screen
                             if (selectedRoleIndex.value == 0) {
-                              SignInCubit().guestSignIn();
+                              await SignInCubit().guestSignIn();
                               Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(

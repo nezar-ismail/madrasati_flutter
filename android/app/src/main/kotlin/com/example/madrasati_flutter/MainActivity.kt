@@ -1,4 +1,4 @@
-package com.example.madrasati
+package com.example.Madrasati
 
 import io.flutter.embedding.android.FlutterActivity
 
