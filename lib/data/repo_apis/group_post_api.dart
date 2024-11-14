@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/core/api.dart';
 import 'package:madrasati/data/core/api_constant.dart';
@@ -58,15 +60,27 @@ class GroupPostApi {
   /// Throws an exception if the request fails.
   Future<Response> createGroupPost(
       {required String groupId,
-      List<MultipartFile>? image,
+      List<String>? pathes,
       String? caption,
       required String token}) async {
     String url = GroupeEndpoints.createGroupPost(groupId);
     Map<String, String> authHeader = makeHeaders(token);
+
+  //   List<MultipartFile> imageFiles = [];
+  //   if (pathes != null) {
+  //     for (String path in pathes) {
+  //       imageFiles.add(await MultipartFile.fromFile(
+  //         path,
+  //         filename: path.split('/').last,
+  //       ));
+  //   }
+  // }
     FormData body = FormData.fromMap({
-      'images': image,
       'caption': caption,
+      'images': pathes != null ? pathes.map((p) => MultipartFile.fromFileSync(p)).toList() : [],
     });
+
+    log('body is ${body.files.toString()}');
     Response response = await _api.post(url, body: body, headers: authHeader);
     return response;
   }

@@ -5,6 +5,7 @@ import 'dart:developer';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/services/authentication_service.dart';
 import 'package:madrasati/data/utils/device_id.dart';
@@ -12,9 +13,9 @@ import 'package:madrasati/data/utils/device_id.dart';
 part 'sign_in_state.dart';
 
 class SignInCubit extends Cubit<SignInState> {
-  SignInCubit(this._authService) : super(SignInInitial());
+  SignInCubit() : super(SignInInitial());
   
-  final AuthService _authService;
+  final AuthService _authService = getIt<AuthService>();
 
 
   /// Calls [_authService.studentSignIn] with the given [email], [password], and the

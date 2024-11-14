@@ -97,25 +97,42 @@ class GroupPostService {
     }
   }
 
-  //? not in use
-  // Future<ResponsModel> createGroupPost({
-  //   required String groupId,
-  //   List<MultipartFile>? images,
-  //   String? caption,
-  //   required String token,
-  // }) async {
-  //   try {
-  //     Response response = await _groupPostApi.createGroupPost(
-  //       groupId: groupId,
-  //       image: images,
-  //       caption: caption,
-  //       token: token,
-  //     );
-  //     return _handleResponse(response);
-  //   } catch (e) {
-  //     throw InternalException("Failed to create post: ${e.toString()}");
-  //   }
-  // }
+  /// Creates a new group post.
+  ///
+  /// [groupId] is the identifier for the group where the post will be created.
+  /// [images] is an optional list of images to be attached to the post.
+  /// [caption] is an optional description or title for the post.
+  /// [token] is the authentication token required for the API request.
+  ///
+  /// Returns a [Future] containing the server [Response] with the post creation data if successful.
+  /// Throws an exception if the request fails.
+  Future<ResponsModel> createGroupPost({
+    required String groupId,
+    List<String>? pathes,
+    String? caption,
+    required String token,
+  }) async {
+    try {
+      Response response = await _groupPostApi.createGroupPost(
+        groupId: groupId,
+        pathes: pathes,
+        caption: caption,
+        token: token,
+      );
+      switch (response.statusCode) {
+        case 201:
+          return EmptyResponse();
+
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw InternalException("Failed to fetch posts");
+      }
+    } catch (e) {
+      throw InternalException("Failed to create post: ${e.toString()}");
+    }
+  }
 
   //? not in use
   // Future<ResponsModel> deletePost({

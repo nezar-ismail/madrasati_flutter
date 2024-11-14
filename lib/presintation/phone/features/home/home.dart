@@ -1,8 +1,6 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:madrasati/data/core/get_it.dart';
-import 'package:madrasati/data/services/school_service.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/home/cubit/home_cubit.dart';
 import 'package:madrasati/presintation/phone/features/home/widgets/school_card.dart';
@@ -13,7 +11,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SchoolPagingCubit(getIt<SchoolService>())..fetchSchools(),
+      create: (context) => SchoolPagingCubit()..fetchSchools(),
       child: Scaffold(
         appBar: AppBar(
           title: const Text('Welcome to Madrasati'),

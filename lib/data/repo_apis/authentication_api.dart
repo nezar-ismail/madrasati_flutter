@@ -27,12 +27,24 @@ class AuthApi {
     final Map<String, dynamic> body = makeBody(email, password);
 
     try {
-  Response response = await api.post(url, headers: header, body: body);
-  return response;
-} on Exception catch (e) {
-  log(e.toString());
-  rethrow;
-}
+      Response response = await api.post(url, headers: header, body: body);
+      return response;
+    } on Exception catch (e) {
+      log(e.toString());
+      rethrow;
+    }
+  }
+
+  /// Sends a GET request to the root endpoint of the API to check if the server is
+  /// available.
+  ///
+  /// Returns a [Future] containing the server [Response].
+  ///
+  /// Throws an exception if the request fails.
+  Future<Response> checkServer() async {
+    String url = ApiConstants.baseUrlWithPort;
+    Response response = await api.get(url);
+    return response;
   }
 
   /// Sends a POST request to the school login endpoint with the provided
@@ -79,12 +91,16 @@ class AuthApi {
   /// Returns a [Future] containing the server [Response].
   ///
   /// Throws an exception if the request fails.
-  Future<Response> guestSignOut({required String token}) async {
+  Future<Response> guestSignOut(
+      {required String token, required String guid}) async {
     String url = AuthEndpoints.guestLogout;
 
-    final Map<String, dynamic> header = makeHeaders(token, true);
+    final Map<String, dynamic> body = {"refreshToken": token, 'guid': guid};
 
-    Response response = await api.post(url, headers: header);
+    Response response = await api.post(
+      url,
+      body: body,
+    );
     return response;
   }
 
@@ -121,7 +137,6 @@ class AuthApi {
     return response;
   }
 
-
   /// Sends a PUT request to the user password edit endpoint with the provided
   /// [oldPassword], [newPassword], and [token].
   ///
@@ -146,11 +161,6 @@ class AuthApi {
     Response response = await api.put(url, headers: header, body: body);
     return response;
   }
-
-
-
-
-
 
   Map<String, String> makeHeaders(String value, bool isToken) {
     if (isToken) {

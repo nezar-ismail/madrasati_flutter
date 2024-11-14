@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
-import 'package:madrasati/data/services/authentication_service.dart';
-import 'package:madrasati/data/services/school_service.dart';
 import 'package:madrasati/presintation/core/utils/coustum_loading.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
-import 'package:madrasati/presintation/phone/features/school_info/cubit/school_home_cubit_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/school_details_page.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/cubit/sign_in_cubit.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/school_sign_in_ui.dart';
+import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class SchoolSignInBuilder extends StatelessWidget {
   const SchoolSignInBuilder({super.key});
@@ -17,11 +15,11 @@ class SchoolSignInBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInCubit(getIt<AuthService>()),
+      create: (context) => SignInCubit(),
       child: BlocConsumer<SignInCubit, SignInState>(
         listener: (BuildContext context, SignInState state) {
           if (state is SignInSuccess) {
-            final schoolId = getIt<SchoolHomeCubit>().state!.schoolId;
+            final schoolId = getIt<UserProfileCubit>().state!.schoolId;
             final overlayState = Overlay.of(context);
             customSnackbar(overlayState, "Sign in successfully", Icons.done,
                 Colors.orange);
@@ -29,8 +27,8 @@ class SchoolSignInBuilder extends StatelessWidget {
           context,
           MaterialPageRoute(
             builder: (context) => BlocProvider(
-              create: (context) => SchoolInfoCubit(getIt<SchoolService>())..getSchoolInfo(schoolId: schoolId!),
-              child: SchoolDetailPage(),
+              create: (context) => SchoolInfoCubit()..getSchoolInfo(schoolId: schoolId!),
+              child: SchoolDetailPage(isManeger: true,),
             ),
           ),
         );

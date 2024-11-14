@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 class Content {
   String schoolName;
   String authorId;
-  String caption;
+  String? caption;
   String groupId;
   String postId;
   String schoolImagePath;
@@ -121,7 +121,7 @@ class Content {
     return Content(
       schoolName: map['schoolName'] as String,
       authorId: map['authorId'] as String,
-      caption: map['caption'] as String,
+      caption: map['caption'] ?? " .",
       groupId: map['groupId'] as String,
       postId: map['postId'] as String,
       schoolImagePath: map['schoolImagePath'] as String,

@@ -2,7 +2,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/comment_section.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_add_comment.dart';
@@ -47,12 +46,12 @@ class PostDetails extends StatelessWidget {
 
     return BlocProvider(
       create: (context) =>
-          getIt<PostServicesCubit>()..commentCount = commentCount,
+          PostServicesCubit()..commentCount = commentCount,
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true, // Allow resizing when keyboard shows up
         appBar: AppBar(
-          title: const Text('Post Details'),
+          title: const Text('Post Details', style: TextStyle(color: Colors.white)),
           centerTitle: true,
           backgroundColor: Colors.blueAccent,
         ),

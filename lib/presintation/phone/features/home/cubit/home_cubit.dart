@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/models/school_models/school_card.dart';
 import 'package:madrasati/data/models/school_models/school_home_page_response.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
@@ -9,7 +10,7 @@ import 'package:madrasati/data/services/school_service.dart';
 part 'home_state.dart';
 
 class SchoolPagingCubit extends Cubit<SchoolPagingState> {
-  final SchoolService schoolService;
+  final SchoolService schoolService = getIt<SchoolService>();
   int currentPage = 0;
   bool hasMore = true;
   bool isFetching =
@@ -17,7 +18,7 @@ class SchoolPagingCubit extends Cubit<SchoolPagingState> {
   List<SchoolCard> schools = []; // Store widgets for displaying
   ScrollController scrollController = ScrollController();
 
-  SchoolPagingCubit(this.schoolService) : super(SchoolInitial());
+  SchoolPagingCubit() : super(SchoolInitial());
 
   Future<void> fetchSchools() async {
   if (!hasMore || isFetching) return; // Stop fetching if no more pages or already fetching

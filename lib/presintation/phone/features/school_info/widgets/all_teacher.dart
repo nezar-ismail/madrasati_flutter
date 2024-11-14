@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/models/school_models/schoolPage/school_teacher.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 
@@ -34,7 +33,7 @@ class AllTeacherStaff extends StatelessWidget {
               ApiConstants.baseUrl + teacherList[index].teacherImage;
           return BlocProvider(
             create: (context) =>
-                getIt<NetworkImageCubit>()..fetchImage(imageUrl),
+                NetworkImageCubit()..fetchImage(imageUrl),
             child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
               builder: (context, state) {
                 Widget imageWidget;

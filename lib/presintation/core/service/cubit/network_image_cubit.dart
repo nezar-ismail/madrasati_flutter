@@ -5,14 +5,15 @@ import 'dart:typed_data';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:madrasati/data/core/api.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 
 part 'network_image_state.dart';
 
 class NetworkImageCubit extends Cubit<NetworkImageState> {
-  final API _dio;
+  final API _dio = getIt.get<API>();
 
-  NetworkImageCubit(this._dio) : super(NetworkImageInitial());
+  NetworkImageCubit() : super(NetworkImageInitial());
 
   /// Fetches the image from the network.
   ///

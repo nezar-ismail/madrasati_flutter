@@ -1,11 +1,11 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/models/group_models/group_post_page.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/data/services/group_post_service.dart';
@@ -15,9 +15,9 @@ import 'package:madrasati/presintation/phone/features/school_group/widgets/post_
 part 'groupe_post_pagination_state.dart';
 
 class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
-  GroupePostPaginationCubit(this._groupPostService)
+  GroupePostPaginationCubit()
       : super(GroupePostPaginationInitial());
-  final GroupPostService _groupPostService;
+  final GroupPostService _groupPostService = getIt<GroupPostService>();
   int currentPage = 0;
   bool hasMore = true;
   bool isFetching = false;
@@ -53,11 +53,11 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
         posts.addAll(response.content
             .map(
               (post) => BlocProvider(
-                create: (context) => getIt<NetworkImageCubit>()
+                create: (context) => NetworkImageCubit()
                   ..fetchImage(ApiConstants.baseUrl + post.schoolImagePath),
                 child: PostCard(
                   schoolImage: post.schoolImagePath,
-                  caption: post.caption,
+                  caption: post.caption?? '',
                   postCreatedAt: post.postCreatedAt,
                   likeCount: post.numberOfLike.toString(),
                   commentCount: post.numberOfComment.toString(),
@@ -70,6 +70,9 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
             )
             .toList());
         emit(PostLoaded(posts: posts, hasMore: hasMore));
+      }else if (response is EmptyResponse){
+        hasMore = false;
+        emit(PostEmpty());
       }
     } catch (e) {
       emit(PostError(e.toString()));

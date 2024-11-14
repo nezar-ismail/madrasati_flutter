@@ -1,10 +1,7 @@
-import 'dart:developer';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
-import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/views/post_detailes.dart';
 import 'package:madrasati/presintation/phone/features/school_group/widgets/post_body.dart';
@@ -43,7 +40,7 @@ class PostCard extends StatelessWidget {
     final padding = screenWidth * 0.02;
     final borderRadius = screenWidth * 0.04;
 
-    final postMainImageCubit = getIt<NetworkImageCubit>();
+    final postMainImageCubit = NetworkImageCubit();
     final imageFullPath = ApiConstants.baseUrl + schoolImage;
     postMainImageCubit.fetchImage(imageFullPath);
 
@@ -64,7 +61,6 @@ class PostCard extends StatelessWidget {
       ),
       child: GestureDetector(
         onTap: () {
-          log('Post ID: $postId');
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -108,7 +104,7 @@ class PostCard extends StatelessWidget {
                     return GestureDetector(
                       onTap: () => _showImageSlider(context, imagePost!, index),
                       child: BlocProvider(
-                        create: (context) => getIt<NetworkImageCubit>()
+                        create: (context) => NetworkImageCubit()
                           ..fetchImage(
                               ApiConstants.baseUrl + imagePost![index]),
                         child:
@@ -183,7 +179,7 @@ void _showImageSlider(
               final imageUrl = ApiConstants.baseUrl + imageUrls[index];
               return BlocProvider(
                 create: (context) =>
-                    getIt<NetworkImageCubit>()..fetchImage(imageUrl),
+                    NetworkImageCubit()..fetchImage(imageUrl),
                 child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
                   builder: (context, state) {
                     if (state is ImageLoading) {

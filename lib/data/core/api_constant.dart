@@ -6,6 +6,7 @@ class BaseUrl {
 
 class ApiConstants {
   static final String baseUrl = BaseUrl.baseUrl; 
+  static final String baseUrlWithPort = '${BaseUrl.ipAddress}:${BaseUrl.port}';
 
   static const String authVersion = '/v1';
   static const String groupVersion = '/v1';
@@ -17,6 +18,7 @@ class AuthEndpoints {
 
   static final String schoolLogin = '$baseUrl/login';
   static final String studentLogin = '$baseUrl/login';
+
 
   static final String userLogout = '$baseUrl/logout';
   static final String refreshToken = '$baseUrl/refreshToken';

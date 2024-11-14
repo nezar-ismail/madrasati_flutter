@@ -11,6 +11,8 @@ final class PostServicesInitial extends PostServicesState {}
 
 final class PostServicesLoading extends PostServicesState {}
 
+final class PostCreated extends PostServicesState {}
+
 final class LikeAdded extends PostServicesState {}
 
 final class LikeRemoved extends PostServicesState {}
@@ -28,6 +30,8 @@ final class ComentLoaded extends PostServicesState {
   @override
   List<Object> get props => [comments, hasMore];
 }
+
+final class CommentEmpty extends PostServicesState {}
 
 final class PostServicesError extends PostServicesState {
   final String message;

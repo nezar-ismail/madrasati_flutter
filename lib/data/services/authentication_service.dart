@@ -1,12 +1,13 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
-import 'package:madrasati/data/hive/school/s_manger_box.dart';
-import 'package:madrasati/data/hive/school/s_manger_field.dart';
 import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
+import 'package:madrasati/data/models/auth_models/token.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
+import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 import '../errors/global_exception.dart';
 import '../models/common_response_model.dart';
 import '../security/secure_storage_api.dart';
@@ -16,6 +17,28 @@ class AuthService {
   final AuthApi _authApi;
   final SecureStorageApi _secureStorage;
   AuthService(this._authApi, this._secureStorage);
+
+  /// Calls [_authApi.checkServer] and returns true if the server responds with a 200 status code.
+  ///
+  /// Throws [GlobalException] if the server returns an error response, and
+  /// [InternalException] if there is any error during the check server process.
+  Future<bool> checkServer() async {
+    try {
+      Response response = await _authApi.checkServer();
+      switch (response.statusCode) {
+        case 200:
+          return true;
+        default:
+          if (response.data is Map<String, dynamic>) {
+            throw GlobalException.fromResponse(response);
+          }
+          throw InternalException("there is an error in check server");
+      }
+    } on Exception catch (e) {
+      logError(e.toString());
+      rethrow;
+    }
+  }
 
   /// Calls [_authApi.studentSignIn] with the given [email], [password], and [deviceId],
   /// and saves the received data in Hive.
@@ -34,19 +57,21 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
+          _secureStorage.setRole('student');
 
           // Create a Student object and save it in Hive
-          final student = LocalStudent(
+          final student = LocalUser(
             userEmail: data['user']['userEmail'],
             firstName: data['user']['userFirstName'],
             lastName: data['user']['userLastName'],
             imagePath: data['user']['userImage'],
             birthDate: data['user']['userBirthDate'],
             gender: data['user']['userGender'],
-            schoolId: data['data']['school'],
-            groupId: data['data']['group'],
+            schoolId: data['data']['schoolId'],
+            groupId: data['data']['groupId'],
             studentId: data['userId'],
             schoolName: data['data']['schoolName'],
+            isManager: data['data']['isManager'],
           );
 
           log('Service: schoolSignIn: $student');
@@ -90,7 +115,9 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
-          final student = LocalSchoolManger(
+          _secureStorage.setRole('school_manager');
+
+          final school = LocalUser(
             userEmail: data['user']['userEmail'],
             firstName: data['user']['userFirstName'],
             lastName: data['user']['userLastName'],
@@ -98,11 +125,11 @@ class AuthService {
             birthDate: data['user']['userBirthDate'],
             gender: data['user']['userGender'],
             schoolId: data['data']['school']['schoolId'],
-            groupId: data['groupId'],
-            
+            groupId: data['data']['groupId'],
+            isManager: data['data']['isManager'],
           );
           // Save student data to Hive
-          await SMangerBox.saveUser(student);
+          await UserBox.saveUser(school);
           return EmptyResponse();
         default:
           if (response.data is Map<String, dynamic>) {
@@ -116,19 +143,20 @@ class AuthService {
     }
   }
 
-/// Logs out the user by calling the [_authApi.logout] with the provided [refreshToken].
-///
-/// Clears the secure storage if the logout is successful.
-///
-/// Returns an [EmptyResponse] if the server responds with a 204 status code.
-///
-/// Throws [GlobalException] if the server returns an error response, 
-/// and [InternalException] if there is any error during the logout process.
+  /// Logs out the user by calling the [_authApi.logout] with the provided [refreshToken].
+  ///
+  /// Clears the secure storage if the logout is successful.
+  ///
+  /// Returns an [EmptyResponse] if the server responds with a 204 status code.
+  ///
+  /// Throws [GlobalException] if the server returns an error response,
+  /// and [InternalException] if there is any error during the logout process.
   Future<ResponsModel> logout({required String refreshToken}) async {
     final Response response = await _authApi.logout(refreshToken: refreshToken);
     switch (response.statusCode) {
       case 204:
         await _secureStorage.logout();
+        getIt<UserProfileCubit>().clearUserInfo();
         return EmptyResponse();
       default:
         if (response.data is Map<String, dynamic>) {
@@ -142,7 +170,7 @@ class AuthService {
   ///
   /// Returns an [EmptyResponse] if the server responds with a 200 status code.
   ///
-  /// Throws [GlobalException] if the server returns an error response, 
+  /// Throws [GlobalException] if the server returns an error response,
   /// and [InternalException] if there is any error during the guest sign in process.
   Future<ResponsModel> guestSignIn({required String deviceId}) async {
     try {
@@ -152,6 +180,8 @@ class AuthService {
           final data = response.data['data'] as Map<String, dynamic>;
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
+          _secureStorage.setGuid(data['gid']);
+          _secureStorage.setRole('guest');
 
           return EmptyResponse();
         default:
@@ -172,9 +202,9 @@ class AuthService {
   ///
   /// Throws [GlobalException] if the server returns an error response, and
   /// [InternalException] if there is any error during the guest sign out process.
-  Future<ResponsModel> guestSignOut({required String token}) async {
+  Future<ResponsModel> guestSignOut({required String token, required String guid}) async {
     try {
-      final Response response = await _authApi.guestSignOut(token: token);
+      final Response response = await _authApi.guestSignOut(token: token, guid: guid);
       switch (response.statusCode) {
         case 204:
           await _secureStorage.logout();
@@ -199,13 +229,13 @@ class AuthService {
   /// Throws [GlobalException] if the server returns an error response, and
   /// [InternalException] if there is any error during the refresh token process.
   Future<ResponsModel> refreshToken({required String refreshToken}) async {
-    final Response response =
-        await _authApi.refreshToken(refreshToken: refreshToken);
+    final Response response = await _authApi.refreshToken(refreshToken: refreshToken);
     switch (response.statusCode) {
       case 200:
         final data = response.data['data'] as Map<String, dynamic>;
-        _secureStorage.setAccessToken(data['accessToken']);
-        return EmptyResponse();
+        final accessToken = data['accessToken'] as String;
+        await SecureStorageApi.instance.setAccessToken(accessToken);
+        return AccessTokenModel(accessToken: accessToken);
       default:
         if (response.data is Map<String, dynamic>) {
           throw GlobalException.fromResponse(response);
@@ -243,5 +273,4 @@ class AuthService {
       rethrow;
     }
   }
-
 }
