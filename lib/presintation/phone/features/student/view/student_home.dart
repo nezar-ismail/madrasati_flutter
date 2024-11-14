@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:madrasati/data/hive/student/student_feild.dart';
+import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/presintation/core/utils/button_service.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/utils/progress_bar.dart';
 import 'package:madrasati/presintation/phone/features/school_group/school_group.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 import 'package:madrasati/presintation/phone/features/student/widgets/st_info.dart';
 import 'package:madrasati/presintation/phone/features/user_profile/student_profile.dart';
 
@@ -43,23 +42,23 @@ class StudentHomePage extends StatelessWidget {
                         fontSize: scaleText(20, context),
                       ),
                     ),
-                    BlocBuilder<UserProfileCubit, LocalUser?>(
-                      builder: (context, user) {
-                        return ButtonService(
+                    
+                    
+                         ButtonService(
                           onPressed: () {
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => SchoolGroup(
-                                          groupId: user!.groupId!,
+                                          groupId: getIt<UserBox>().getUser()!.groupId!,
                                           isManager: false,
                                         )));
                           },
                           text: 'School Group',
                           color: Colors.blue,
-                        );
-                      },
-                    ),
+                        ),
+                      
+                    
                     ButtonService(
                       onPressed: () {
                         showDialog(

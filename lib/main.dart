@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:madrasati/data/core/get_it.dart';
-import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/presintation/phone/features/splash/view/splash_screen.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,17 +14,11 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(LocalUserAdapter());
   await Hive.openBox<LocalUser>('userBox');
-  await UserBox.instance;
 
-  
+
 
   runApp(
-    MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => getIt<UserProfileCubit>()),
-      ],
-      child: const MadrasatiApp(),
-    ),
+    const MadrasatiApp(),
   );
 }
 

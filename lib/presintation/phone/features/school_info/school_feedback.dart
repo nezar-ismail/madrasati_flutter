@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/widgets/feedback_details.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class FeedbackSection extends StatelessWidget {
   const FeedbackSection({
@@ -20,7 +21,7 @@ class FeedbackSection extends StatelessWidget {
       appBar: AppBar(
         foregroundColor: Colors.white,
         centerTitle: true,
-        backgroundColor: context.read<UserProfileCubit>().state!.isManager! ? Colors.green : Colors.orange,
+        backgroundColor: getIt<UserBox>().getUser()!.isManager! ? Colors.green : Colors.orange,
         title: const Text(
           'Feedback',
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/add_post/cubit/pick_image_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class AddPostScreen extends StatelessWidget {
   AddPostScreen({super.key});
@@ -111,7 +112,7 @@ class AddPostScreen extends StatelessWidget {
                               return ElevatedButton(
                                 onPressed: () async {
                                 if(state is PickImageSuccess && state.selectedFiles.isNotEmpty){
-                                  context.read<PostServicesCubit>().createPost(context.read<UserProfileCubit>().state!.groupId!, state.pathes, captionController.text);
+                                  context.read<PostServicesCubit>().createPost(getIt<UserBox>().getGroupId()!, state.pathes, captionController.text);
                                 }
                                 },
                                 style: ElevatedButton.styleFrom(

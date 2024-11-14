@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_comment_section.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class CommentSection extends StatelessWidget {
   const CommentSection({
@@ -68,7 +68,7 @@ class CommentSection extends StatelessWidget {
                                 commentId: comment.commentId,
                                 postId: postId,
                                 isManager:
-                                    getIt<UserProfileCubit>().state?.lastName ==
+                                    getIt<UserBox>().getUser()!.lastName ==
                                             "Manager"
                                         ? true
                                         : false,

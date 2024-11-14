@@ -1,9 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/utils/custom_logs.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class DetailesCommentSection extends StatelessWidget {
   final String commentCreatedAt;
@@ -30,7 +30,7 @@ class DetailesCommentSection extends StatelessWidget {
     // Retrieve the screen width and calculate responsive sizes
     final screenWidth = MediaQuery.of(context).size.width;
     final isLargeScreen = screenWidth > 600;
-    logInfo('authorId = $authorId'', hiveId = ${getIt<UserProfileCubit>().state?.schoolId}');
+    logInfo('authorId = $authorId'', hiveId = ${getIt<UserBox>().getUser()!.schoolId}');
     return Card(
       color: Colors.white,
       elevation: 5,
@@ -77,7 +77,7 @@ class DetailesCommentSection extends StatelessWidget {
                         ),
                       ),
                       authorId ==
-                              getIt<UserProfileCubit>().state?.studentId || isManager
+                            getIt<UserBox>().getUser()!.studentId || isManager
                           ? IconButton(
                               onPressed: () {
                                 

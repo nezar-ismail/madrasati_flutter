@@ -5,7 +5,6 @@ import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/data/models/auth_models/token.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 import '../errors/global_exception.dart';
 import '../models/common_response_model.dart';
 import '../security/secure_storage_api.dart';
@@ -73,7 +72,7 @@ class AuthService {
           );
 
           // Save student data to Hive
-          await UserBox.saveUser(student);
+          await getIt<UserBox>().saveUser(student);
 
           return EmptyResponse();
         case 401:
@@ -126,7 +125,7 @@ class AuthService {
             isManager: data['data']['isManger'],
           );
           // Save student data to Hive
-          await UserBox.saveUser(school);
+          await getIt<UserBox>().saveUser(school);
           return EmptyResponse();
         default:
           if (response.data is Map<String, dynamic>) {
@@ -153,7 +152,7 @@ class AuthService {
     switch (response.statusCode) {
       case 204:
         await _secureStorage.logout();
-        await getIt<UserProfileCubit>().clearUserInfo();
+        await getIt<UserBox>().clearUserInfo();
         return EmptyResponse();
       default:
         if (response.data is Map<String, dynamic>) {

@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/comment_section.dart';
@@ -8,7 +10,6 @@ import 'package:madrasati/presintation/phone/features/group_posts/widgets/detail
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_body.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_footer.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_header.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 // ignore: must_be_immutable
 class PostDetails extends StatelessWidget {
@@ -55,7 +56,7 @@ class PostDetails extends StatelessWidget {
           foregroundColor: Colors.white,
           title: const Text('Post Details', style: TextStyle(color: Colors.white)),
           centerTitle: true,
-          backgroundColor: context.read<UserProfileCubit>().state!.isManager! ? Colors.orange : Colors.blue,
+          backgroundColor: getIt<UserBox>().getUser()!.isManager! ? Colors.orange : Colors.blue,
         ),
         body: SafeArea(
           // Ensure content stays within safe area of the screen

@@ -1,21 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
-import 'package:madrasati/data/hive/student/student_feild.dart';
+import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class ContainerStudentInfo extends StatelessWidget {
   const ContainerStudentInfo({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserProfileCubit, LocalUser?>(
-      builder: (context, user) {
         final imageFullPath =
-            '${ApiConstants.baseUrl}/${user?.imagePath?.replaceFirst('/', '')}';
-
+            '${ApiConstants.baseUrl}/${getIt<UserBox>().getUser()!.imagePath?.replaceFirst('/', '')}';
         return Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.25,
@@ -75,7 +72,7 @@ class ContainerStudentInfo extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${user?.firstName ?? "User"} ${user?.lastName ?? "Name"}',
+                      '${getIt<UserBox>().getUser()!.firstName ?? "User"} ${getIt<UserBox>().getUser()!.lastName ?? "Name"}',
                       style: TextStyle(
                         fontFamily: 'Roboto',
                         fontSize: scaleText(20, context),
@@ -84,12 +81,12 @@ class ContainerStudentInfo extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      user?.userEmail ?? 'Email',
+                      getIt<UserBox>().getUser()!.userEmail ?? 'Email',
                       style: const TextStyle(
                           fontFamily: 'Roboto', color: Colors.white),
                     ),
                     Text(
-                      user?.birthDate ?? 'Birth Date',
+                      getIt<UserBox>().getUser()!.birthDate ?? 'Birth Date',
                       style: const TextStyle(
                           fontFamily: 'Roboto', color: Colors.white),
                     ),
@@ -100,7 +97,6 @@ class ContainerStudentInfo extends StatelessWidget {
             ],
           ),
         );
-      },
-    );
+     
   }
 }

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/utils/coustum_loading.dart';
 import 'package:madrasati/presintation/phone/features/school_group/school_group.dart';
@@ -14,7 +15,6 @@ import 'package:madrasati/presintation/phone/features/school_info/widgets/all_te
 import 'package:madrasati/presintation/phone/features/school_info/widgets/feedback_details.dart';
 import 'package:madrasati/presintation/phone/features/school_info/widgets/school_info.dart';
 import 'package:madrasati/presintation/phone/features/school_info/widgets/teacher_staff.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class SchoolDetailPage extends StatelessWidget {
   const SchoolDetailPage({super.key, required this.isManeger});
@@ -254,7 +254,7 @@ class SchoolDetailPage extends StatelessWidget {
                       MaterialPageRoute(
                           builder: (context) => SchoolGroup(
                                 groupId:
-                                    getIt<UserProfileCubit>().state!.groupId!,
+                                    getIt<UserBox>().getUser()!.groupId!,
                                 isManager: isManeger,
                               )));
                 },

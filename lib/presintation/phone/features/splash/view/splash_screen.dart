@@ -2,11 +2,11 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/school_details_page.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/role_desesion.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 import 'package:madrasati/presintation/phone/features/student/view/student_home.dart';
 
 import '../cubit/splash_cubit.dart';
@@ -40,7 +40,7 @@ class SplashScreen extends StatelessWidget {
                 builder: (context) => BlocProvider(
                   create: (context) => SchoolInfoCubit()
                     ..getSchoolInfo(
-                        schoolId: getIt<UserProfileCubit>().state!.schoolId!),
+                        schoolId: getIt<UserBox>().getUser()!.schoolId!),
                   child: SchoolDetailPage(
                     isManeger: true,
                   ),

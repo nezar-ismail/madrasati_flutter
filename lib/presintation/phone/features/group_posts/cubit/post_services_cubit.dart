@@ -4,13 +4,13 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/models/comment_model/add_coment/comment_response.dart';
 import 'package:madrasati/data/models/comment_model/comment_data.dart';
 import 'package:madrasati/data/models/comment_model/data.dart';
 import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/data/services/group_post_service.dart';
-import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 part 'post_services_state.dart';
 
@@ -119,9 +119,8 @@ class PostServicesCubit extends Cubit<PostServicesState> {
     emit(PostServicesLoading());
     try {
       // Access the current user info from the UserProfileCubit
-      final localStudent = getIt<UserProfileCubit>().state;
 
-      if (localStudent == null) {
+      if (getIt<UserBox>().getUser() == null) {
         emit(PostServicesError(message: 'No user found'));
         return;
       }
@@ -132,7 +131,7 @@ class PostServicesCubit extends Cubit<PostServicesState> {
         comment: comment,
       );
       if (response is CommentAddedData) {
-        String author = '${localStudent.firstName!} ${localStudent.lastName!}';
+        String author = '${getIt<UserBox>().getUser()!.firstName!} ${getIt<UserBox>().getUser()!.lastName!}';
         // Directly add the new comment to the list of comments
         comments.insert(0, response.toComment(author));
         commentCount = (int.parse(commentCount) + 1).toString();
@@ -163,9 +162,8 @@ class PostServicesCubit extends Cubit<PostServicesState> {
     emit(PostServicesLoading());
     try {
       // Access the current user info from the UserProfileCubit
-      final localStudent = getIt<UserProfileCubit>().state;
 
-      if (localStudent == null) {
+      if (getIt<UserBox>().getUser() == null) {
         emit(PostServicesError(message: 'No user found'));
         return;
       }
