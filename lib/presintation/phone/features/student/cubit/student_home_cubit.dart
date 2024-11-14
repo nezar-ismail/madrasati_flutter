@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -40,7 +38,6 @@ class UserProfileCubit extends Cubit<LocalUser?> {
   /// [message] is the error message to log.
   void emitErrorState(String message) {
     // Handle error state or logging
-    log('Error: $message');
     emit(null); // Emit null or handle according to your logic
   }
 

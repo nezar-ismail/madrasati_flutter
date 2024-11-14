@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
@@ -96,7 +95,8 @@ class CommentSection extends StatelessWidget {
               Icons.error,
               Colors.red);
         } else if (state is PostServicesLoading) {
-          log('Loading comments...');
+          final overlayState = Overlay.of(context);
+          customSnackbar(overlayState, "Loading comments", Icons.done, Colors.blue);
         }
       },
     );

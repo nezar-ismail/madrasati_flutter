@@ -1,5 +1,4 @@
 
-import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:bloc/bloc.dart';
@@ -40,7 +39,6 @@ class NetworkImageCubit extends Cubit<NetworkImageState> {
       );
       emit(ImageLoaded(Uint8List.fromList(response.data! )));
     } catch (e) {
-    log( e.toString());
     emit(ImageError(e.toString()));
     }
   }

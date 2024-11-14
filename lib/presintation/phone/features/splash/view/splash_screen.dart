@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -32,7 +31,6 @@ class SplashScreen extends StatelessWidget {
         listener: (context, state) {
           if (state is InternetError) {
             context.read<SplashCubit>().setLoadding();
-            log('Connection Error');
           } else if (state is InternetConnected) {
             context.read<SplashCubit>().loggedIn();
           } else if (state is SchoolAlreadyLogin) {
@@ -49,25 +47,24 @@ class SplashScreen extends StatelessWidget {
                 ),
               ),
             );
-            log('Splash Loaded');
           } else if (state is StudentAlreadyLogin) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => const StudentHomePage()));
-            log('Splash Loaded');
-          }else if (state is GuestAlreadyLogin) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => RoleDesesion()));
-            
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => const StudentHomePage()),
+              (Route<dynamic> route) => false,
+            );
+          } else if (state is GuestAlreadyLogin) {
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => RoleDesesion()),
+              (Route<dynamic> route) => false,
+            );
           } else if (state is UserLoggedOut) {
-            Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RoleDesesion(),
-                ));
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => RoleDesesion()),
+              (Route<dynamic> route) => false,
+            );
           } else if (state is SplashError) {
             customSnackbar(Overlay.of(context),
                 "Server Error, Please try again", Icons.error, Colors.red);
@@ -105,13 +102,14 @@ class SplashScreen extends StatelessWidget {
                           ),
                           child: AnimatedTextKit(
                             animatedTexts: [
-                              ScaleAnimatedText('Welcome', duration: Duration(milliseconds: 500)),
-                              ScaleAnimatedText('To' , duration: Duration(milliseconds: 200)),
-                              ScaleAnimatedText('Madrasati' , duration: Duration(milliseconds: 500)),
+                              ScaleAnimatedText('Welcome',
+                                  duration: Duration(milliseconds: 500)),
+                              ScaleAnimatedText('To',
+                                  duration: Duration(milliseconds: 200)),
+                              ScaleAnimatedText('Madrasati',
+                                  duration: Duration(milliseconds: 500)),
                             ],
-                            onTap: () {
-                              print("Tap Event");
-                            },
+                            isRepeatingAnimation: true,
                           ),
                         ),
                       ),

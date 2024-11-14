@@ -1,10 +1,10 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/cubit/school_info_cubit.dart';
 import 'package:madrasati/presintation/phone/features/school_info/widgets/feedback_details.dart';
+import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class FeedbackSection extends StatelessWidget {
   const FeedbackSection({
@@ -18,8 +18,9 @@ class FeedbackSection extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        foregroundColor: Colors.white,
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: context.read<UserProfileCubit>().state!.isManager! ? Colors.green : Colors.orange,
         title: const Text(
           'Feedback',
           style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Colors.white),
@@ -79,7 +80,9 @@ class FeedbackSection extends StatelessWidget {
                     Icons.error,
                     Colors.red);
               } else if (state is PostServicesLoading) {
-                log('Loading comments...');
+                final overlayState = Overlay.of(context);
+                customSnackbar(
+                    overlayState, "Loading", Icons.refresh, Colors.blue);
               }
             },
           ),

@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:madrasati/data/core/api.dart';
 import 'package:madrasati/data/core/api_inspector.dart';
+import 'package:madrasati/data/hive/student/student_box.dart';
 import 'package:madrasati/data/repo_apis/group_post_api.dart';
 import 'package:madrasati/data/repo_apis/school_api.dart';
 import 'package:madrasati/data/services/authentication_service.dart';
@@ -39,6 +40,6 @@ void setupLocator() {
     getIt.registerLazySingleton<GroupPostService>(
         () => GroupPostService(getIt<GroupPostApi>()));
 
-  // Register LazySingleton Cubits
-    getIt.registerLazySingleton<UserProfileCubit>(() => UserProfileCubit());
+  // Register LazySingleton HiveBoxes
+    getIt.registerSingleton<UserBox>(UserBox.instance);
 }

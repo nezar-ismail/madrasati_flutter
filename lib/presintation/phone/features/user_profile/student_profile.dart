@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,9 +15,10 @@ class StudentProfile extends StatelessWidget {
   Widget build(BuildContext context) {
     String imageUrl = context.read<UserProfileCubit>().state!.imagePath!;
     String imageFullUrl = ApiConstants.baseUrl + imageUrl;
-    log(imageFullUrl);
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        foregroundColor: Colors.white,
         title: const Text('Student Profile'),
         backgroundColor: Colors.blueAccent,
         centerTitle: true,

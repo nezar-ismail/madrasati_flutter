@@ -1,8 +1,3 @@
-
-
-
-import 'dart:developer';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
@@ -38,7 +33,6 @@ class SignInCubit extends Cubit<SignInState> {
         emit(SignInError(message: 'Something went wrong'));}
       
     } catch (e) {
-      log(e.toString());
       emit(SignInError(message: 'Something went wrong'));
     }
   }
@@ -63,7 +57,6 @@ class SignInCubit extends Cubit<SignInState> {
         emit(SignInError(message: 'Something went wrong'));}
       
     } catch (e) {
-      log(e.toString());
       emit(SignInError(message: 'Something went wrong'));
     }
   }
@@ -87,7 +80,6 @@ class SignInCubit extends Cubit<SignInState> {
         emit(SignInError(message: 'Something went wrong'));}
       
     } catch (e) {
-      log(e.toString());
       emit(SignInError(message: 'Something went wrong'));
     }
   }

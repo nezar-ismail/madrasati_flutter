@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -134,7 +133,6 @@ class PostServicesCubit extends Cubit<PostServicesState> {
       );
       if (response is CommentAddedData) {
         String author = '${localStudent.firstName!} ${localStudent.lastName!}';
-        log(author);
         // Directly add the new comment to the list of comments
         comments.insert(0, response.toComment(author));
         commentCount = (int.parse(commentCount) + 1).toString();

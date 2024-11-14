@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,7 +43,6 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
           token: await SecureStorageApi.instance.getAccessToken() ?? "",
           page: currentPage,
           size: 10);
-      log('Current page: $currentPage$response');
       if (response is PostResponse) {
         currentPage++;
         hasMore = !response.last; // Update hasMore based on response

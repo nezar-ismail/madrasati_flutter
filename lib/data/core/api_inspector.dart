@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:madrasati/data/core/get_it.dart';
@@ -17,16 +16,6 @@ class APIInspector {
   APIInspector(this.dio);
 
   bool _isRefreshing = false;
-
-  /// Logs request details.
-  void logRequest(RequestOptions options) {
-    log('Request: [${options.method}] ${options.path}');
-    if (options.data != null) log('Data: ${options.data.toString()}');
-  }
-
-  void logResponse(Response response) {
-    log('Response: [${response.statusCode}] ${response.requestOptions.path}');
-  }
 
   Options createOptions({
     Map<String, dynamic>? headers,
@@ -58,12 +47,13 @@ class APIInspector {
       try {
         final refresherToken =
             await SecureStorageApi.instance.getRefreshToken();
-        final refreshedToken =
-            await getIt<AuthService>().refreshToken(refreshToken: refresherToken!);
+        final refreshedToken = await getIt<AuthService>()
+            .refreshToken(refreshToken: refresherToken!);
         final newOptions = createOptions(
           headers: {
             ...requestOptions.headers,
-            "Authorization": "Bearer ${refreshedToken is AccessTokenModel ? refreshedToken.accessToken : ""}",
+            "Authorization":
+                "Bearer ${refreshedToken is AccessTokenModel ? refreshedToken.accessToken : ""}",
           },
         );
         logInfo('Token refreshed successfully');
@@ -96,13 +86,16 @@ class APIInspector {
   /// to the sign-in page, and displaying a session expiration message.
   Future<void> _handleTokenExpiration() async {
     try {
-      var response = await getIt<AuthService>().logout(refreshToken: await SecureStorageApi.instance.getRefreshToken() ?? "");
-      if (navigatorKey.currentState?.canPop() == true && response is EmptyResponse) {
-        navigatorKey.currentState?.pushReplacement(
+      var response = await getIt<AuthService>().logout(
+          refreshToken:
+              await SecureStorageApi.instance.getRefreshToken() ?? "");
+      if (navigatorKey.currentState?.canPop() == true &&
+          response is EmptyResponse) {
+        navigatorKey.currentState?.pushAndRemoveUntil(
           MaterialPageRoute(builder: (context) => RoleDesesion()),
+          (Route<dynamic> route) => false,
         );
       }
-      log('Session expired, user redirected to sign-in page');
       final overlayState = navigatorKey.currentState?.overlay;
       if (overlayState != null) {
         final message = 'Session expired, Please login again';
@@ -111,8 +104,7 @@ class APIInspector {
         customSnackbar(overlayState, message, icon, color);
       }
     } catch (e) {
-      log('Error during session clearance: $e');
+      rethrow;
     }
   }
-
 }

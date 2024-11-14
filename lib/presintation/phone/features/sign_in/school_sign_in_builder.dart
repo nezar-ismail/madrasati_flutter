@@ -22,16 +22,19 @@ class SchoolSignInBuilder extends StatelessWidget {
             final schoolId = getIt<UserProfileCubit>().state!.schoolId;
             final overlayState = Overlay.of(context);
             customSnackbar(overlayState, "Sign in successfully", Icons.done,
-                Colors.orange);
-                    Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => BlocProvider(
-              create: (context) => SchoolInfoCubit()..getSchoolInfo(schoolId: schoolId!),
-              child: SchoolDetailPage(isManeger: true,),
-            ),
-          ),
-        );
+                Colors.green);
+            Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => BlocProvider(
+                  create: (context) =>
+                      SchoolInfoCubit()..getSchoolInfo(schoolId: schoolId!),
+                  child: SchoolDetailPage(
+                    isManeger: true,
+                  ),
+                ),
+              ),
+              (Route<dynamic> route) => false,
+            );
           } else if (state is SignInError) {
             final overlayState = Overlay.of(context);
             customSnackbar(

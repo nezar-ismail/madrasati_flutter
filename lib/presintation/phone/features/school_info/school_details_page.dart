@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -32,13 +31,14 @@ class SchoolDetailPage extends StatelessWidget {
           return Scaffold(
             backgroundColor: Colors.white,
             appBar: AppBar(
+              foregroundColor: Colors.white,
               centerTitle: true,
               leading: isManeger ? loggedOut(context) : null,
               title: Text(
                 state.schoolProfilePage.schoolName,
                 style: const TextStyle(fontFamily: 'Roboto'),
               ),
-              backgroundColor: Colors.orange,
+              backgroundColor: isManeger ? Colors.green : Colors.orange,
             ),
             body: SingleChildScrollView(
               padding:
@@ -114,7 +114,7 @@ class SchoolDetailPage extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: scaleText(12, context),
                             fontWeight: FontWeight.bold,
-                            color: Colors.orange,
+                            color: isManeger ? Colors.green : Colors.orange,
                           ),
                         ),
                       ),
@@ -123,13 +123,11 @@ class SchoolDetailPage extends StatelessWidget {
                   Padding(
                       padding: EdgeInsets.only(bottom: 8.0),
                       child: SizedBox(
-                        height: 100,
+                        height: MediaQuery.of(context).size.height * 0.09,
                         child: ListView.builder(
                             itemCount: state.schoolProfilePage.teachers.length,
                             scrollDirection: Axis.horizontal,
                             itemBuilder: (context, index) {
-                              log(state.schoolProfilePage.teachers.length
-                                  .toString());
                               final teacher =
                                   state.schoolProfilePage.teachers[index];
                               return Padding(
@@ -167,7 +165,7 @@ class SchoolDetailPage extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: scaleText(12, context),
                             fontWeight: FontWeight.bold,
-                            color: Colors.orange,
+                            color: isManeger ? Colors.green : Colors.orange,
                           ),
                         ),
                       ),
@@ -176,14 +174,12 @@ class SchoolDetailPage extends StatelessWidget {
                   Padding(
                       padding: EdgeInsets.only(bottom: 8.0),
                       child: SizedBox(
-                        height: 400,
+                        height: MediaQuery.of(context).size.height * 0.6,
                         child: ListView.builder(
                             itemCount:
                                 state.schoolProfilePage.schoolFeedBacks.length,
                             scrollDirection: Axis.vertical,
                             itemBuilder: (context, index) {
-                              log(state.schoolProfilePage.schoolFeedBacks.length
-                                  .toString());
                               final feedbacks = state
                                   .schoolProfilePage.schoolFeedBacks[index];
                               return Padding(
@@ -234,7 +230,7 @@ class SchoolDetailPage extends StatelessWidget {
             child: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: Colors.orange,
+                  color: isManeger ? Colors.green : Colors.orange,
                 ),
                 child: const Icon(
                   Icons.home,
@@ -253,7 +249,6 @@ class SchoolDetailPage extends StatelessWidget {
             width: MediaQuery.of(context).size.width * 0.33,
             child: IconButton(
                 onPressed: () {
-                  log('Pressed School GroupId = ${getIt<UserProfileCubit>().state!.groupId}');
                   Navigator.push(
                       context,
                       MaterialPageRoute(
@@ -263,10 +258,10 @@ class SchoolDetailPage extends StatelessWidget {
                                 isManager: isManeger,
                               )));
                 },
-                icon: const Icon(
+                icon:  Icon(
                   Icons.group,
                   size: 40,
-                  color: Colors.orange,
+                  color:  isManeger ? Colors.green : Colors.orange,
                   shadows: [
                     Shadow(
                       color: Colors.grey,
@@ -291,7 +286,7 @@ class SchoolDetailPage extends StatelessWidget {
                             fontFamily: 'Roboto',
                             fontSize: scaleText(20, context),
                             fontWeight: FontWeight.bold,
-                            color: Colors.orange,
+                            color: isManeger ? Colors.green : Colors.orange,
                           ),
                         ),
                         actions: [
@@ -306,10 +301,10 @@ class SchoolDetailPage extends StatelessWidget {
                     },
                   );
                 },
-                icon: const Icon(
+                icon: Icon(
                   Icons.edit,
                   size: 40,
-                  color: Colors.orange,
+                  color: isManeger ? Colors.green : Colors.orange,
                   shadows: [
                     Shadow(
                       color: Colors.grey,
@@ -333,7 +328,7 @@ class SchoolDetailPage extends StatelessWidget {
           fontFamily: 'Roboto',
           fontSize: scaleText(20, context),
           fontWeight: FontWeight.bold,
-          color: Colors.orange,
+          color: isManeger ? Colors.green : Colors.orange,
         ),
       ),
     );
@@ -381,7 +376,7 @@ class SchoolDetailPage extends StatelessWidget {
               fontFamily: 'Roboto',
               fontSize: scaleText(20, context),
               fontWeight: FontWeight.bold,
-              color: Colors.orange,
+              color: isManeger ? Colors.green : Colors.orange,
             ),
           ),
         ],

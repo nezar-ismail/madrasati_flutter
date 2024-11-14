@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,10 +12,10 @@ class SchoolGroup extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    log(groupId);
     return BlocProvider(
       create: (context) => GroupePostPaginationCubit()..fetchPosts(groupId),
       child: Scaffold(
+        backgroundColor: Colors.white,
         floatingActionButton: isManager ? OpenContainer(
                 transitionType: ContainerTransitionType.fadeThrough,
                 closedShape: const CircleBorder(),
@@ -31,9 +29,12 @@ class SchoolGroup extends StatelessWidget {
               )
             : null,
         appBar: AppBar(
+          foregroundColor: Colors.white,
+          centerTitle: true,
+          backgroundColor: isManager ? Colors.orange : Colors.blue,
           title: const Text(
             'School Group',
-            style: TextStyle(fontFamily: 'Roboto'),
+            style: TextStyle(fontFamily: 'Roboto', color: Colors.white),
           ),
         ),
         body: BlocBuilder<GroupePostPaginationCubit, GroupePostPaginationState>(

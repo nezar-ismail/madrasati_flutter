@@ -25,7 +25,7 @@ Column schoolInfo(BuildContext context, SchoolInfoLoaded state) {
         children: [
           const Icon(Icons.star, color: Colors.grey),
           SizedBox(width: MediaQuery.of(context).size.width * 0.02),
-          Text(state.schoolProfilePage.averageRating.toString(),
+          Text(state.schoolProfilePage.averageRating.toString()[36],
               style: TextStyle(fontFamily: 'Roboto')),
         ],
       ),

@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
@@ -13,7 +12,10 @@ class HomePage extends StatelessWidget {
     return BlocProvider(
       create: (context) => SchoolPagingCubit()..fetchSchools(),
       child: Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
+          foregroundColor: Colors.white,
+          backgroundColor:Colors.orange,
           title: const Text('Welcome to Madrasati'),
           centerTitle: true,
         ),
@@ -51,11 +53,11 @@ class HomePage extends StatelessWidget {
           },
           listener: (BuildContext context, SchoolPagingState state) {
             if (state is SchoolError) {
-              log(state.message);
               final overLay = Overlay.of(context);
               customSnackbar(overLay, state.message, Icons.error, Colors.red);
             } else if (state is SchoolLoading) {
-              log('SchoolLoading');
+              final overLay = Overlay.of(context);
+              customSnackbar(overLay, 'Loading...', Icons.refresh, Colors.blue);
             }
           },
         ),

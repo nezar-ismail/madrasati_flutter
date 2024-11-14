@@ -3,7 +3,6 @@ import 'package:dio/dio.dart';
 import 'package:madrasati/data/core/api_inspector.dart';
 import 'package:madrasati/data/utils/custom_logs.dart';
 
-
 class API {
   final APIInspector apiInspector;
 
@@ -13,12 +12,10 @@ class API {
   /// Get request (supports JSON)
   Future<Response> get(String url, {Map<String, dynamic>? headers}) async {
     try {
-      apiInspector.logRequest(RequestOptions(path: url, headers: headers));
       final Response response = await apiInspector.dio.get(
         url,
         options: apiInspector.createOptions(headers: headers),
       );
-      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
       final errorResponse = await apiInspector.handleError(e, e.requestOptions);
@@ -32,7 +29,6 @@ class API {
   /// Download an image (supports responseType.bytes)
   Future<Response> getImage(String url, {Map<String, dynamic>? headers}) async {
     try {
-      apiInspector.logRequest(RequestOptions(path: url, headers: headers));
       final Response response = await apiInspector.dio.get(
         url,
         options: apiInspector.createOptions(
@@ -40,7 +36,6 @@ class API {
           isJson: false,
         ),
       );
-      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
       final errorResponse = await apiInspector.handleError(e, e.requestOptions);
@@ -64,9 +59,9 @@ class API {
         // Send multipart form data
         response = await apiInspector.dio.post(
           url,
-          options: apiInspector.createOptions(headers: headers, isMultipart: true),
+          options:
+              apiInspector.createOptions(headers: headers, isMultipart: true),
           data: body,
-
         );
       } else {
         // Send JSON body
@@ -76,8 +71,6 @@ class API {
           data: body != null ? jsonEncode(body) : null,
         );
       }
-
-      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
       logError('DioException: $e');
@@ -96,7 +89,6 @@ class API {
     Map<String, dynamic>? body,
   }) async {
     try {
-      apiInspector.logRequest(RequestOptions(path: url, headers: headers, data: body));
       final Response response;
 
       if (body is FormData) {
@@ -114,8 +106,6 @@ class API {
           data: body != null ? jsonEncode(body) : null,
         );
       }
-
-      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
       final errorResponse = await apiInspector.handleError(e, e.requestOptions);
@@ -127,15 +117,14 @@ class API {
   }
 
   /// Put request for Image (multipart form data)
-  Future<Response> putImage(String url, {Map<String, dynamic>? headers, Object? body}) async {
+  Future<Response> putImage(String url,
+      {Map<String, dynamic>? headers, Object? body}) async {
     try {
-      apiInspector.logRequest(RequestOptions(path: url, headers: headers, data: body));
       final Response response = await apiInspector.dio.put(
         url,
         options: apiInspector.createOptions(headers: headers),
         data: body,
       );
-      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
       final errorResponse = await apiInspector.handleError(e, e.requestOptions);
@@ -149,12 +138,10 @@ class API {
   /// Delete request (supports JSON)
   Future<Response> delete(String url, {Map<String, dynamic>? headers}) async {
     try {
-      apiInspector.logRequest(RequestOptions(path: url, headers: headers));
       final Response response = await apiInspector.dio.delete(
         url,
         options: apiInspector.createOptions(headers: headers),
       );
-      apiInspector.logResponse(response);
       return response;
     } on DioException catch (e) {
       final errorResponse = await apiInspector.handleError(e, e.requestOptions);

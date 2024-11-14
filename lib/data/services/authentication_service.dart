@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/errors/internal_exception.dart';
@@ -74,7 +72,6 @@ class AuthService {
             isManager: data['data']['isManager'],
           );
 
-          log('Service: schoolSignIn: $student');
           // Save student data to Hive
           await UserBox.saveUser(student);
 
@@ -126,7 +123,7 @@ class AuthService {
             gender: data['user']['userGender'],
             schoolId: data['data']['school']['schoolId'],
             groupId: data['data']['groupId'],
-            isManager: data['data']['isManager'],
+            isManager: data['data']['isManger'],
           );
           // Save student data to Hive
           await UserBox.saveUser(school);
@@ -156,7 +153,7 @@ class AuthService {
     switch (response.statusCode) {
       case 204:
         await _secureStorage.logout();
-        getIt<UserProfileCubit>().clearUserInfo();
+        await getIt<UserProfileCubit>().clearUserInfo();
         return EmptyResponse();
       default:
         if (response.data is Map<String, dynamic>) {

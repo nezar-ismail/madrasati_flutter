@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/core/api.dart';
 import 'package:madrasati/data/core/api_constant.dart';
@@ -29,8 +27,7 @@ class AuthApi {
     try {
       Response response = await api.post(url, headers: header, body: body);
       return response;
-    } on Exception catch (e) {
-      log(e.toString());
+    } on Exception {
       rethrow;
     }
   }

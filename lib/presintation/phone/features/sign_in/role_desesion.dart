@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/utils/role_card.dart';
@@ -87,7 +86,6 @@ class RoleDesesion extends StatelessWidget {
                             onTap: () {
                               selectedRoleIndex.value =
                                   i; // Update selected card
-                              log(roles[i].role);
                             },
                             child: RoleCard(
                               role: roles[i].role,
@@ -130,20 +128,19 @@ class RoleDesesion extends StatelessWidget {
                           onTap: () async {
                             // Navigate to the next screen
                             if (selectedRoleIndex.value == 0) {
-                              //TODO: REFACTOR WITH OUT CONTEXT
-                              await SignInCubit().guestSignIn();
-                              Navigator.pushReplacement(
+                              SignInCubit().guestSignIn();
+                              Navigator.pushAndRemoveUntil(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const HomePage()));
+                                      builder: (context) => const HomePage()), (Route<dynamic> route) => false);
                             } else if (selectedRoleIndex.value == 1) {
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           StudentSignInBuilder()));
                             } else {
-                              Navigator.pushReplacement(
+                              Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>

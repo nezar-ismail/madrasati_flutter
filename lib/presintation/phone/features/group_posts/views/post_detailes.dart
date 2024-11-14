@@ -8,6 +8,7 @@ import 'package:madrasati/presintation/phone/features/group_posts/widgets/detail
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_body.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_footer.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_header.dart';
+import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 // ignore: must_be_immutable
 class PostDetails extends StatelessWidget {
@@ -51,9 +52,10 @@ class PostDetails extends StatelessWidget {
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true, // Allow resizing when keyboard shows up
         appBar: AppBar(
+          foregroundColor: Colors.white,
           title: const Text('Post Details', style: TextStyle(color: Colors.white)),
           centerTitle: true,
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: context.read<UserProfileCubit>().state!.isManager! ? Colors.orange : Colors.blue,
         ),
         body: SafeArea(
           // Ensure content stays within safe area of the screen

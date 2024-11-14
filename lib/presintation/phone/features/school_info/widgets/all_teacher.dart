@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/models/school_models/schoolPage/school_teacher.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
+import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class AllTeacherStaff extends StatelessWidget {
   const AllTeacherStaff({
@@ -17,7 +18,8 @@ class AllTeacherStaff extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.blue,
+        foregroundColor: Colors.white,
+        backgroundColor: context.read<UserProfileCubit>().state!.isManager! ? Colors.green : Colors.orange,
         title: const Text(
           'Teachers Staff',
           style: TextStyle(

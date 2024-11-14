@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:madrasati/data/core/api.dart';
@@ -80,7 +79,6 @@ class GroupPostApi {
       'images': pathes != null ? pathes.map((p) => MultipartFile.fromFileSync(p)).toList() : [],
     });
 
-    log('body is ${body.files.toString()}');
     Response response = await _api.post(url, body: body, headers: authHeader);
     return response;
   }
