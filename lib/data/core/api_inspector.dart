@@ -22,6 +22,8 @@ class APIInspector {
     bool isToken = true,
     String? token,
     bool isMultipart = false,
+    Duration? receiveTimeout = const Duration(seconds: 30),
+    Duration? sendTimeout = const Duration(seconds: 30),
   }) {
     headers = headers ?? {};
     if (isToken && token != null && token.isNotEmpty) {
@@ -32,6 +34,8 @@ class APIInspector {
       headers: headers,
       responseType: isJson ? ResponseType.json : ResponseType.bytes,
       contentType: isMultipart ? "multipart/form-data" : "application/json",
+      receiveTimeout: receiveTimeout,
+      sendTimeout: sendTimeout,
     );
   }
 
