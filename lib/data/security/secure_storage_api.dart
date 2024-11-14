@@ -12,6 +12,54 @@ class SecureStorageApi {
 
   static const String _accessTokenKey = 'accessToken';
   static const String _refreshTokenKey = 'refreshToken';
+  static const String _role = 'role';
+  static const String _guid = 'guid';
+
+  Future<void> setGuid(String? value) async {
+    try {
+      await _secureStorage.write(key: _guid, value: value);
+    } catch (e) {
+      logError('Error storing Guid: $e');
+      throw InternalException('Error storing Guid in secure storage');
+    }
+  }
+
+  Future<String?> getGuid() async {
+    try {
+      return await _secureStorage.read(key: _guid);
+    } catch (e) {
+      logError('Error reading Guid: $e');
+      throw InternalException('Error reading Guid in secure storage');
+    }
+  }
+
+  /// Stores the user's role in secure storage.
+  ///
+  /// Takes a [String] value representing the user's role and writes it to
+  /// secure storage under the key `_Role`. If an error occurs during this
+  /// process, it logs the error and throws an [InternalException].
+  Future<void> setRole(String? value) async {
+    try {
+      await _secureStorage.write(key: _role, value: value);
+    } catch (e) {
+      logError('Error storing Role: $e');
+      throw InternalException('Error storing Role in secure storage');
+    }
+  }
+
+  /// Retrieves the user's role from secure storage.
+  ///
+  /// Returns a [String] value representing the user's role if it exists in
+  /// secure storage, or `null` otherwise. If an error occurs during this
+  /// process, it logs the error and throws an [InternalException].
+  Future<String?> getRole() async {
+    try {
+      return await _secureStorage.read(key: _role);
+    } catch (e) {
+      logError('Error reading Role: $e');
+      throw InternalException('Error reading Role in secure storage');
+    }
+  }
 
   /// Stores the access token in secure storage.
   ///

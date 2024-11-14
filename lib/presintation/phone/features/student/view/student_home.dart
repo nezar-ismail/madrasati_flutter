@@ -39,7 +39,7 @@ class StudentHomePage extends StatelessWidget {
                         fontSize: scaleText(20, context),
                         fontWeight: FontWeight.bold),
                   ),
-                  BlocBuilder<UserProfileCubit, LocalStudent?>(
+                  BlocBuilder<UserProfileCubit, LocalUser?>(
                     builder: (context, user) {
                       return ButtonService(
                         onPressed: () {

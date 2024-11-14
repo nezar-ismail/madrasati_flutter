@@ -6,17 +6,17 @@ part of 'student_feild.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
+class LocalUserAdapter extends TypeAdapter<LocalUser> {
   @override
   final int typeId = 0;
 
   @override
-  LocalStudent read(BinaryReader reader) {
+  LocalUser read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return LocalStudent(
+    return LocalUser(
       userEmail: fields[0] as String?,
       firstName: fields[1] as String?,
       lastName: fields[2] as String?,
@@ -27,11 +27,12 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
       groupId: fields[7] as String?,
       studentId: fields[8] as String?,
       schoolName: fields[9] as String?,
+      isManager:fields[10] as bool?,
     );
   }
 
   @override
-  void write(BinaryWriter writer, LocalStudent obj) {
+  void write(BinaryWriter writer, LocalUser obj) {
     writer
       ..writeByte(10)
       ..writeByte(0)
@@ -53,7 +54,9 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
       ..writeByte(8)
       ..write(obj.studentId)
       ..writeByte(9)
-      ..write(obj.schoolName);
+      ..write(obj.schoolName)
+      ..writeByte(10)
+      ..write(obj.isManager);
   }
 
   @override
@@ -62,7 +65,7 @@ class LocalStudentAdapter extends TypeAdapter<LocalStudent> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is LocalStudentAdapter &&
+      other is LocalUserAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

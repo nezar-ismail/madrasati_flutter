@@ -122,7 +122,7 @@ class SchoolProfilepage implements ResponsModel {
                 (x) => FeedbackContent.fromMap(x as Map<String, dynamic>),
               )
               .toList()),
-      schoolImages: List<String>.from((map['schoolImages'] as List<dynamic>)),
+      schoolImages: List<String>.from((map['schoolImagesPath'] as List<dynamic>)),
       teachers: List<Teacher>.from(
         (map['teachers'] as List<dynamic>).map<Teacher>(
           (x) => Teacher.fromMap(x as Map<String, dynamic>),

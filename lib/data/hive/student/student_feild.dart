@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 part 'student_feild.g.dart';// Ensure this is present
 
 @HiveType(typeId: 0) // Use a unique typeId
-class LocalStudent {
+class LocalUser {
   @HiveField(0)
   String? userEmail;
 
@@ -34,7 +34,10 @@ class LocalStudent {
   @HiveField(9)
   String? schoolName;
 
-  LocalStudent({
+  @HiveField(10)
+  bool? isManager;
+
+  LocalUser({
     this.userEmail,
     this.firstName,
     this.lastName,
@@ -44,6 +47,7 @@ class LocalStudent {
     this.schoolId,
     this.groupId,
     this.studentId,
-    this.schoolName
+    this.schoolName,
+    this.isManager
   });
 }

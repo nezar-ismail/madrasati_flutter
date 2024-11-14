@@ -31,6 +31,8 @@ final class ComentLoaded extends PostServicesState {
   List<Object> get props => [comments, hasMore];
 }
 
+final class CommentEmpty extends PostServicesState {}
+
 final class PostServicesError extends PostServicesState {
   final String message;
   const PostServicesError({required this.message});

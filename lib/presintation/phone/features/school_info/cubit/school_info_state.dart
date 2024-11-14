@@ -21,7 +21,7 @@ final class SchoolInfoError extends SchoolInfoState {
   const SchoolInfoError({required this.message});
 }
 
-
+final class FeedbackEmpty extends SchoolInfoState {}
 final class FeedbackLoaded extends SchoolInfoState {
   final List<FeedbackContent> feedbackContents; 
   final bool hasMore;

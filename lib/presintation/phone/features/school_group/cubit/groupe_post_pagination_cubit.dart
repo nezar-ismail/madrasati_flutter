@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/models/group_models/group_post_page.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/data/services/group_post_service.dart';
@@ -69,6 +70,9 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
             )
             .toList());
         emit(PostLoaded(posts: posts, hasMore: hasMore));
+      }else if (response is EmptyResponse){
+        hasMore = false;
+        emit(PostEmpty());
       }
     } catch (e) {
       emit(PostError(e.toString()));

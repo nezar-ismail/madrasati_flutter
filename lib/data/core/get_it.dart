@@ -7,7 +7,6 @@ import 'package:madrasati/data/repo_apis/school_api.dart';
 import 'package:madrasati/data/services/authentication_service.dart';
 import 'package:madrasati/data/services/group_post_service.dart';
 import 'package:madrasati/data/services/school_service.dart';
-import 'package:madrasati/presintation/phone/features/school_info/cubit/school_home_cubit_cubit.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
@@ -42,9 +41,4 @@ void setupLocator() {
 
   // Register LazySingleton Cubits
     getIt.registerLazySingleton<UserProfileCubit>(() => UserProfileCubit());
-    getIt.registerLazySingleton<SchoolHomeCubit>(() => SchoolHomeCubit());
-
-
-
-
 }

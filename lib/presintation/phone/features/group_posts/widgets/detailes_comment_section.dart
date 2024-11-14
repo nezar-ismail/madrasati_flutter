@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/utils/custom_logs.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
-import 'package:madrasati/presintation/phone/features/school_info/cubit/school_home_cubit_cubit.dart';
 import 'package:madrasati/presintation/phone/features/student/cubit/student_home_cubit.dart';
 
 class DetailesCommentSection extends StatelessWidget {
@@ -31,7 +30,7 @@ class DetailesCommentSection extends StatelessWidget {
     // Retrieve the screen width and calculate responsive sizes
     final screenWidth = MediaQuery.of(context).size.width;
     final isLargeScreen = screenWidth > 600;
-    logInfo('authorId = $authorId'', hiveId = ${getIt<SchoolHomeCubit>().state?.schoolId}');
+    logInfo('authorId = $authorId'', hiveId = ${getIt<UserProfileCubit>().state?.schoolId}');
     return Card(
       color: Colors.white,
       elevation: 5,

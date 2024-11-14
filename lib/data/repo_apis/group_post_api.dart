@@ -65,13 +65,19 @@ class GroupPostApi {
       required String token}) async {
     String url = GroupeEndpoints.createGroupPost(groupId);
     Map<String, String> authHeader = makeHeaders(token);
+
+  //   List<MultipartFile> imageFiles = [];
+  //   if (pathes != null) {
+  //     for (String path in pathes) {
+  //       imageFiles.add(await MultipartFile.fromFile(
+  //         path,
+  //         filename: path.split('/').last,
+  //       ));
+  //   }
+  // }
     FormData body = FormData.fromMap({
       'caption': caption,
-      'images':[
-        for(String path in pathes!){
-          await MultipartFile.fromFile(path, filename: path.split('/').last)
-        }
-      ]
+      'images': pathes != null ? pathes.map((p) => MultipartFile.fromFileSync(p)).toList() : [],
     });
 
     log('body is ${body.files.toString()}');

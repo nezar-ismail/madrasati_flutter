@@ -8,14 +8,14 @@ import 'package:madrasati/data/hive/student/student_feild.dart';
 
 part 'student_home_state.dart';
 
-class UserProfileCubit extends Cubit<LocalStudent?> {
+class UserProfileCubit extends Cubit<LocalUser?> {
   UserProfileCubit() : super(UserBox.getUser()) {
     _initUserBoxListener();
   }
 
-/// Initializes a listener on the `UserBox` to emit the current user state
-/// whenever there are changes in the box. If the box is not open, it emits
-/// an error state indicating that the user box is not open.
+  /// Initializes a listener on the `UserBox` to emit the current user state
+  /// whenever there are changes in the box. If the box is not open, it emits
+  /// an error state indicating that the user box is not open.
   void _initUserBoxListener() {
     final box = UserBox.box; // Use the public getter here
 
@@ -27,6 +27,10 @@ class UserProfileCubit extends Cubit<LocalStudent?> {
     } else {
       emitErrorState('User box is not open.');
     }
+  }
+
+  Future<void> clearUserInfo() async {
+    await UserBox.clearUserInfo();
   }
 
   /// Handles emitting an error state by logging the message and emitting null.
@@ -41,9 +45,10 @@ class UserProfileCubit extends Cubit<LocalStudent?> {
   }
 
   @override
-/// Closes the `UserProfileCubit`, ensuring that any listeners on the
-/// `UserBox` are removed if the box is open, and then calls the
-/// superclass's `close` method.
+
+  /// Closes the `UserProfileCubit`, ensuring that any listeners on the
+  /// `UserBox` are removed if the box is open, and then calls the
+  /// superclass's `close` method.
   Future<void> close() {
     final box = UserBox.box; // Use the public getter here
     if (box.isOpen) {

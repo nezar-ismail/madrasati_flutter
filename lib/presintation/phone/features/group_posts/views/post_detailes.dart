@@ -51,7 +51,7 @@ class PostDetails extends StatelessWidget {
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true, // Allow resizing when keyboard shows up
         appBar: AppBar(
-          title: const Text('Post Details'),
+          title: const Text('Post Details', style: TextStyle(color: Colors.white)),
           centerTitle: true,
           backgroundColor: Colors.blueAccent,
         ),

@@ -65,6 +65,8 @@ class FeedbackSection extends StatelessWidget {
                     ),
                   if (state is SchoolInfoError)
                     Center(child: Text('Error: ${state.message}')),
+                  if (state is FeedbackEmpty)
+                    const Center(child: Text('No feedback yet')),
                 ],
               );
             },

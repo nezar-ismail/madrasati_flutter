@@ -79,8 +79,7 @@ class PostServicesCubit extends Cubit<PostServicesState> {
   ///
   /// [postId] is the id of the post to fetch comments from.
   Future<void> fetchComments(String postId) async {
-    if (!hasMore || isFetching)
-      return; // Stop fetching if no more pages or already fetching
+    if (!hasMore || isFetching)return; // Stop fetching if no more pages or already fetching
     isFetching = true; // Set fetching flag to true to prevent multiple calls
     emit(PostServicesLoading());
     try {
@@ -97,7 +96,11 @@ class PostServicesCubit extends Cubit<PostServicesState> {
         emit(ComentLoaded(
             comments: comments,
             hasMore: hasMore)); // Emit state with the updated list
+      }else if (response is EmptyResponse){
+        isFetching = false;
+        emit(CommentEmpty());
       }
+
     } catch (e) {
       emit(PostServicesError(message: e.toString()));
     }

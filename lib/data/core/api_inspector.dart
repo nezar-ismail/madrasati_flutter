@@ -1,10 +1,11 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:madrasati/data/core/api_constant.dart';
-import 'package:madrasati/data/errors/global_exception.dart';
-import 'package:madrasati/data/errors/internal_exception.dart';
+import 'package:madrasati/data/core/get_it.dart';
+import 'package:madrasati/data/models/auth_models/token.dart';
+import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
+import 'package:madrasati/data/services/authentication_service.dart';
 import 'package:madrasati/data/utils/custom_logs.dart';
 import 'package:madrasati/main.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
@@ -35,17 +36,14 @@ class APIInspector {
     bool isMultipart = false,
   }) {
     headers = headers ?? {};
-    if (isToken && token != null && token.isNotEmpty && isJson) {
+    if (isToken && token != null && token.isNotEmpty) {
       headers['Authorization'] = 'Bearer $token';
-      headers['Content-Type'] = 'application/json';
     }
-    if (isToken && token != null && token.isNotEmpty && isMultipart == true) {
-      headers['Authorization'] = 'Bearer $token';
-      headers['Content-Type'] = 'multipart/form-data';
-    }
+
     return Options(
       headers: headers,
       responseType: isJson ? ResponseType.json : ResponseType.bytes,
+      contentType: isMultipart ? "multipart/form-data" : "application/json",
     );
   }
 
@@ -61,11 +59,11 @@ class APIInspector {
         final refresherToken =
             await SecureStorageApi.instance.getRefreshToken();
         final refreshedToken =
-            await refreshToken(refreshToken: refresherToken!);
+            await getIt<AuthService>().refreshToken(refreshToken: refresherToken!);
         final newOptions = createOptions(
           headers: {
             ...requestOptions.headers,
-            "Authorization": "Bearer ${refreshedToken.accessToken}"
+            "Authorization": "Bearer ${refreshedToken is AccessTokenModel ? refreshedToken.accessToken : ""}",
           },
         );
         logInfo('Token refreshed successfully');
@@ -86,7 +84,6 @@ class APIInspector {
           );
         }
       } catch (error) {
-        log('Token refresh failed: $error');
         await _handleTokenExpiration();
       } finally {
         _isRefreshing = false;
@@ -99,8 +96,8 @@ class APIInspector {
   /// to the sign-in page, and displaying a session expiration message.
   Future<void> _handleTokenExpiration() async {
     try {
-      await SecureStorageApi.instance.logout();
-      if (navigatorKey.currentState?.canPop() == true) {
+      var response = await getIt<AuthService>().logout(refreshToken: await SecureStorageApi.instance.getRefreshToken() ?? "");
+      if (navigatorKey.currentState?.canPop() == true && response is EmptyResponse) {
         navigatorKey.currentState?.pushReplacement(
           MaterialPageRoute(builder: (context) => RoleDesesion()),
         );
@@ -118,49 +115,4 @@ class APIInspector {
     }
   }
 
-  /// Calls [refreshTokenApi] with the given [refreshToken], saves the new
-  /// access token in the secure storage, and returns an [AccessTokenModel]
-  /// containing the new access token.
-  Future<AccessTokenModel> refreshToken({required String refreshToken}) async {
-    final Response response = await refreshTokenApi(refreshToken: refreshToken);
-    switch (response.statusCode) {
-      case 200:
-        final data = response.data['data'] as Map<String, dynamic>;
-        final accessToken = data['accessToken'] as String;
-        await SecureStorageApi.instance.setAccessToken(accessToken);
-        return AccessTokenModel(accessToken: accessToken);
-      default:
-        if (response.data is Map<String, dynamic>) {
-          throw GlobalException.fromResponse(response);
-        }
-        throw InternalException("There was an error in refreshing the token.");
-    }
-  }
-
-  /// Calls the refresh token endpoint with the given [refreshToken].
-  Future<Response> refreshTokenApi({required String refreshToken}) async {
-    String url = AuthEndpoints.refreshToken;
-    final Map<String, dynamic> header = {"refresher-token": refreshToken};
-    try {
-      Response response = await dio.post(
-        url,
-        options: Options(
-          headers: header,
-          responseType: ResponseType.json,
-          contentType: "application/json",
-        ),
-      );
-      return response;
-    } catch (e) {
-      log(e.toString());
-      rethrow;
-    }
-  }
-}
-
-/// Model for storing the access token.
-class AccessTokenModel {
-  final String accessToken;
-
-  AccessTokenModel({required this.accessToken});
 }

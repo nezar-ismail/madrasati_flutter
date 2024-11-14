@@ -11,6 +11,8 @@ final class GroupePostPaginationInitial extends GroupePostPaginationState {}
 
 final class PostLoading extends GroupePostPaginationInitial {}
 
+final class PostEmpty extends GroupePostPaginationInitial {}
+
 final class PostLoaded extends GroupePostPaginationInitial {
   final List<Widget> posts; // Store widgets for displaying
   final bool hasMore;

@@ -23,7 +23,7 @@ class StudentProfile extends StatelessWidget {
         backgroundColor: Colors.blueAccent,
         centerTitle: true,
       ),
-      body: BlocBuilder<UserProfileCubit, LocalStudent?>(
+      body: BlocBuilder<UserProfileCubit, LocalUser?>(
         builder: (context, student) {
           if (student == null) {
             return const Center(child: CircularProgressIndicator());
