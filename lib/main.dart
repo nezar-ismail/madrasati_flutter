@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/data/core/get_it.dart';
 import 'package:madrasati/data/hive/student/student_feild.dart';
 import 'package:madrasati/presintation/phone/features/splash/view/splash_screen.dart';
@@ -14,6 +15,7 @@ void main() async {
   await Hive.initFlutter();
   Hive.registerAdapter(LocalUserAdapter());
   await Hive.openBox<LocalUser>('userBox');
+  await BaseUrl.initialize();
 
   runApp(
     const MadrasatiApp(),

@@ -15,6 +15,20 @@ class AuthService {
   final SecureStorageApi _secureStorage;
   AuthService(this._authApi, this._secureStorage);
 
+
+
+  Future<String> getIpAdress() async {
+    String ipAdress = await _authApi.getIpAdress();
+    logInfo(ipAdress);
+
+    if (ipAdress.isNotEmpty && ipAdress != 'null') {
+      return ipAdress;
+    } else {
+      return '34.30.38.82';
+    }
+    
+  }
+
   /// Calls [_authApi.checkServer] and returns true if the server responds with a 200 status code.
   ///
   /// Throws [GlobalException] if the server returns an error response, and
@@ -112,7 +126,6 @@ class AuthService {
           _secureStorage.setAccessToken(data['accessToken']);
           _secureStorage.setRefreshToken(data['token']);
           _secureStorage.setRole('school_manager');
-
           final school = LocalUser(
             userEmail: data['user']['userEmail'],
             firstName: data['user']['userFirstName'],

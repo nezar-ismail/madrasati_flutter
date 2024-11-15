@@ -7,6 +7,18 @@ class AuthApi {
 
   AuthApi(this.api);
 
+
+  /// Makes a GET request to the server to obtain the client's IP address.
+  ///
+  /// Returns a [Future] containing the IP address as a [String].
+  ///
+  /// Throws an exception if the request fails.
+  Future<String> getIpAdress() async {
+    String url = ApiConstants.getIpAddress;
+    Response response = await api.get(url);
+    return response.data;
+  }
+
   /// Sends a POST request to the student login endpoint with the provided
   /// [email], [password], and [deviceId].
   ///
