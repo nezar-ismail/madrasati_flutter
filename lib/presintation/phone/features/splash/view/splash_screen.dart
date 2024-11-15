@@ -34,7 +34,7 @@ class SplashScreen extends StatelessWidget {
           } else if (state is InternetConnected) {
             context.read<SplashCubit>().loggedIn();
           } else if (state is SchoolAlreadyLogin) {
-            Navigator.push(
+            Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
                 builder: (context) => BlocProvider(
@@ -46,6 +46,7 @@ class SplashScreen extends StatelessWidget {
                   ),
                 ),
               ),
+              (Route<dynamic> route) => false,
             );
           } else if (state is StudentAlreadyLogin) {
             Navigator.pushAndRemoveUntil(

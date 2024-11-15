@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/comment_section.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/widgets/detailes_add_comment.dart';
@@ -22,6 +21,7 @@ class PostDetails extends StatelessWidget {
   final bool isLiked;
   final bool withImage;
   final String postId;
+  final Color headerColor;
 
 
   PostDetails({
@@ -35,7 +35,7 @@ class PostDetails extends StatelessWidget {
     required this.commentCount,
     required this.isLiked,
     required this.withImage,
-    required this.postId,
+    required this.postId, required this.headerColor,
   });
 
   @override
@@ -53,7 +53,7 @@ class PostDetails extends StatelessWidget {
           foregroundColor: Colors.white,
           title: const Text('Post Details', style: TextStyle(color: Colors.white)),
           centerTitle: true,
-          backgroundColor: SecureStorageApi.instance.getRole() == 'school_manager' ? Colors.green : Colors.blue,
+          backgroundColor: headerColor,
         ),
         body: SafeArea(
           // Ensure content stays within safe area of the screen
@@ -69,6 +69,7 @@ class PostDetails extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   DetailsHeader(
+                    headerColor: headerColor,
                     postCreatedAt: postCreatedAt,
                     schoolImage: schoolImage,
                     schoolName: schoolName,

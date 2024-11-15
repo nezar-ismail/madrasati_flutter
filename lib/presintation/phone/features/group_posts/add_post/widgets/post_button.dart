@@ -15,7 +15,7 @@ class PostButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => PostServicesCubit(),
-      child: BlocListener<PostServicesCubit, PostServicesState>(
+      child: BlocConsumer<PostServicesCubit, PostServicesState>(
         listener: (context, state) {
           if (state is PostCreated) {
             Navigator.popUntil(context, 
@@ -28,7 +28,13 @@ class PostButton extends StatelessWidget {
             customSnackbar(overlay, message, icon, color);
           }
         },
-        child: Builder(
+        builder: (BuildContext context, PostServicesState state) {  
+
+            if (state is PostServicesLoading) {
+            return const CircularProgressIndicator();
+          }
+
+          return    Builder(
           builder: (context) {
             return ElevatedButton(
               onPressed: () async {
@@ -55,11 +61,14 @@ class PostButton extends StatelessWidget {
               ),
               child: const Text(
                 'Post',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             );
           },
-        ),
+        );
+     
+
+        },
       ),
     );
   }

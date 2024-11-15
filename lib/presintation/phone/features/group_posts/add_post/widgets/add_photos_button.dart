@@ -16,7 +16,7 @@ class AddPhotoButton extends StatelessWidget {
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)),
         ),
         onPressed: () => context.read<PickImageCubit>().pickImages(),
-        child: const Icon(Icons.add_a_photo_outlined),
+        child: const Icon(Icons.add_a_photo_outlined, color: Colors.white,),
       ),
     );
   }

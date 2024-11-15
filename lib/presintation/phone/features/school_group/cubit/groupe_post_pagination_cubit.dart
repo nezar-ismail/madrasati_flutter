@@ -22,6 +22,15 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
   List<Widget> posts = [];
   ScrollController scrollController = ScrollController();
 
+  Future<Color> fetchHeaderColor() async {
+      var color = await SecureStorageApi.instance.getRole();
+      if (color == 'school_manager') {
+        return Colors.green;
+      } else {
+        return Colors.blue;
+      }    
+  }
+
   /// Fetches a page of posts from the server and updates the state with the fetched
   /// posts. If there are no more pages to fetch, [hasMore] is set to false.
   ///
@@ -44,6 +53,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
           page: currentPage,
           size: 10);
       if (response is PostResponse) {
+        var headerColor = await fetchHeaderColor();
         currentPage++;
         hasMore = !response.last; // Update hasMore based on response
         // Convert the fetched data to PostCard widgets
@@ -61,7 +71,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
                   isLiked: post.isLiked,
                   withImage: post.withImage,
                   postId: post.postId,
-                  imagePost: post.imagePost, schoolName: post.schoolName,
+                  imagePost: post.imagePost, schoolName: post.schoolName, headerColor: headerColor,
                 ),
               ),
             )

@@ -20,7 +20,7 @@ class PostCard extends StatelessWidget {
     required this.isLiked,
     required this.withImage,
     required this.postId,
-    required this.imagePost, required this.schoolName,
+    required this.imagePost, required this.schoolName, required this.headerColor,
   });
 
   final String schoolName;
@@ -33,6 +33,7 @@ class PostCard extends StatelessWidget {
   final bool withImage;
   final String postId;
   final List<dynamic>? imagePost;
+  final Color headerColor;
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +67,7 @@ class PostCard extends StatelessWidget {
             context,
             MaterialPageRoute(
               builder: (context) => PostDetails(
+                headerColor: headerColor,
                 schoolName: schoolName,
                 schoolImage: schoolImage,
                 caption: caption,

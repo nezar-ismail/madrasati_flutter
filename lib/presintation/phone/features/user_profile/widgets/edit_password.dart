@@ -45,7 +45,9 @@ class EditPasswordScreenState extends State<EditPasswordScreen> {
         },
         builder: (context, state) {
           return Scaffold(
+            backgroundColor: Colors.white,
             appBar: AppBar(
+              foregroundColor: Colors.white,
               title: const Text('Edit Password'),
               backgroundColor: Colors.blueAccent,
               centerTitle: true,

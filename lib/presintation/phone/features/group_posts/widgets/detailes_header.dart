@@ -5,15 +5,16 @@ import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 
 class DetailsHeader extends StatelessWidget {
-  const DetailsHeader({
+const DetailsHeader({
     super.key,
     required this.postCreatedAt,
-    required this.schoolImage, required this.schoolName,
+    required this.schoolImage, required this.schoolName, required this.headerColor,
   });
 
   final String postCreatedAt;
   final String schoolImage;
   final String schoolName;
+  final Color headerColor;
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +27,7 @@ class DetailsHeader extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        color: Colors.blue[50],
+        color: headerColor.withOpacity(0.5),
       ),
       padding: EdgeInsets.all(padding),
       margin: EdgeInsets.all(8),
@@ -73,6 +74,7 @@ class DetailsHeader extends StatelessWidget {
                 Text(
                   schoolName,
                   style: TextStyle(
+                    color: Colors.white,
                     fontWeight: FontWeight.bold,
                     fontSize: screenWidth * 0.045, // Responsive font size
                   ),

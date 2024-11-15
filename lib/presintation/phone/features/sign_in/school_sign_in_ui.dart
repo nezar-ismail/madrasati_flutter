@@ -14,7 +14,10 @@ class SchoolSignInUi extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
+        foregroundColor: Colors.green,
+        backgroundColor: Colors.white,
         title: const Text('School Sign In',
             style: TextStyle(
               fontFamily: 'Roboto',
