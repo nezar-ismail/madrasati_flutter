@@ -1,4 +1,3 @@
-import 'dart:developer';
 import 'dart:typed_data';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
@@ -136,7 +135,6 @@ void _showImageSlider(BuildContext context, List<dynamic> imageUrls, int initial
           ),
           itemBuilder: (context, index, _) {
             final imageUrl = ApiConstants.baseUrl + imageUrls[index];
-            log(imageUrl);
             return BlocProvider(
               create: (context) => NetworkImageCubit()..fetchImage(imageUrl),
               child: BlocBuilder<NetworkImageCubit, NetworkImageState>(

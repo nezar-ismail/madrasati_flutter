@@ -19,7 +19,6 @@ class AuthService {
 
   Future<String> getIpAdress() async {
     String ipAdress = await _authApi.getIpAdress();
-    logInfo(ipAdress);
 
     if (ipAdress.isNotEmpty && ipAdress != 'null') {
       return ipAdress;
