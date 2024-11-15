@@ -12,7 +12,7 @@ class ContainerStudentInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
         final imageFullPath =
-            '${ApiConstants.baseUrl}/${getIt<UserBox>().getUser()!.imagePath??""}';
+            '${ApiConstants.baseUrl}${getIt<UserBox>().getUser()!.imagePath??""}';
         return Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height * 0.25,

@@ -66,7 +66,7 @@ class SchoolCard implements ResponsModel {
       schoolName: map['schoolName'] as String,
       schoolCoverImage: map['schoolCoverImage'] as String,
       schoolType: map['schoolType'] as String,
-      averageRating: map['averageRating'] != null ? map['averageRating'] as double : null,
+      averageRating: map['averageRating'] != null ? map['averageRating'] as double : 5.0,
     );
   }
 
