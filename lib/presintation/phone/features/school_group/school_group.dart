@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,7 +27,7 @@ class SchoolGroup extends StatelessWidget {
                   child: const Icon(Icons.add), // Trigger the OpenContainer animation
                 ),
                 openBuilder: (context, action) => AddPostScreen(),
-                transitionDuration: const Duration(seconds: 1),
+                transitionDuration: const Duration(milliseconds: 500),
               )
             : null,
         appBar: AppBar(
@@ -58,14 +60,15 @@ class SchoolGroup extends StatelessWidget {
                                     .position
                                     .pixels !=
                                 0 &&
-                            state.hasMore == true && context
+                            state.last == false && context
                                     .read<GroupePostPaginationCubit>().isFetching == false) {
+                                      log('fetching');
                           context.read<GroupePostPaginationCubit>().fetchPosts(groupId);
                         }
                       }),
-                itemCount: state.posts.length + (state.hasMore ? 1 : 0),
+                itemCount: state.posts.length + (state.last ? 1 : 0),
                 itemBuilder: (context, index) {
-                  if (index == state.posts.length && state.hasMore) {
+                  if (index == state.posts.length && state.last) {
                     return const Center(child: CircularProgressIndicator());
                   }
                   return state.posts[index];

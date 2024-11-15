@@ -17,7 +17,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
       : super(GroupePostPaginationInitial());
   final GroupPostService _groupPostService = getIt<GroupPostService>();
   int currentPage = 0;
-  bool hasMore = true;
+  bool last = false;
   bool isFetching = false;
   List<Widget> posts = [];
   ScrollController scrollController = ScrollController();
@@ -32,10 +32,10 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
   }
 
   /// Fetches a page of posts from the server and updates the state with the fetched
-  /// posts. If there are no more pages to fetch, [hasMore] is set to false.
+  /// posts. If there are no more pages to fetch, [last] is set to false.
   ///
   /// If the fetching is successfull, the state is updated with the fetched posts
-  /// and [hasMore] flag. If the fetching fails, the state is updated with the
+  /// and [last] flag. If the fetching fails, the state is updated with the
   /// error message.
   ///
   /// This method is idempotent, meaning it can be safely called multiple times,
@@ -43,7 +43,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
   ///
   /// [groupId] is the id of the school group to fetch posts from.
   Future<void> fetchPosts(String groupId) async {
-    if (!hasMore || isFetching)return; // Stop fetching if no more pages or already fetching
+    if (last == true || isFetching == true)return; // Stop fetching if no more pages or already fetching
     isFetching = true; // Set fetching flag to true to prevent multiple calls
     emit(PostLoading());
     try {
@@ -51,11 +51,12 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
           groupId: groupId,
           token: await SecureStorageApi.instance.getAccessToken() ?? "",
           page: currentPage,
-          size: 10);
+          size: 5);
       if (response is PostResponse) {
         var headerColor = await fetchHeaderColor();
         currentPage++;
-        hasMore = !response.last; // Update hasMore based on response
+        last = response.last; // Update hasMore based on response
+
         // Convert the fetched data to PostCard widgets
         posts.addAll(response.content
             .map(
@@ -76,9 +77,10 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
               ),
             )
             .toList());
-        emit(PostLoaded(posts: posts, hasMore: hasMore));
+            isFetching = false;
+        emit(PostLoaded(posts: posts, last: last));
       }else if (response is EmptyResponse){
-        hasMore = false;
+        last = false;
         emit(PostEmpty());
       }
     } catch (e) {

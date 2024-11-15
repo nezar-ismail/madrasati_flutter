@@ -15,12 +15,12 @@ final class PostEmpty extends GroupePostPaginationInitial {}
 
 final class PostLoaded extends GroupePostPaginationInitial {
   final List<Widget> posts; // Store widgets for displaying
-  final bool hasMore;
+  final bool last;
 
-  PostLoaded({required this.posts, required this.hasMore});
+  PostLoaded({required this.posts, required this.last});
 
   @override
-  List<Object> get props => [posts, hasMore];
+  List<Object> get props => [posts, last];
 }
 
 final class PostError extends GroupePostPaginationInitial {
