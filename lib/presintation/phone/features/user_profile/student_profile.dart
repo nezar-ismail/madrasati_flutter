@@ -86,36 +86,38 @@ class StudentProfile extends StatelessWidget {
                   const SizedBox(height: 16),
                   Divider(color: Colors.grey.shade300, thickness: 1),
                   const SizedBox(height: 16),
-                  Expanded(
-                    child: Column(children: [
-                      Expanded(
-                        child: ProfileInfoRow(
-                          label: "Gender",
-                          value: getIt<UserBox>().getUser()!.gender ??
-                              "Not specified",
+                  Container(
+                    child: Expanded(
+                      child: Column(children: [
+                        Expanded(
+                          child: ProfileInfoRow(
+                            label: "Gender",
+                            value: getIt<UserBox>().getUser()!.gender ??
+                                "Not specified",
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: ProfileInfoRow(
-                          label: "Birth Date",
-                          value: getIt<UserBox>().getUser()!.birthDate ??
-                              "Not specified",
+                        Expanded(
+                          child: ProfileInfoRow(
+                            label: "Birth Date",
+                            value: getIt<UserBox>().getUser()!.birthDate ??
+                                "Not specified",
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: ProfileInfoRow(
-                          label: "School Name",
-                          value: getIt<UserBox>().getUser()!.schoolName ??
-                              "Not specified",
+                        Expanded(
+                          child: ProfileInfoRow(
+                            label: "School Name",
+                            value: getIt<UserBox>().getUser()!.schoolName ??
+                                "Not specified",
+                          ),
                         ),
-                      ),
-                      Expanded(
-                        child: ProfileInfoRow(
-                          label: "Password",
-                          value: "********",
+                        Expanded(
+                          child: ProfileInfoRow(
+                            label: "Password",
+                            value: "********",
+                          ),
                         ),
-                      ),
-                    ]),
+                      ]),
+                    ),
                   ),
                   Center(
                     child: SizedBox(
@@ -179,29 +181,28 @@ class ProfileInfoRow extends StatelessWidget {
             ),
           ],
         ),
-        child: Expanded(
-          child: Row(
-            children: [
-              Text(
-                '$label:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
+        child: Row(
+          children: [
+            Text(
+              '$label:',
+              style: const TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+                color: Colors.white,
+              ),
+            ),
+            const SizedBox(width: 8),
+            Expanded(
+              child: Text(
+                value,
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.white,
                 ),
+                overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  value,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
