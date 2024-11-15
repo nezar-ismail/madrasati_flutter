@@ -21,18 +21,20 @@ class AddPostScreen extends StatelessWidget {
         appBar: _buildAppBar(),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              const HeaderTitle(),
-              const SizedBox(height: 10),
-              CaptionInputField(controller: captionController),
-              const SizedBox(height: 10),
-              const AddPhotoButton(),
-              const SizedBox(height: 10),
-              const ImagePreview(),
-              const SizedBox(height: 10),
-              PostButton(captionController: captionController),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                const HeaderTitle(),
+                const SizedBox(height: 10),
+                CaptionInputField(controller: captionController),
+                const SizedBox(height: 10),
+                const AddPhotoButton(),
+                const SizedBox(height: 10),
+                const ImagePreview(),
+                const SizedBox(height: 10),
+                PostButton(captionController: captionController),
+              ],
+            ),
           ),
         ),
       ),

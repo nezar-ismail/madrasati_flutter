@@ -39,6 +39,7 @@ class RoleDesesion extends StatelessWidget {
     final ValueNotifier<int> selectedRoleIndex = ValueNotifier<int>(-1);
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Center(
           child: Padding(
