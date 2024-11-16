@@ -13,10 +13,10 @@ class AuthApi {
   /// Returns a [Future] containing the IP address as a [String].
   ///
   /// Throws an exception if the request fails.
-  Future<String> getIpAdress() async {
-    String url = ApiConstants.getIpAddress;
+  Future<Response> getConfig() async {
+    String url = ApiConstants.getConfig;
     Response response = await api.get(url);
-    return response.data;
+    return response;
   }
 
   /// Sends a POST request to the student login endpoint with the provided

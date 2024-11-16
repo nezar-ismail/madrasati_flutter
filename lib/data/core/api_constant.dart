@@ -1,5 +1,4 @@
-import 'package:madrasati/data/core/get_it.dart';
-import 'package:madrasati/data/services/authentication_service.dart';
+import 'package:madrasati/data/security/secure_storage_api.dart';
 
 class BaseUrl {
   static String? ipAddress;
@@ -7,7 +6,11 @@ class BaseUrl {
 
   // This method fetches the IP address asynchronously
   static Future<void> initialize() async {
-    ipAddress = "http://${await getIt<AuthService>().getIpAdress()}";
+    ipAddress = "http://${await SecureStorageApi.instance.getIpAddress()}";
+  }
+
+  BaseUrl(){
+    initialize();
   }
 
   static String get baseUrl => '$ipAddress:$port';
@@ -17,7 +20,8 @@ class ApiConstants {
   static String get baseUrl => '${BaseUrl.baseUrl}/';
   static String get baseUrlWithPort => '${BaseUrl.ipAddress}:${BaseUrl.port}';
 
-  static const String getIpAddress = 'https://daylife-96933-default-rtdb.firebaseio.com/ipAddress.json';
+  static const String getConfig =
+      'https://daylife-96933-default-rtdb.firebaseio.com/config.json';
 
   static const String authVersion = 'v1';
   static const String groupVersion = 'v1';
@@ -25,7 +29,8 @@ class ApiConstants {
 }
 
 class AuthEndpoints {
-  static String get baseUrl => '${ApiConstants.baseUrl}${ApiConstants.authVersion}/auth';
+  static String get baseUrl =>
+      '${ApiConstants.baseUrl}${ApiConstants.authVersion}/auth';
 
   static String get schoolLogin => '$baseUrl/login';
   static String get studentLogin => '$baseUrl/login';
@@ -36,13 +41,15 @@ class AuthEndpoints {
 }
 
 class UserEndpoints {
-  static String get baseUrl => '${ApiConstants.baseUrl}${ApiConstants.authVersion}/user';
+  static String get baseUrl =>
+      '${ApiConstants.baseUrl}${ApiConstants.authVersion}/user';
 
   static String get editPassword => '$baseUrl/changePassword';
 }
 
 class GroupeEndpoints {
-  static String get baseUrl => '${ApiConstants.baseUrl}${ApiConstants.groupVersion}/group';
+  static String get baseUrl =>
+      '${ApiConstants.baseUrl}${ApiConstants.groupVersion}/group';
 
   static String getAllPosts(int page, int size, String groupId) {
     return '$baseUrl/$groupId/post/getAllPosts?page=$page&size=$size';
@@ -78,7 +85,8 @@ class GroupeEndpoints {
 }
 
 class SchoolEndpoints {
-  static String get baseUrl => '${ApiConstants.baseUrl}${ApiConstants.schoolVersion}/school';
+  static String get baseUrl =>
+      '${ApiConstants.baseUrl}${ApiConstants.schoolVersion}/school';
 
   static String getAllSchools(int page, int size) {
     return '$baseUrl/getAllSchools?page=$page&size=$size';

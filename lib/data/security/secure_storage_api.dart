@@ -14,6 +14,45 @@ class SecureStorageApi {
   static const String _refreshTokenKey = 'refreshToken';
   static const String _role = 'role';
   static const String _guid = 'guid';
+  static const String _version = 'version';
+  static const String _ipAddress = 'ipAddress';
+
+  Future<void> setVersion(String? value) async {
+    try {
+      await _secureStorage.write(key: _version, value: value);
+    } catch (e) {
+      logError('Error storing Version: $e');
+      throw InternalException('Error storing Version in secure storage');
+    }
+  }
+
+  Future<String?> getVersion() async {
+    try {
+      return await _secureStorage.read(key: _version)??'1.0.3';
+    } catch (e) {
+      logError('Error reading Version: $e');
+      throw InternalException('Error reading Version in secure storage');
+    }
+  }
+
+  Future <void> setIpAddress(String? value) async {
+    try {
+      await _secureStorage.write(key: _ipAddress, value: value);
+    } catch (e) {
+      logError('Error storing IpAddress: $e');
+      throw InternalException('Error storing IpAddress in secure storage');
+    }
+  }
+
+  Future<String?> getIpAddress() async {
+    try {
+      return await _secureStorage.read(key: _ipAddress);
+    } catch (e) {
+      logError('Error reading IpAddress: $e');
+      throw InternalException('Error reading IpAddress in secure storage');
+    }
+  }
+
 
   Future<void> setGuid(String? value) async {
     try {

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,6 +45,7 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
   ///
   /// [groupId] is the id of the school group to fetch posts from.
   Future<void> fetchPosts(String groupId) async {
+    log('last: $last');
     if (last == true || isFetching == true)return; // Stop fetching if no more pages or already fetching
     isFetching = true; // Set fetching flag to true to prevent multiple calls
     emit(PostLoading());
@@ -51,11 +54,13 @@ class GroupePostPaginationCubit extends Cubit<GroupePostPaginationState> {
           groupId: groupId,
           token: await SecureStorageApi.instance.getAccessToken() ?? "",
           page: currentPage,
-          size: 5);
+          size: 10);
       if (response is PostResponse) {
         var headerColor = await fetchHeaderColor();
         currentPage++;
         last = response.last; // Update hasMore based on response
+        
+        log('last response: ${response.last}');
 
         // Convert the fetched data to PostCard widgets
         posts.addAll(response.content

@@ -17,15 +17,21 @@ class AuthService {
 
 
 
-  Future<String> getIpAdress() async {
-    String ipAdress = await _authApi.getIpAdress();
 
-    if (ipAdress.isNotEmpty && ipAdress != 'null') {
-      return ipAdress;
-    } else {
-      return '34.30.38.82';
+
+  Future<Map<String, dynamic>> getConfig() async {
+    try {
+      final response = await _authApi.getConfig();
+      if (response.statusCode == 200) {
+        final data = response.data as Map<String, dynamic>;
+        return data;
+      } else {
+        return {'ipAdress': '34.30.38.82', 'version': '1.0.0', 'url': ''};
+      }
+    } on Exception catch (e) {
+      logError(e.toString());
+      return {'ipAdress': '34.30.38.82', 'version': '1.0.0', 'url': ''};
     }
-    
   }
 
   /// Calls [_authApi.checkServer] and returns true if the server responds with a 200 status code.
@@ -210,9 +216,11 @@ class AuthService {
   ///
   /// Throws [GlobalException] if the server returns an error response, and
   /// [InternalException] if there is any error during the guest sign out process.
-  Future<ResponsModel> guestSignOut({required String token, required String guid}) async {
+  Future<ResponsModel> guestSignOut(
+      {required String token, required String guid}) async {
     try {
-      final Response response = await _authApi.guestSignOut(token: token, guid: guid);
+      final Response response =
+          await _authApi.guestSignOut(token: token, guid: guid);
       switch (response.statusCode) {
         case 204:
           await _secureStorage.logout();
@@ -237,7 +245,8 @@ class AuthService {
   /// Throws [GlobalException] if the server returns an error response, and
   /// [InternalException] if there is any error during the refresh token process.
   Future<ResponsModel> refreshToken({required String refreshToken}) async {
-    final Response response = await _authApi.refreshToken(refreshToken: refreshToken);
+    final Response response =
+        await _authApi.refreshToken(refreshToken: refreshToken);
     switch (response.statusCode) {
       case 200:
         final data = response.data['data'] as Map<String, dynamic>;
