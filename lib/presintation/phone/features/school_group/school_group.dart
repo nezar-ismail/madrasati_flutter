@@ -73,7 +73,7 @@ class SchoolGroup extends StatelessWidget {
                   }),
                 itemCount: state.posts.length + (state.last ? 1 : 0),
                 itemBuilder: (context, index) {
-                  if (index == state.posts.length && state.last) {
+                  if (index == state.posts.length && state.last == false) {
                     return const Center(child: CircularProgressIndicator());
                   }
                   return state.posts[index];

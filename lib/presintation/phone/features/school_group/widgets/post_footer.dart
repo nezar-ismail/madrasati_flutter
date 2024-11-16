@@ -1,9 +1,10 @@
+import 'dart:async'; // For Timer
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 
-class PostFooter extends StatelessWidget {
+class PostFooter extends StatefulWidget {
   const PostFooter({
     super.key,
     required this.likeCount,
@@ -18,10 +19,38 @@ class PostFooter extends StatelessWidget {
   final String postId;
 
   @override
+  _PostFooterState createState() => _PostFooterState();
+}
+
+class _PostFooterState extends State<PostFooter> {
+  bool isCooldown = false; // Track cooldown state
+
+  void _handleLikePressed(BuildContext context, bool liked) {
+    if (isCooldown) return;
+
+    setState(() {
+      isCooldown = true;
+    });
+
+    liked
+        ? context.read<PostServicesCubit>().unlikePost(widget.postId)
+        : context.read<PostServicesCubit>().likePost(widget.postId);
+
+    // Start cooldown timer
+    Timer(const Duration(seconds: 1), () {
+      setState(() {
+        isCooldown = false;
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final iconSize = screenWidth * 0.06; // Dynamic icon size based on screen width
-    final fontSize = screenWidth * 0.04; // Dynamic font size based on screen width
+    final iconSize =
+        screenWidth * 0.06; // Dynamic icon size based on screen width
+    final fontSize =
+        screenWidth * 0.04; // Dynamic font size based on screen width
     final padding = screenWidth * 0.02; // Dynamic padding based on screen width
 
     return Row(
@@ -55,7 +84,7 @@ class PostFooter extends StatelessWidget {
                   onPressed: () {},
                 ),
                 Text(
-                  commentCount,
+                  widget.commentCount,
                   style: TextStyle(fontSize: fontSize),
                 ),
               ],
@@ -83,9 +112,9 @@ class PostFooter extends StatelessWidget {
               create: (context) => PostServicesCubit(),
               child: BlocBuilder<PostServicesCubit, PostServicesState>(
                 builder: (context, state) {
-                  bool liked = isLiked;
-                  String count = likeCount;
-            
+                  bool liked = widget.isLiked;
+                  String count = widget.likeCount;
+
                   if (state is LikeAdded && !liked) {
                     liked = true;
                     count = '${int.parse(count) + 1}';
@@ -93,7 +122,6 @@ class PostFooter extends StatelessWidget {
                     liked = false;
                     count = '${int.parse(count) - 1}';
                   }
-            
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -105,11 +133,9 @@ class PostFooter extends StatelessWidget {
                               : FontAwesomeIcons.thumbsUp,
                           color: liked ? Colors.blue : Colors.grey.shade800,
                         ),
-                        onPressed: () {
-                          liked
-                              ? context.read<PostServicesCubit>().unlikePost(postId)
-                              : context.read<PostServicesCubit>().likePost(postId);
-                        },
+                        onPressed: isCooldown
+                            ? null // Disable button if cooldown is active
+                            : () => _handleLikePressed(context, liked),
                       ),
                       Text(
                         '$count Likes',
