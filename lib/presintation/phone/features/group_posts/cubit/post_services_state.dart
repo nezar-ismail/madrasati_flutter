@@ -13,9 +13,23 @@ final class PostServicesLoading extends PostServicesState {}
 
 final class PostCreated extends PostServicesState {}
 
-final class LikeAdded extends PostServicesState {}
+final class LikeAdded extends PostServicesState {
+    final bool isLiked;
+  final String postId;
+  final int likeCount;
+  final String authId;
 
-final class LikeRemoved extends PostServicesState {}
+  LikeAdded({required this.isLiked, required this.postId, required this.likeCount, required this.authId});
+}
+
+final class LikeRemoved extends PostServicesState {
+      final bool isLiked;
+  final String postId;
+  final int likeCount;
+  final String authId;
+
+  LikeRemoved({required this.isLiked, required this.postId, required this.likeCount, required this.authId});
+}
 
 final class CommentAdded extends PostServicesState {}
 

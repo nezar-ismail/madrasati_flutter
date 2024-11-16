@@ -80,18 +80,14 @@ class PostDetails extends StatelessWidget {
                     imagePost: imagePost,
                   ),
                   SizedBox(height: verticalSpacing),
-                  BlocBuilder<PostServicesCubit, PostServicesState>(
-                    builder: (context, state) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: DetailesFooter(
-                          likeCount: likeCount,
-                          commentCount: commentCount,
-                          isLiked: isLiked,
-                          postId: postId,
-                        ),
-                      );
-                    },
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: DetailesFooter(
+                      likeCount: likeCount,
+                      commentCount: commentCount,
+                      isLiked: isLiked,
+                      postId: postId,
+                    ),
                   ),
                   SizedBox(height: verticalSpacing),
                   CommentSection(postId: postId, withImage: withImage,),

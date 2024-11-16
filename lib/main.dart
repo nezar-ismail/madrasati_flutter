@@ -20,7 +20,6 @@ void main() async {
   isUptoDate = await Configration.isUptoDate();
   await BaseUrl.initialize();
 
-
   runApp(
     const MadrasatiApp(),
   );
@@ -43,6 +42,10 @@ class MadrasatiApp extends StatelessWidget {
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.orange),
           useMaterial3: true,
         ),
-        home: isUptoDate == true ? const SplashScreen() : Update(updateUrl: isUptoDate['url'],));
+        home: isUptoDate == true
+            ? const SplashScreen()
+            : Update(
+                updateUrl: isUptoDate['url'],
+              ));
   }
 }

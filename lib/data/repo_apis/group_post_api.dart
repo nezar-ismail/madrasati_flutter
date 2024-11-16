@@ -146,7 +146,7 @@ class GroupPostApi {
   ///
   /// Returns a [Future] containing the server [Response] indicating the result of the like operation.
   /// Throws an exception if the request fails.
-  Future<Response> addLike(
+  Future<Response> likeToggle(
       {required String postId, required String token}) async {
     String url = GroupeEndpoints.addLike(postId);
     Map<String, String> authHeader = makeHeaders(token);

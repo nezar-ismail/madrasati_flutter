@@ -10,6 +10,7 @@ import 'package:madrasati/data/services/group_post_service.dart';
 import 'package:madrasati/data/services/school_service.dart';
 import 'package:madrasati/data/repo_apis/authentication_api.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
+import 'package:madrasati/presintation/phone/features/group_posts/cubit/post_services_cubit.dart';
 
 final GetIt getIt = GetIt.instance;
 
@@ -41,4 +42,5 @@ void setupLocator() {
 
   // Register LazySingleton HiveBoxes
     getIt.registerSingleton<UserBox>(UserBox.instance);
+    getIt.registerLazySingleton<PostServicesCubit>(() => PostServicesCubit());
 }

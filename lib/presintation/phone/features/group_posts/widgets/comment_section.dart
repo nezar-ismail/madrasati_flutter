@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:madrasati/data/core/get_it.dart';
@@ -19,12 +20,14 @@ class CommentSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cubit = context.read<PostServicesCubit>()..fetchComments(postId);
+
     return BlocConsumer<PostServicesCubit, PostServicesState>(
       builder: (context, state) {
         return SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Title
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: const Text(
@@ -33,53 +36,50 @@ class CommentSection extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 8.0),
+              // Loading Indicator
               if (state is PostServicesLoading)
                 const Center(child: CircularProgressIndicator()),
-              if (state is CommentEmpty)
-                const Center(child: Text('No comments yet')),
+              // Comments Loaded
               if (state is ComentLoaded)
                 SizedBox(
                   height: withImage
                       ? MediaQuery.of(context).size.height * 0.26
                       : MediaQuery.of(context).size.height * 0.5,
-                  child: Expanded(
-                    child: Column(
-                      children: [
-                        // Load More Button
-                        if (state.hasMore)
-                          TextButton(
-                            onPressed: () async {
-                              if (!state.hasMore || cubit.isFetching) return;
-                              await cubit.fetchComments(postId);
-                            },
-                            child: const Text('View More Comments'),
-                          ),
-                        Expanded(
-                          child: ListView.builder(
-                            itemCount: state.comments.length,
-                            itemBuilder: (context, index) {
-                              final comment = state.comments[index];
-                              return DetailesCommentSection(
-                                cubit: cubit,
-                                authorId: comment.authorId,
-                                commentCreatedAt: comment.createdAt,
-                                commentText: comment.comment,
-                                commentAuthor: comment.author,
-                                commentId: comment.commentId,
-                                postId: postId,
-                                isManager:
-                                    getIt<UserBox>().getUser()!.lastName ==
-                                            "Manager"
-                                        ? true
-                                        : false,
-                              );
-                            },
-                          ),
+                  child: Column(
+                    children: [
+                      // Load More Button
+                      if (state.hasMore)
+                        TextButton(
+                          onPressed: () async {
+                            if (!state.hasMore || cubit.isFetching) return;
+                            await cubit.fetchComments(postId);
+                          },
+                          child: const Text('View More Comments'),
                         ),
-                      ],
-                    ),
+                      // Comments List
+                      Expanded(
+                        child: ListView.builder(
+                          itemCount: state.comments.length,
+                          itemBuilder: (context, index) {
+                            final comment = state.comments[index];
+                            return DetailesCommentSection(
+                              cubit: cubit,
+                              authorId: comment.authorId,
+                              commentCreatedAt: comment.createdAt,
+                              commentText: comment.comment,
+                              commentAuthor: comment.author,
+                              commentId: comment.commentId,
+                              postId: postId,
+                              isManager: getIt<UserBox>().getUser()!.lastName ==
+                                  "Manager",
+                            );
+                          },
+                        ),
+                      ),
+                    ],
                   ),
                 ),
+              // Error State
               if (state is PostServicesError)
                 Center(child: Text('Error: ${state.message}')),
             ],
@@ -90,13 +90,13 @@ class CommentSection extends StatelessWidget {
         if (state is PostServicesError) {
           final overlayState = Overlay.of(context);
           customSnackbar(
-              overlayState,
-              "${state.message} Please check your internet connection and try again",
-              Icons.error,
-              Colors.red);
+            overlayState,
+            "${state.message} Please check your internet connection and try again",
+            Icons.error,
+            Colors.red,
+          );
         } else if (state is PostServicesLoading) {
-          final overlayState = Overlay.of(context);
-          customSnackbar(overlayState, "Loading comments", Icons.done, Colors.blue);
+          log('Loading comments...');
         }
       },
     );

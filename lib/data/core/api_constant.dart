@@ -76,11 +76,11 @@ class GroupeEndpoints {
   }
 
   static String addLike(String postId) {
-    return '$baseUrl/post/$postId/addLike';
+    return '$baseUrl/post/$postId/toggleLike';
   }
 
   static String removeLike(String postId) {
-    return '$baseUrl/post/$postId/removeLike';
+    return '$baseUrl/post/$postId/toggleLike';
   }
 }
 

@@ -28,7 +28,7 @@ class SecureStorageApi {
 
   Future<String?> getVersion() async {
     try {
-      return await _secureStorage.read(key: _version)??'1.0.4';
+      return await _secureStorage.read(key: _version)??'1.0.5';
     } catch (e) {
       logError('Error reading Version: $e');
       throw InternalException('Error reading Version in secure storage');

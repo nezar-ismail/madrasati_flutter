@@ -5,10 +5,12 @@ import 'package:madrasati/data/core/api_constant.dart';
 import 'package:madrasati/presintation/core/service/cubit/network_image_cubit.dart';
 
 class DetailsHeader extends StatelessWidget {
-const DetailsHeader({
+  const DetailsHeader({
     super.key,
     required this.postCreatedAt,
-    required this.schoolImage, required this.schoolName, required this.headerColor,
+    required this.schoolImage,
+    required this.schoolName,
+    required this.headerColor,
   });
 
   final String postCreatedAt;
@@ -24,18 +26,19 @@ const DetailsHeader({
     final borderRadius = screenWidth * 0.03;
 
     final imageUrl = ApiConstants.baseUrl + schoolImage;
+
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
         color: headerColor.withOpacity(0.5),
       ),
       padding: EdgeInsets.all(padding),
-      margin: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(8),
       child: Row(
         children: [
-          ClipOval(
-            child: BlocProvider(
-              create: (context) => NetworkImageCubit()..fetchImage(imageUrl),
+          BlocProvider(
+            create: (context) => NetworkImageCubit()..fetchImage(imageUrl),
+            child: ClipOval(
               child: BlocBuilder<NetworkImageCubit, NetworkImageState>(
                 builder: (context, state) {
                   if (state is ImageLoading) {
@@ -52,7 +55,22 @@ const DetailsHeader({
                       fit: BoxFit.cover,
                     );
                   } else if (state is ImageError) {
-                    return LoadingIndicator(indicatorType: Indicator.ballRotateChase, colors: const [Colors.black, Colors.red, Colors.orange, Colors.yellow, Colors.blue, Colors.green], pathBackgroundColor: Colors.white,);
+                    return SizedBox(
+                      width: imageSize,
+                      height: imageSize,
+                      child: LoadingIndicator(
+                        indicatorType: Indicator.ballRotateChase,
+                        colors: const [
+                          Colors.black,
+                          Colors.red,
+                          Colors.orange,
+                          Colors.yellow,
+                          Colors.blue,
+                          Colors.green,
+                        ],
+                        pathBackgroundColor: Colors.white,
+                      ),
+                    );
                   }
                   return SizedBox(
                     width: imageSize,

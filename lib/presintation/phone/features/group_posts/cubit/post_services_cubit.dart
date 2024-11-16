@@ -1,4 +1,3 @@
-
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +8,10 @@ import 'package:madrasati/data/models/comment_model/add_coment/comment_response.
 import 'package:madrasati/data/models/comment_model/comment_data.dart';
 import 'package:madrasati/data/models/comment_model/data.dart';
 import 'package:madrasati/data/models/common_response_model.dart';
+import 'package:madrasati/data/models/like/like_toggle.dart';
 import 'package:madrasati/data/security/secure_storage_api.dart';
 import 'package:madrasati/data/services/group_post_service.dart';
+import 'package:madrasati/data/utils/custom_logs.dart';
 
 part 'post_services_state.dart';
 
@@ -29,35 +30,25 @@ class PostServicesCubit extends Cubit<PostServicesState> {
   /// The post is liked on the server and a [LikeAdded] event is emitted.
   /// If there is an error a [PostServicesError] event is emitted.
   ///
-  Future<void> likePost(String postId) async {
+  Future<void> likePostToggle(String postId) async {
     emit(PostServicesLoading());
     try {
-      final response = await _postService.addLike(
+      final response = await _postService.likeToggle(
           postId: postId,
           token: await SecureStorageApi.instance.getAccessToken() ?? "");
-      if (response is EmptyResponse) {
-        emit(LikeAdded());
-      } else {
-        emit(PostServicesError(message: response.toString()));
-      }
-    } catch (e) {
-      emit(PostServicesError(message: e.toString()));
-    }
-  }
-
-  /// Sends a request to unlike a post.
-  ///
-  /// The post is unliked on the server and a [LikeRemoved] event is emitted.
-  /// If there is an error a [PostServicesError] event is emitted.
-  ///
-  Future<void> unlikePost(String postId) async {
-    emit(PostServicesLoading());
-    try {
-      final response = await _postService.removeLike(
-          postId: postId,
-          token: await SecureStorageApi.instance.getAccessToken() ?? "");
-      if (response is EmptyResponse) {
-        emit(LikeRemoved());
+          logInfo(response.toString());
+      if (response is Liked) {
+        emit(LikeAdded(
+            isLiked: response.isLiked,
+            postId: response.postId,
+            likeCount: response.likeCount,
+            authId: response.authId));
+      } else if (response is Unlike) {
+        emit(LikeRemoved(
+            isLiked: response.isLiked,
+            postId: response.postId,
+            likeCount: response.likeCount,
+            authId: response.authId));
       } else {
         emit(PostServicesError(message: response.toString()));
       }
@@ -78,7 +69,8 @@ class PostServicesCubit extends Cubit<PostServicesState> {
   ///
   /// [postId] is the id of the post to fetch comments from.
   Future<void> fetchComments(String postId) async {
-    if (!hasMore || isFetching)return; // Stop fetching if no more pages or already fetching
+    if (!hasMore || isFetching)
+      return; // Stop fetching if no more pages or already fetching
     isFetching = true; // Set fetching flag to true to prevent multiple calls
     emit(PostServicesLoading());
     try {
@@ -95,11 +87,10 @@ class PostServicesCubit extends Cubit<PostServicesState> {
         emit(ComentLoaded(
             comments: comments,
             hasMore: hasMore)); // Emit state with the updated list
-      }else if (response is EmptyResponse){
+      } else if (response is EmptyResponse) {
         isFetching = false;
         emit(CommentEmpty());
       }
-
     } catch (e) {
       emit(PostServicesError(message: e.toString()));
     }
@@ -131,7 +122,8 @@ class PostServicesCubit extends Cubit<PostServicesState> {
         comment: comment,
       );
       if (response is CommentAddedData) {
-        String author = '${getIt<UserBox>().getUser()!.firstName!} ${getIt<UserBox>().getUser()!.lastName!}';
+        String author =
+            '${getIt<UserBox>().getUser()!.firstName!} ${getIt<UserBox>().getUser()!.lastName!}';
         // Directly add the new comment to the list of comments
         comments.insert(0, response.toComment(author));
         commentCount = (int.parse(commentCount) + 1).toString();

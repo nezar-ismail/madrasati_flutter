@@ -5,6 +5,7 @@ import 'package:madrasati/data/models/comment_model/add_coment/comment_response.
 import 'package:madrasati/data/models/comment_model/data.dart';
 import 'package:madrasati/data/models/common_response_model.dart';
 import 'package:madrasati/data/models/group_models/group_post_page.dart';
+import 'package:madrasati/data/models/like/like_toggle.dart';
 import 'package:madrasati/data/repo_apis/group_post_api.dart';
 import 'package:madrasati/data/utils/custom_logs.dart';
 
@@ -228,18 +229,22 @@ class GroupPostService {
   ///
   /// Returns a [Future] containing the server [Response] indicating the result of the like operation.
   /// Throws an exception if the request fails.
-  Future<ResponsModel> addLike({
+  Future<ResponsModel> likeToggle({
     required String postId,
     required String token,
   }) async {
     try {
-      Response response = await _groupPostApi.addLike(
+      Response response = await _groupPostApi.likeToggle(
         postId: postId,
         token: token,
       );
       switch (response.statusCode) {
-        case 204:
-          return EmptyResponse();
+        case 200:
+        final data = LikeToggle.fromMap(response.data['data']);
+          if (data.isLiked) {
+            return Liked(isLiked: data.isLiked, postId: data.postId, likeCount: data.likeCount, authId: data.authId);
+          }
+          return Unlike(isLiked: data.isLiked, postId: data.postId, likeCount: data.likeCount, authId: data.authId);
         default:
           if (response.data is Map<String, dynamic>) {
             throw GlobalException.fromResponse(response);
