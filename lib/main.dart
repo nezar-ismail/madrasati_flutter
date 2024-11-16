@@ -19,7 +19,6 @@ void main() async {
   await Hive.openBox<LocalUser>('userBox');
   isUptoDate = await Configration.isUptoDate();
   await BaseUrl.initialize();
-
   runApp(
     const MadrasatiApp(),
   );
