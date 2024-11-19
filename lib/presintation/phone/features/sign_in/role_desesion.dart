@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:madrasati/presintation/core/utils/common_func.dart';
 import 'package:madrasati/presintation/core/utils/role_card.dart';
 import 'package:madrasati/presintation/phone/features/home/home.dart';
+import 'package:madrasati/presintation/phone/features/pdf_viewer/pdf_viewer.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/cubit/sign_in_cubit.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/model/role_card.dart';
 import 'package:madrasati/presintation/phone/features/sign_in/school_sign_in_builder.dart';
@@ -119,68 +120,125 @@ class RoleDesesion extends StatelessWidget {
                     valueListenable: selectedRoleIndex,
                     builder: (context, index, child) {
                       if (index == -1) {
-                        return const Text(
-                          'Please select a role',
-                          style: TextStyle(
-                              color: Colors.red, fontFamily: 'Roboto'),
+                        return Column(
+                          children: [
+                            const Text(
+                              'Please select a role',
+                              style: TextStyle(
+                                  color: Colors.red, fontFamily: 'Roboto'),
+                            ),
+                            SizedBox(height: size.height * 0.02),
+                            TextButton.icon(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            LocalPDFViewer()));
+                              },
+                              label: Text(
+                                'To See App Guid & Description\nPlease Click here ',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontFamily: 'Roboto',
+                                    fontSize: scaleText(15, context),
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              icon: Icon(
+                                Icons.info,
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
                         );
                       } else {
-                        return GestureDetector(
-                          onTap: () async {
-                            // Navigate to the next screen
-                            if (selectedRoleIndex.value == 0) {
-                              await SignInCubit().guestSignIn();
-                              Navigator.pushAndRemoveUntil(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const HomePage()), (Route<dynamic> route) => false);
-                            } else if (selectedRoleIndex.value == 1) {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          StudentSignInBuilder()));
-                            } else {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const SchoolSignInBuilder()));
-                            }
-                          },
-                          child: Container(
-                            width: size.width * 0.6, // Responsive width
-                            height: size.height * 0.06, // Responsive height
-                            decoration: BoxDecoration(
-                              color: index == 0 && roles[0].role == 'Geust'
-                                  ? Colors.orange
-                                  : index == 1 && roles[1].role == 'Student'
-                                      ? Colors.blue
-                                      : index == 2 && roles[2].role == 'School'
-                                          ? Colors.green
-                                          : Colors.white,
-                              borderRadius: BorderRadius.circular(10),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: const Offset(0, 3),
+                        return Column(
+                          children: [
+                            GestureDetector(
+                              onTap: () async {
+                                // Navigate to the next screen
+                                if (selectedRoleIndex.value == 0) {
+                                  await SignInCubit().guestSignIn();
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const HomePage()),
+                                      (Route<dynamic> route) => false);
+                                } else if (selectedRoleIndex.value == 1) {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              StudentSignInBuilder()));
+                                } else {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const SchoolSignInBuilder()));
+                                }
+                              },
+                              child: Container(
+                                width: size.width * 0.6, // Responsive width
+                                height: size.height * 0.06, // Responsive height
+                                decoration: BoxDecoration(
+                                  color: index == 0 && roles[0].role == 'Geust'
+                                      ? Colors.orange
+                                      : index == 1 && roles[1].role == 'Student'
+                                          ? Colors.blue
+                                          : index == 2 &&
+                                                  roles[2].role == 'School'
+                                              ? Colors.green
+                                              : Colors.white,
+                                  borderRadius: BorderRadius.circular(10),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 5,
+                                      blurRadius: 7,
+                                      offset: const Offset(0, 3),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                'Continue',
-                                style: TextStyle(
-                                  fontFamily: 'Roboto',
-                                  fontSize: scaleText(
-                                      20, context), // Responsive font size
-                                  color: Colors.white,
+                                child: Center(
+                                  child: Text(
+                                    'Continue',
+                                    style: TextStyle(
+                                      fontFamily: 'Roboto',
+                                      fontSize: scaleText(
+                                          20, context), // Responsive font size
+                                      color: Colors.white,
+                                    ),
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
+                            SizedBox(
+                                height: size.height *
+                                    0.02), // Responsive height spacing
+                            TextButton.icon(
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            LocalPDFViewer()));
+                              },
+                              label: Text(
+                                'To See App Guid & Description\nPlease Click here ',
+                                style: TextStyle(
+                                    color: Colors.grey,
+                                    fontFamily: 'Roboto',
+                                    fontSize: scaleText(15, context),
+                                    fontStyle: FontStyle.italic),
+                              ),
+                              icon: Icon(
+                                Icons.info,
+                                color: Colors.grey,
+                              ),
+                            )
+                          ],
                         );
                       }
                     }),
